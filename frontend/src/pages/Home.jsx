@@ -39,57 +39,73 @@ const Home = () => {
 
       {/* ─── HERO ─── */}
       <section className="hero-section">
-        <img src="/images/hero_bg_exterior_1773059538662.png" alt="Luxury Property" className="hero-bg" />
-        <div className="hero-overlay" />
+        <div className="container">
+          <div className="hero-grid animate-fade-in">
+            {/* Left Content */}
+            <div className="hero-content">
+              <span className="section-badge" style={{ color: '#2563eb', fontSize: '0.8rem', background: '#eff6ff' }}>
+                <i className="ri-map-pin-2-line" style={{ marginRight: '0.35rem' }} />
+                Premium Indian Real Estate
+              </span>
+              <h1 className="text-h1" style={{ color: '#0f172a', marginTop: '1rem', lineHeight: 1.15 }}>
+                Find Your Dream<br />Property in India.
+              </h1>
+              <p style={{ color: '#475569', fontSize: 'clamp(1rem,2vw,1.15rem)', marginTop: '1.25rem', lineHeight: 1.75 }}>
+                Expert guidance in buying, selling, and investing in premium real estate across Mumbai, Pune, Bengaluru, Hyderabad & beyond.
+              </p>
 
-        <div className="container" style={{ paddingTop: '7rem', paddingBottom: '5rem' }}>
-          <div className="hero-content animate-fade-in">
-            <span className="section-badge" style={{ color: '#93c5fd', fontSize: '0.8rem' }}>
-              <i className="ri-map-pin-2-line" style={{ marginRight: '0.35rem' }} />
-              Premium Indian Real Estate
-            </span>
-            <h1 className="text-h1" style={{ color: '#fff', marginTop: '0.75rem' }}>
-              Find Your Dream<br />Property in India.
-            </h1>
-            <p style={{ color: 'rgba(255,255,255,0.72)', fontSize: 'clamp(1rem,2vw,1.15rem)', marginTop: '1.25rem', lineHeight: 1.75 }}>
-              Expert guidance in buying, selling, and investing in premium real estate across Mumbai, Pune, Bengaluru, Hyderabad & beyond.
-            </p>
+              {/* Search Bar */}
+              <div className="search-bar-wrap">
+                <div className="search-input-group">
+                  <i className="ri-map-pin-2-line" style={{ fontSize: '1.2rem', flexShrink: 0 }} />
+                  <input type="text" placeholder="City, Colony, Locality or Society" />
+                </div>
+                <div className="search-divider" />
+                <div className="search-input-group" style={{ flexShrink: 0 }}>
+                  <i className="ri-home-4-line" style={{ fontSize: '1.2rem', flexShrink: 0 }} />
+                  <select>
+                    <option>Property Type</option>
+                    <option>Flat / Apartment</option>
+                    <option>Independent Villa</option>
+                    <option>Bungalow / Row House</option>
+                    <option>Penthouse</option>
+                    <option>Plot / Land</option>
+                    <option>Commercial</option>
+                  </select>
+                </div>
+                <div className="search-divider" />
+                <div className="search-btn-wrap">
+                  <Link to="/projects" className="btn btn-primary" style={{ borderRadius: '12px', padding: '0.75rem 1.75rem', width: '100%', justifyContent: 'center' }}>
+                    <i className="ri-search-line" /> Search
+                  </Link>
+                </div>
+              </div>
 
-            {/* Search Bar */}
-            <div className="search-bar-wrap">
-              <div className="search-input-group">
-                <i className="ri-map-pin-2-line" style={{ fontSize: '1.2rem', flexShrink: 0 }} />
-                <input type="text" placeholder="City, Colony, Locality or Society" />
-              </div>
-              <div className="search-divider" />
-              <div className="search-input-group" style={{ flexShrink: 0 }}>
-                <i className="ri-home-4-line" style={{ fontSize: '1.2rem', flexShrink: 0 }} />
-                <select>
-                  <option>Property Type</option>
-                  <option>Flat / Apartment</option>
-                  <option>Independent Villa</option>
-                  <option>Bungalow / Row House</option>
-                  <option>Penthouse</option>
-                  <option>Plot / Land</option>
-                  <option>Commercial</option>
-                </select>
-              </div>
-              <div className="search-divider" />
-              <div className="search-btn-wrap">
-                <Link to="/projects" className="btn btn-primary" style={{ borderRadius: '12px', padding: '0.75rem 1.75rem', width: '100%', justifyContent: 'center' }}>
-                  <i className="ri-search-line" /> Search
-                </Link>
+              {/* Quick stats */}
+              <div style={{ display: 'flex', gap: '2.5rem', marginTop: '2.5rem', flexWrap: 'wrap' }}>
+                {[['500+', 'Properties Listed'], ['15+', 'Years of Trust'], ['₹500 Cr+', 'Transactions'], ['RERA', 'Compliant']].map(([num, label]) => (
+                  <div key={label}>
+                    <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0f172a' }}>{num}</div>
+                    <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, marginTop: '0.2rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Quick stats */}
-            <div style={{ display: 'flex', gap: '2.5rem', marginTop: '2.25rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-              {[['500+', 'Properties Listed'], ['15+', 'Years of Trust'], ['₹500 Cr+', 'Transactions Closed'], ['RERA', 'Registered']].map(([num, label]) => (
-                <div key={label} style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#fff' }}>{num}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', fontWeight: 500, marginTop: '0.2rem' }}>{label}</div>
+            {/* Right Image */}
+            <div style={{ position: 'relative' }}>
+              <div className="hero-image-wrapper">
+                <img src="/images/hero_bg_exterior_1773059538662.png" alt="Luxury Indian Property" style={{ height: '600px', objectFit: 'cover' }} />
+              </div>
+              <div className="hero-floating-badge">
+                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#eff6ff', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', flexShrink: 0 }}>
+                  <i className="ri-verified-badge-fill" />
                 </div>
-              ))}
+                <div>
+                  <div style={{ fontWeight: 800, color: '#0f172a', fontSize: '1.1rem' }}>#1 Rated</div>
+                  <div style={{ color: '#64748b', fontSize: '0.8rem', fontWeight: 500 }}>Property Advisors in India</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
