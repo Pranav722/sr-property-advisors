@@ -113,6 +113,11 @@ const FileManager = () => {
         return /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(filename);
     };
 
+    const getBaseUrl = () => {
+        const url = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+        return url.replace('/api', '');
+    };
+
     return (
         <div style={{ backgroundColor: 'var(--dash-bg)', minHeight: '100vh', display: 'flex', fontFamily: "'Inter', sans-serif", color: 'var(--dash-text-main)' }}>
             <Toast messages={toasts} onDismiss={dismissToast} />
@@ -191,7 +196,7 @@ const FileManager = () => {
                                         <div className="file-grid">
                                             {files.map(f => (
                                                 <div className="file-card" key={f.name}>
-                                                    <div className="file-preview" style={isImage(f.name) ? { backgroundImage: `url(${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}${f.url})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: '#f1f5f9' } : {}}>
+                                                    <div className="file-preview" style={isImage(f.name) ? { backgroundImage: `url(${getBaseUrl()}${f.url})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: '#f1f5f9' } : {}}>
                                                         {!isImage(f.name) && (
                                                             <>
                                                                 <i className="ri-file-text-fill text-image" style={{ color: '#64748b' }}></i>
@@ -204,7 +209,7 @@ const FileManager = () => {
                                                         <div className="file-meta">
                                                             <span>{formatSize(f.size)}</span>
                                                             <div className="file-actions">
-                                                                <a href={`${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}${f.url}`} target="_blank" rel="noreferrer" className="icon-btn small" title="View"><i className="ri-external-link-line"></i></a>
+                                                                <a href={`${getBaseUrl()}${f.url}`} target="_blank" rel="noreferrer" className="icon-btn small" title="View"><i className="ri-external-link-line"></i></a>
                                                                 <button className="icon-btn small" style={{ color: '#ef4444' }} onClick={() => handleDelete(f.name)} title="Delete"><i className="ri-delete-bin-line"></i></button>
                                                             </div>
                                                         </div>
@@ -232,7 +237,7 @@ const FileManager = () => {
                                                     <div className="list-cell muted cell-hide-mobile">{new Date(f.createdAt).toLocaleDateString()}</div>
                                                     <div className="list-cell muted cell-hide-mobile">{formatSize(f.size)}</div>
                                                     <div className="file-actions" style={{ justifyContent: 'flex-end', minWidth: '80px' }}>
-                                                        <a href={`${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}${f.url}`} target="_blank" rel="noreferrer" className="icon-btn small"><i className="ri-external-link-line"></i></a>
+                                                        <a href={`${getBaseUrl()}${f.url}`} target="_blank" rel="noreferrer" className="icon-btn small"><i className="ri-external-link-line"></i></a>
                                                         <button className="icon-btn small" style={{ color: '#ef4444' }} onClick={() => handleDelete(f.name)}><i className="ri-delete-bin-line"></i></button>
                                                     </div>
                                                 </div>
