@@ -83,8 +83,14 @@ const Dashboard = () => {
         api.get('/inquiries'),
         api.get('/projects'),
       ]);
-      if (inqRes.status === 'fulfilled') setInquiries(inqRes.value.data || []);
-      if (projRes.status === 'fulfilled') setProjects(projRes.value.data || []);
+      if (inqRes.status === 'fulfilled') {
+        const d = inqRes.value.data;
+        setInquiries(Array.isArray(d) ? d : (d?.data || []));
+      }
+      if (projRes.status === 'fulfilled') {
+        const d = projRes.value.data;
+        setProjects(Array.isArray(d) ? d : (d?.data || []));
+      }
     } catch {
       addToast('Could not load data. Check backend connection.', 'error');
     } finally {

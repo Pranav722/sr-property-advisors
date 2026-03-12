@@ -38,8 +38,14 @@
   body {
     @apply text-dark bg-secondary font-sans antialiased;
     line-height: 1.6;
-    /* NEVER add overflow:hidden here — it breaks scrolling */
     min-height: 100vh;
+  }
+
+  #root {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
   a { text-decoration: none; color: inherit; }
