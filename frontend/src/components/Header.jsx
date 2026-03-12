@@ -35,7 +35,7 @@ const Header = () => {
         </Link>
         
         {/* Center Side: Links */}
-        <div className={`nav-links ${menuOpen ? 'active' : ''}`}>
+        <div className={`nav-links hidden md:flex items-center gap-6 lg:gap-8 ${menuOpen ? 'active' : ''}`}>
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/projects" className="nav-link">Projects</Link>
           <a href="#services" className="nav-link">Services</a>

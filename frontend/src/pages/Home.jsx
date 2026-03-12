@@ -23,18 +23,18 @@ const Home = () => {
               Property Advisors.
             </p>
 
-            <div className="search-bar glass-dark w-full md:w-[85%] lg:w-full max-w-[900px]">
-              <form className="flex flex-col md:flex-row gap-3 md:gap-4" action="/projects">
-                <input type="text" placeholder="Location, City, or ZIP" className="input-base text-sm md:text-base min-h-[48px]" style={{ flex: 1 }} />
-                <div className="hidden md:block w-[1px] bg-white/20 my-2"></div>
-                <select className="input-base min-h-[48px]" style={{ width: 'auto', background: 'transparent', color: 'white', border: 'none' }}>
+            <div className="search-bar glass-dark w-full md:w-[85%] lg:w-[110%] max-w-[1100px] xl:ml-[-10%] relative z-20">
+              <form className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-4 w-full" action="/projects">
+                <input type="text" placeholder="Location, City, or ZIP" className="input-base text-sm md:text-base min-h-[48px] w-full" style={{ flex: 1 }} />
+                <div className="hidden md:block w-[1px] bg-white/20 h-8"></div>
+                <select className="input-base min-h-[48px] w-full md:w-auto" style={{ background: 'transparent', color: 'white', border: 'none' }}>
                   <option value="" style={{ color: 'black' }}>Property Type</option>
                   <option value="villa" style={{ color: 'black' }}>Villa</option>
                   <option value="apartment" style={{ color: 'black' }}>Apartment</option>
                   <option value="penthouse" style={{ color: 'black' }}>Penthouse</option>
                 </select>
-                <div className="hidden md:block w-[1px] bg-white/20 my-2"></div>
-                <button type="submit" className="btn btn-primary min-h-[48px] w-full md:w-auto">
+                <div className="hidden md:block w-[1px] bg-white/20 h-8"></div>
+                <button type="submit" className="btn btn-primary min-h-[48px] w-full md:w-auto mt-2 md:mt-0 whitespace-nowrap px-8">
                   <i className="ri-search-line" style={{ marginRight: '0.5rem' }}></i> Search
                 </button>
               </form>
