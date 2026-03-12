@@ -58,8 +58,14 @@
 .navbar.scrolled .nav-link { color: #374151; }
 .navbar.scrolled .nav-link:hover { color: #2563eb; }
 
+/* Light Theme overrides for Homepage Hero */
+.navbar.navbar-light .logo { color: #0f172a; }
+.navbar.navbar-light .nav-link { color: #475569; font-weight: 600; }
+.navbar.navbar-light .nav-link:hover { color: #0f172a; }
+
 .nav-link.active { color: #60a5fa; }
 .navbar.scrolled .nav-link.active { color: #2563eb; }
+.navbar.navbar-light .nav-link.active { color: #2563eb; }
 
 .nav-link.active::after {
   content: '';
@@ -99,6 +105,19 @@
   .hero-grid {
     grid-template-columns: 1.1fr 0.9fr;
     gap: 4rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .hero-grid {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 6rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .hero-grid {
+    gap: 8rem;
   }
 }
 

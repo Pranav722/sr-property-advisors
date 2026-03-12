@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const isHome = location.pathname === '/';
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
   const isAdmin = userInfo?.role === 'admin';
   const isLoggedIn = !!(userInfo?.token);
@@ -25,7 +27,7 @@ const Header = () => {
   }, []);
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} id="navbar">
+    <nav className={`navbar ${scrolled ? 'scrolled' : ''} ${isHome && !scrolled ? 'navbar-light' : ''}`} id="navbar">
       <div className="container flex items-center justify-between">
         
         {/* Left Side: Logo */}
