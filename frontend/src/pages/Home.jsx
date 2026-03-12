@@ -17,24 +17,24 @@ const Home = () => {
         <div className="container">
           <div className="hero-content animate-fade-in">
             <span className="badge badge-blue mb-4 glass-dark" style={{ border: 'none' }}>Premium Advisory</span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 font-sans tracking-tight">Discover Extraordinary<br/>Properties Worldwide.</h1>
-            <p className="text-lg md:text-xl lg:text-2xl mt-6 mb-8" style={{ color: 'rgba(255,255,255,0.8)', maxWidth: '700px' }}>
+            <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-2 md:mb-4 font-sans tracking-tight leading-tight">Discover Extraordinary<br/>Properties Worldwide.</h1>
+            <p className="text-base md:text-xl lg:text-2xl mt-4 md:mt-6 mb-6 md:mb-8" style={{ color: 'rgba(255,255,255,0.8)', maxWidth: '700px' }}>
               Expert guidance in curating and acquiring luxury real estate. Find your next premium investment with SR
               Property Advisors.
             </p>
 
             <div className="search-bar glass-dark w-full md:w-[85%] lg:w-full max-w-[900px]">
-              <form className="search-form" action="/projects">
-                <input type="text" placeholder="Location, City, or ZIP" className="input-base text-sm md:text-base" style={{ flex: 1 }} />
-                <div className="search-divider"></div>
-                <select className="input-base" style={{ width: 'auto', background: 'transparent', color: 'white', border: 'none' }}>
+              <form className="flex flex-col md:flex-row gap-3 md:gap-4" action="/projects">
+                <input type="text" placeholder="Location, City, or ZIP" className="input-base text-sm md:text-base min-h-[48px]" style={{ flex: 1 }} />
+                <div className="hidden md:block w-[1px] bg-white/20 my-2"></div>
+                <select className="input-base min-h-[48px]" style={{ width: 'auto', background: 'transparent', color: 'white', border: 'none' }}>
                   <option value="" style={{ color: 'black' }}>Property Type</option>
                   <option value="villa" style={{ color: 'black' }}>Villa</option>
                   <option value="apartment" style={{ color: 'black' }}>Apartment</option>
                   <option value="penthouse" style={{ color: 'black' }}>Penthouse</option>
                 </select>
-                <div className="search-divider"></div>
-                <button type="submit" className="btn btn-primary">
+                <div className="hidden md:block w-[1px] bg-white/20 my-2"></div>
+                <button type="submit" className="btn btn-primary min-h-[48px] w-full md:w-auto">
                   <i className="ri-search-line" style={{ marginRight: '0.5rem' }}></i> Search
                 </button>
               </form>
@@ -53,14 +53,14 @@ const Home = () => {
               estate investments.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="card service-card">
+          <div className="flex flex-col md:grid md:grid-cols-3 gap-4 md:gap-6">
+            <div className="card service-card p-6 md:p-8">
               <div className="service-icon"><i className="ri-home-smile-2-line"></i></div>
               <h3 className="text-h4 mb-4 text-main">Property Acquisition</h3>
               <p className="text-body">Exclusive access to off-market luxury properties and expert negotiation to secure the
                 best investments.</p>
             </div>
-            <div className="card service-card">
+            <div className="card service-card p-6 md:p-8">
               <div className="service-icon"><i className="ri-bar-chart-box-line"></i></div>
               <h3 className="text-h4 mb-4 text-main">Investment Advisory</h3>
               <p className="text-body">Data-driven market analysis and portfolio strategies tailored to your wealth generation
@@ -79,14 +79,14 @@ const Home = () => {
       {/* Featured Projects */}
       <section className="py-16 md:py-20">
         <div className="container">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-6 md:mb-8">
             <div>
               <span className="section-badge">Featured Portfolio</span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-main">Exclusive Properties</h2>
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-main">Exclusive Properties</h2>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+          <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6">
             {/* Card 1 */}
             <Link to="/property/1" className="card">
               <div className="property-image-container">

@@ -44,7 +44,7 @@ const Header = () => {
           )}
 
           {/* Mobile visible right-side elements */}
-          <div className="md:hidden flex flex-col gap-4 mt-4 pt-4 border-t border-gray-100/20" style={{borderTopColor: 'rgba(255,255,255,0.1)'}}>
+          <div className="md:hidden flex-col gap-4 mt-4 pt-4 border-t border-gray-100/20 hidden" style={{borderTopColor: 'rgba(255,255,255,0.1)'}}>
             {!isLoggedIn ? (
               <Link to="/login" className="nav-link text-center">Login</Link>
             ) : (
@@ -64,10 +64,10 @@ const Header = () => {
             <a href="#contact" className="btn btn-primary" style={{ padding: '0.5rem 1.25rem' }}>Contact Us</a>
         </div>
 
-        {/* Hamburger Menu Icon */}
+        {/* Hamburger Menu Icon (Hidden in App format) */}
         <button 
-          className="menu-btn" 
-          style={{ color: scrolled ? 'var(--color-primary)' : 'white', fontSize: '1.5rem', display: 'block' }} 
+          className="menu-btn hidden" 
+          style={{ color: scrolled ? 'var(--color-primary)' : 'white', fontSize: '1.5rem' }} 
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <i className="ri-menu-3-line"></i>

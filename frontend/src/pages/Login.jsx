@@ -57,9 +57,9 @@ const Login = () => {
         <div style={{ minHeight: '100vh', display: 'flex', backgroundColor: 'var(--color-secondary)', fontFamily: 'var(--font-sans)' }}>
             {/* Left Box - Branding */}
             <div className="hidden lg:flex" style={{ flex: 1, backgroundColor: 'var(--color-dark)', color: 'white', alignItems: 'center', justifyContent: 'center', padding: '40px', flexDirection: 'column', textAlign: 'center' }}>
-                <i className="ri-building-4-fill" style={{ fontSize: '64px', color: 'var(--color-primary)', marginBottom: '24px' }}></i>
-                <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '16px' }}>SR Property Advisors</h1>
-                <p style={{ color: 'var(--color-muted)', maxWidth: '400px', fontSize: '18px' }}>
+                <i className="ri-building-4-fill" style={{ fontSize: '64px', color: 'var(--color-primary)', marginBottom: '16px' }}></i>
+                <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '12px' }}>SR Property Advisors</h1>
+                <p style={{ color: 'var(--color-muted)', maxWidth: '400px', fontSize: '18px', padding: '0 20px' }}>
                     Enterprise Real Estate Management & CRM Platform
                 </p>
             </div>
@@ -68,7 +68,7 @@ const Login = () => {
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
                 <div style={{ width: '100%', maxWidth: '420px', backgroundColor: 'white', padding: '40px', borderRadius: '16px', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' }}>
                     
-                    <div className="lg:hidden text-center mb-8">
+                    <div className="lg:hidden text-center mb-6">
                         <i className="ri-building-4-fill" style={{ fontSize: '48px', color: 'var(--color-primary)' }}></i>
                         <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginTop: '8px', color: 'var(--color-dark)' }}>SR Property Advisors</h1>
                     </div>
@@ -90,7 +90,7 @@ const Login = () => {
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', border: '1px solid var(--color-border)', outline: 'none', transition: 'border-color 0.2s' }} 
+                                style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', border: '1px solid var(--color-border)', outline: 'none', transition: 'border-color 0.2s', minHeight: '48px', fontSize: '16px' }} 
                                 placeholder="name@company.com" 
                             />
                         </div>
@@ -101,7 +101,7 @@ const Login = () => {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', border: '1px solid var(--color-border)', outline: 'none', transition: 'border-color 0.2s' }} 
+                                style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', border: '1px solid var(--color-border)', outline: 'none', transition: 'border-color 0.2s', minHeight: '48px', fontSize: '16px' }} 
                                 placeholder="••••••••" 
                             />
                         </div>
@@ -123,11 +123,13 @@ const Login = () => {
                                 backgroundColor: 'var(--color-primary)', 
                                 color: 'white', 
                                 borderRadius: '8px', 
-                                fontWeight: '500', 
+                                fontWeight: '600', 
                                 border: 'none', 
                                 cursor: isLoading ? 'not-allowed' : 'pointer',
                                 opacity: isLoading ? 0.7 : 1,
-                                transition: 'background-color 0.2s' 
+                                transition: 'background-color 0.2s',
+                                minHeight: '48px',
+                                fontSize: '16px'
                             }}
                         >
                             {isLoading ? 'Signing in...' : 'Sign In'}

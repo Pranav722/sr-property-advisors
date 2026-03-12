@@ -108,6 +108,37 @@ button {
   color: var(--color-text-muted);
 }
 
+/* Fix map height in home page */
+.map-container {
+    width: 100%;
+    height: 400px;
+    z-index: 10;
+}
+
+/* Base Form Inputs Mobile Overrides */
+select {
+    appearance: none;
+}
+
+/* Mobile Touch Optimization Utilities */
+@media (max-width: 768px) {
+    button, 
+    .btn, 
+    input[type="submit"], 
+    input[type="button"],
+    .nav-link,
+    a {
+        min-height: 44px; /* Apple Human Interface Guidelines minimum touch target size */
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="search"],
+    select {
+        min-height: 48px; 
+    }
+}
 /* Layout Utilities */
 .container {
   width: 100%;

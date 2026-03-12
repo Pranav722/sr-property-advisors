@@ -6,6 +6,8 @@ import '../projects.css';
 import '../style.css';
 
 const Projects = () => {
+    const [filtersOpen, setFiltersOpen] = useState(false);
+
     return (
         <>
             <Header />
@@ -20,12 +22,25 @@ const Projects = () => {
 
             {/* Main Content */}
             <div className="container">
+                {/* Mobile Filter Backdrop */}
+                {filtersOpen && (
+                    <div 
+                        className="fixed inset-0 bg-black/60 z-50 lg:hidden transition-opacity"
+                        onClick={() => setFiltersOpen(false)}
+                    />
+                )}
+
                 <div className="layout-sidebar">
                     {/* Sidebar Filters */}
-                    <aside className="filter-sidebar">
+                    <aside className={`filter-sidebar ${filtersOpen ? 'open' : ''}`}>
                         <div className="flex items-center justify-between mb-6 border-b pb-4">
                             <h3 className="text-h4 text-main">Filters</h3>
-                            <button className="text-small" style={{ color: 'var(--color-accent)', fontWeight: 500 }}>Reset All</button>
+                            <div className="flex items-center gap-4">
+                                <button className="text-small" style={{ color: 'var(--color-accent)', fontWeight: 500 }}>Reset</button>
+                                <button className="lg:hidden text-gray-500 hover:text-gray-800" onClick={() => setFiltersOpen(false)}>
+                                    <i className="ri-close-line text-2xl"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <div className="filter-group">
@@ -65,15 +80,23 @@ const Projects = () => {
 
                     {/* Property Grid */}
                     <main>
-                        <div className="map-toggle">
-                            <div className="text-body">Showing <strong>24</strong> premium properties</div>
-                            <div className="flex gap-2">
-                                <button className="btn btn-primary" style={{ padding: '0.5rem 1rem' }}><i className="ri-grid-fill"></i> Grid</button>
-                                <button className="btn btn-outline" style={{ padding: '0.5rem 1rem' }}><i className="ri-map-2-line"></i> Map</button>
+                        <div className="map-toggle flex-col md:flex-row items-start md:items-center gap-4">
+                            <div className="text-body w-full md:w-auto flex justify-between items-center">
+                                <span>Showing <strong>24</strong> premium properties</span>
+                                <button 
+                                    className="lg:hidden btn btn-outline min-h-[44px]" 
+                                    onClick={() => setFiltersOpen(true)}
+                                >
+                                    <i className="ri-filter-3-line mr-2"></i> Filters
+                                </button>
+                            </div>
+                            <div className="flex gap-2 w-full md:w-auto">
+                                <button className="btn btn-primary flex-1 md:flex-none min-h-[44px]" style={{ padding: '0.5rem 1rem' }}><i className="ri-grid-fill"></i> Grid</button>
+                                <button className="btn btn-outline flex-1 md:flex-none min-h-[44px]" style={{ padding: '0.5rem 1rem' }}><i className="ri-map-2-line"></i> Map</button>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+                        <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
                             {/* Card 1 */}
                             <Link to="/property/1" className="card">
                                 <div className="property-image-container">
@@ -148,14 +171,10 @@ const Projects = () => {
                         </div>
 
                         {/* Pagination */}
-                        <div className="pagination">
-                            <button className="page-btn"><i className="ri-arrow-left-s-line"></i></button>
-                            <button className="page-btn active">1</button>
-                            <button className="page-btn">2</button>
-                            <button className="page-btn">3</button>
-                            <span style={{ display: 'flex', alignItems: 'flex-end' }}>...</span>
-                            <button className="page-btn">8</button>
-                            <button className="page-btn"><i className="ri-arrow-right-s-line"></i></button>
+                        <div className="flex justify-between items-center py-4 border-t border-gray-100 mt-6">
+                            <button className="btn btn-outline min-h-[44px] px-4"><i className="ri-arrow-left-s-line"></i> Prev</button>
+                            <span className="text-sm font-medium text-gray-500">Page 1 of 8</span>
+                            <button className="btn btn-outline min-h-[44px] px-4">Next <i className="ri-arrow-right-s-line"></i></button>
                         </div>
                     </main>
                 </div>
