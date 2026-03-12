@@ -2,46 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
+import Toast from '../components/Toast';
+import Modal from '../components/Modal';
 import api from '../services/api';
 import '../dashboard.css';
 
-/* ─── Toast Notification (no browser alerts!) ─── */
-const Toast = ({ messages, onDismiss }) => (
-  <div style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 9999, display: 'flex', flexDirection: 'column-reverse', gap: '0.75rem' }}>
-    {messages.map(m => (
-      <div key={m.id} style={{
-        display: 'flex', alignItems: 'center', gap: '0.75rem',
-        padding: '1rem 1.25rem', borderRadius: '12px',
-        background: m.type === 'success' ? '#ecfdf5' : m.type === 'error' ? '#fef2f2' : '#eff6ff',
-        border: `1px solid ${m.type === 'success' ? '#a7f3d0' : m.type === 'error' ? '#fecaca' : '#bfdbfe'}`,
-        boxShadow: '0 4px 24px rgba(0,0,0,0.10)', minWidth: '280px', maxWidth: '380px',
-        animation: 'fadeInUp 0.3s ease',
-      }}>
-        <i className={`ri-${m.type === 'success' ? 'check-circle' : m.type === 'error' ? 'error-warning' : 'information'}-line`}
-          style={{ fontSize: '1.25rem', color: m.type === 'success' ? '#059669' : m.type === 'error' ? '#dc2626' : '#2563eb', flexShrink: 0 }} />
-        <span style={{ fontSize: '0.9rem', fontWeight: 500, color: '#1e293b', flex: 1 }}>{m.text}</span>
-        <button onClick={() => onDismiss(m.id)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '1.1rem' }}>
-          <i className="ri-close-line" />
-        </button>
-      </div>
-    ))}
-  </div>
-);
 
-/* ─── Modal ─── */
-const Modal = ({ title, children, onClose }) => (
-  <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }} onClick={onClose}>
-    <div style={{ background: '#fff', borderRadius: '20px', padding: '2rem', maxWidth: '560px', width: '100%', boxShadow: '0 24px 64px rgba(0,0,0,0.2)', maxHeight: '85vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-        <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#0f172a' }}>{title}</h3>
-        <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '1.5rem' }}>
-          <i className="ri-close-line" />
-        </button>
-      </div>
-      {children}
-    </div>
-  </div>
-);
 
 const inputStyle = {
   width: '100%', padding: '0.75rem 1rem', border: '1.5px solid #e2e8f0', borderRadius: '10px',
