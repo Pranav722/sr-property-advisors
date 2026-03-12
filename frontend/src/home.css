@@ -115,6 +115,13 @@
     }
 }
 
+/* Bulletproof Mobile Block Hider for Desktop */
+@media (min-width: 768px) {
+    .mobile-only-block {
+        display: none !important;
+    }
+}
+
 .nav-link {
     color: white;
     font-weight: 500;

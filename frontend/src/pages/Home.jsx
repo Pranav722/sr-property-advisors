@@ -16,7 +16,7 @@ const Home = () => {
 
         <div className="container">
           <div className="hero-content animate-fade-in">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-2 md:mb-4 font-sans tracking-tight leading-tight text-white">Discover Extraordinary<br/>Properties Worldwide.</h1>
+            <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-2 md:mb-4 font-sans tracking-tight leading-tight text-white" style={{ color: '#ffffff' }}>Discover Extraordinary<br/>Properties Worldwide.</h1>
             <p className="text-base md:text-xl lg:text-2xl mt-4 md:mt-6 mb-6 md:mb-8" style={{ color: 'rgba(255,255,255,0.8)', maxWidth: '700px' }}>
               Expert guidance in curating and acquiring luxury real estate. Find your next premium investment with SR
               Property Advisors.
