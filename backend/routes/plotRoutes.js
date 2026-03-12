@@ -1,7 +1,7 @@
 import express from 'express';
 import { getPlots, createPlot } from '../controllers/plotController.js';
 import { protect, admin } from '../middleware/auth.js';
-import { upload } from '../config/cloudinary.js';
+import { upload } from '../middleware/upload.js';
 import { plotValidationRules, validateRequest } from '../middleware/validation.js';
 
 const router = express.Router();

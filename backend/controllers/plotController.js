@@ -24,7 +24,7 @@ export const createPlot = async (req, res, next) => {
     if (req.files && req.files.legalFiles) {
       documents = req.files.legalFiles.map(file => ({
         title: file.originalname || 'Legal Document',
-        url: file.path
+        url: '/uploads/' + file.filename
       }));
     }
 

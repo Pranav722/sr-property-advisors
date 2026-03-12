@@ -1,7 +1,7 @@
 import express from 'express';
 import { getProjects, createProject, updateProject, deleteProject } from '../controllers/projectController.js';
 import { protect, admin } from '../middleware/auth.js';
-import { upload } from '../config/cloudinary.js';
+import { upload } from '../middleware/upload.js';
 import { projectValidationRules, validateRequest } from '../middleware/validation.js';
 
 const router = express.Router();

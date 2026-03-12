@@ -6,6 +6,8 @@ import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 import { connectDB } from './config/db.js';
 import { notFound, errorHandler } from './middleware/error.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // Route imports
 import authRoutes from './routes/authRoutes.js';
@@ -37,6 +39,11 @@ app.use('/api', limiter);
 // Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static upload files
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {

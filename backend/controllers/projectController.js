@@ -1,5 +1,4 @@
 import Project from '../models/Project.js';
-import { upload, cloudinary } from '../config/cloudinary.js';
 
 // @desc    Fetch all projects
 // @route   GET /api/projects
@@ -26,9 +25,9 @@ export const createProject = async (req, res, next) => {
     let brochureUrl = '';
 
     if (req.files) {
-      if (req.files.coverImage) coverImage = req.files.coverImage[0].path;
-      if (req.files.gallery) gallery = req.files.gallery.map(file => file.path);
-      if (req.files.brochure) brochureUrl = req.files.brochure[0].path;
+      if (req.files.coverImage) coverImage = '/uploads/' + req.files.coverImage[0].filename;
+      if (req.files.gallery) gallery = req.files.gallery.map(file => '/uploads/' + file.filename);
+      if (req.files.brochure) brochureUrl = '/uploads/' + req.files.brochure[0].filename;
     }
 
     const project = new Project({
