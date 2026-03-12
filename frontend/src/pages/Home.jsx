@@ -75,9 +75,11 @@ const Home = () => {
                 </select>
               </div>
               <div className="search-divider" />
-              <Link to="/projects" className="btn btn-primary" style={{ borderRadius: '12px', padding: '0.75rem 1.75rem', flexShrink: 0, width: '100%', justifyContent: 'center' }}>
-                <i className="ri-search-line" /> Search
-              </Link>
+              <div className="search-btn-wrap">
+                <Link to="/projects" className="btn btn-primary" style={{ borderRadius: '12px', padding: '0.75rem 1.75rem', width: '100%', justifyContent: 'center' }}>
+                  <i className="ri-search-line" /> Search
+                </Link>
+              </div>
             </div>
 
             {/* Quick stats */}
