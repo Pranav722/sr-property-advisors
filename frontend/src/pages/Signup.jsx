@@ -23,7 +23,11 @@ const Signup = () => {
             localStorage.setItem('token', data.token);
             localStorage.setItem('userInfo', JSON.stringify(data));
             
-            navigate('/dashboard');
+            if (data.role === 'admin') {
+                navigate('/dashboard');
+            } else {
+                navigate('/');
+            }
         } catch (err) {
             console.error('Google login failed:', err);
             setError(err.response?.data?.message || 'Failed to authenticate with Google.');
@@ -45,8 +49,11 @@ const Signup = () => {
             
             localStorage.setItem('token', data.token);
             localStorage.setItem('userInfo', JSON.stringify(data));
-            
-            navigate('/dashboard');
+            if (data.role === 'admin') {
+                navigate('/dashboard');
+            } else {
+                navigate('/');
+            }
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to create account. Email may already be registered.');
         } finally {
