@@ -1,17 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #0D8ABC;
+  --color-primary: #0f172a;
   --color-secondary: #f8fafc;
-  --color-accent: #f59e0b;
+  --color-accent: #2563eb;
+  --color-accent-hover: #1d4ed8;
   --color-dark: #0f172a;
   --color-muted: #64748b;
   --color-border: #e2e8f0;
   --font-sans: "Inter", sans-serif;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
 }
 
 @layer base {
   body {
     @apply text-dark bg-secondary font-sans antialiased;
+    line-height: 1.5;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
   }
 }

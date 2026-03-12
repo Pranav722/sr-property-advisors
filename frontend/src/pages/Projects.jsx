@@ -43,22 +43,22 @@ const Projects = () => {
                             </div>
                         </div>
 
-                        <div className="filter-group">
+                        <div className="filter-group flex flex-col gap-3">
                             <label className="filter-label">Search</label>
                             <div style={{ position: 'relative' }}>
                                 <i className="ri-search-line" style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }}></i>
-                                <input type="text" placeholder="Location or ID" className="input-base" style={{ paddingLeft: '2.5rem' }} />
+                                <input type="text" placeholder="Location or ID" className="input-base w-full" style={{ paddingLeft: '2.5rem' }} />
                             </div>
                         </div>
 
-                        <div className="filter-group">
+                        <div className="filter-group flex flex-col gap-2">
                             <label className="filter-label">Status</label>
                             <label className="checkbox-item"><input type="checkbox" defaultChecked /> For Sale</label>
                             <label className="checkbox-item"><input type="checkbox" /> New Development</label>
                             <label className="checkbox-item"><input type="checkbox" /> Off-Market</label>
                         </div>
 
-                        <div className="filter-group">
+                        <div className="filter-group flex flex-col gap-2">
                             <label className="filter-label">Property Type</label>
                             <label className="checkbox-item"><input type="checkbox" defaultChecked /> Villa</label>
                             <label className="checkbox-item"><input type="checkbox" defaultChecked /> Penthouse</label>

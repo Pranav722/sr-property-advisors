@@ -22,19 +22,27 @@ const Home = () => {
               Property Advisors.
             </p>
 
-            <div className="search-bar glass-dark w-full md:w-[85%] lg:w-[110%] max-w-[1100px] xl:ml-[-10%] relative z-20">
-              <form className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-4 w-full" action="/projects">
-                <input type="text" placeholder="Location, City, or ZIP" className="input-base text-sm md:text-base min-h-[48px] w-full" style={{ flex: 1 }} />
+            <div className="search-bar glass-dark w-full lg:w-full max-w-[1200px] relative z-20" style={{ padding: '1rem', borderRadius: '20px' }}>
+              <form className="flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full" action="/projects">
+                <div className="flex-1 flex items-center bg-white/10 rounded-xl px-4 min-h-[56px] border border-white/20 w-full md:w-auto">
+                  <i className="ri-map-pin-line mr-3 text-white/60"></i>
+                  <input type="text" placeholder="Location, City, or ZIP" className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-white/50 text-base" style={{ minWidth: '0' }} />
+                </div>
+                
                 <div className="hidden md:block w-[1px] bg-white/20 h-8"></div>
-                <select className="input-base min-h-[48px] w-full md:w-auto" style={{ background: 'transparent', color: 'white', border: 'none' }}>
-                  <option value="" style={{ color: 'black' }}>Property Type</option>
-                  <option value="villa" style={{ color: 'black' }}>Villa</option>
-                  <option value="apartment" style={{ color: 'black' }}>Apartment</option>
-                  <option value="penthouse" style={{ color: 'black' }}>Penthouse</option>
-                </select>
-                <div className="hidden md:block w-[1px] bg-white/20 h-8"></div>
-                <button type="submit" className="btn btn-primary min-h-[48px] w-full md:w-auto mt-2 md:mt-0 whitespace-nowrap px-8">
-                  <i className="ri-search-line" style={{ marginRight: '0.5rem' }}></i> Search
+                
+                <div className="flex-1 md:flex-none md:min-w-[200px] flex items-center bg-white/10 rounded-xl px-4 min-h-[56px] border border-white/20 w-full md:w-auto">
+                  <i className="ri-home-4-line mr-3 text-white/60"></i>
+                  <select className="flex-1 bg-transparent border-none outline-none text-white appearance-none cursor-pointer text-base">
+                    <option value="" style={{ color: 'black' }}>Property Type</option>
+                    <option value="villa" style={{ color: 'black' }}>Villa</option>
+                    <option value="apartment" style={{ color: 'black' }}>Apartment</option>
+                    <option value="penthouse" style={{ color: 'black' }}>Penthouse</option>
+                  </select>
+                </div>
+
+                <button type="submit" className="btn btn-primary min-h-[56px] px-10 rounded-xl font-bold shadow-lg hover:scale-105 transition-transform w-full md:w-auto">
+                  <i className="ri-search-line mr-2"></i> Search
                 </button>
               </form>
             </div>
