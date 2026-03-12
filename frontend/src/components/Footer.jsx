@@ -43,9 +43,9 @@ const Footer = () => {
           <div>
             <h4 className="footer-heading">Contact Info</h4>
             <ul className="footer-links">
-              <li style={{ display: 'flex', gap: '0.5rem', color: 'rgba(255,255,255,0.6)' }}><i className="ri-map-pin-line text-accent"></i> 100 Wall Street, NY 10005</li>
-              <li style={{ display: 'flex', gap: '0.5rem', color: 'rgba(255,255,255,0.6)' }}><i className="ri-phone-line text-accent"></i> +1 (555) 123-4567</li>
-              <li style={{ display: 'flex', gap: '0.5rem', color: 'rgba(255,255,255,0.6)' }}><i className="ri-mail-line text-accent"></i> contact@srproperty.com</li>
+              <li style={{ display: 'flex', gap: '0.5rem', color: 'rgba(255,255,255,0.6)' }}><i className="ri-map-pin-line" style={{ color: '#60a5fa', flexShrink: 0 }} /> Mumbai, Maharashtra, India</li>
+              <li style={{ display: 'flex', gap: '0.5rem', color: 'rgba(255,255,255,0.6)' }}><i className="ri-phone-line" style={{ color: '#60a5fa', flexShrink: 0 }} /> +91 82219 10113</li>
+              <li style={{ display: 'flex', gap: '0.5rem', color: 'rgba(255,255,255,0.6)' }}><i className="ri-mail-line" style={{ color: '#60a5fa', flexShrink: 0 }} /> info@srpropertyadvisor.in</li>
             </ul>
           </div>
         </div>

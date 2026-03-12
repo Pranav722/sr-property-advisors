@@ -9,177 +9,164 @@ const Home = () => {
   return (
     <>
       <Header />
-      {/* Hero Section */}
-      <section className="hero-section">
-        <img src="/images/hero_bg_exterior_1773059538662.png" alt="Luxury Property Exterior" className="hero-bg" id="heroBgImg" />
-        <div className="hero-overlay"></div>
 
-        <div className="container">
+      {/* ─── HERO ─── */}
+      <section className="hero-section">
+        <img
+          src="/images/hero_bg_exterior_1773059538662.png"
+          alt="Luxury Property"
+          className="hero-bg"
+        />
+        <div className="hero-overlay" />
+
+        <div className="container" style={{ paddingTop: '5rem', paddingBottom: '5rem' }}>
           <div className="hero-content animate-fade-in">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-2 md:mb-4 font-sans tracking-tight leading-tight text-white" style={{ color: '#ffffff' }}>Discover Extraordinary<br/>Properties Worldwide.</h1>
-            <p className="text-base md:text-xl lg:text-2xl mt-4 md:mt-6 mb-6 md:mb-8" style={{ color: 'rgba(255,255,255,0.8)', maxWidth: '700px' }}>
-              Expert guidance in curating and acquiring luxury real estate. Find your next premium investment with SR
-              Property Advisors.
+            <span className="section-badge" style={{ color: '#60a5fa' }}>Premium Real Estate</span>
+            <h1 className="text-h1" style={{ color: '#fff', marginTop: '0.5rem' }}>
+              Discover<br />Extraordinary<br />Properties.
+            </h1>
+            <p style={{ color: 'rgba(255,255,255,0.72)', fontSize: 'clamp(1rem,2vw,1.2rem)', marginTop: '1.25rem', maxWidth: '540px', lineHeight: 1.7 }}>
+              Expert guidance in curating and acquiring luxury real estate worldwide. Find your next premium investment with SR Property Advisors.
             </p>
 
-            <div className="search-bar glass-dark w-full lg:w-full max-w-[1200px] relative z-20" style={{ padding: '1rem', borderRadius: '20px' }}>
-              <form className="flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full" action="/projects">
-                <div className="flex-1 flex items-center bg-white/10 rounded-xl px-4 min-h-[56px] border border-white/20 w-full md:w-auto">
-                  <i className="ri-map-pin-line mr-3 text-white/60"></i>
-                  <input type="text" placeholder="Location, City, or ZIP" className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-white/50 text-base" style={{ minWidth: '0' }} />
-                </div>
-                
-                <div className="hidden md:block w-[1px] bg-white/20 h-8"></div>
-                
-                <div className="flex-1 md:flex-none md:min-w-[200px] flex items-center bg-white/10 rounded-xl px-4 min-h-[56px] border border-white/20 w-full md:w-auto">
-                  <i className="ri-home-4-line mr-3 text-white/60"></i>
-                  <select className="flex-1 bg-transparent border-none outline-none text-white appearance-none cursor-pointer text-base">
-                    <option value="" style={{ color: 'black' }}>Property Type</option>
-                    <option value="villa" style={{ color: 'black' }}>Villa</option>
-                    <option value="apartment" style={{ color: 'black' }}>Apartment</option>
-                    <option value="penthouse" style={{ color: 'black' }}>Penthouse</option>
-                  </select>
-                </div>
+            {/* Search Bar */}
+            <div className="search-bar-wrap">
+              <div className="search-input-group">
+                <i className="ri-map-pin-2-line" style={{ fontSize: '1.2rem', flexShrink: 0 }} />
+                <input type="text" placeholder="City, neighbourhood or ZIP" />
+              </div>
+              <div className="search-divider" />
+              <div className="search-input-group" style={{ flexShrink: 0, minWidth: 0 }}>
+                <i className="ri-home-4-line" style={{ fontSize: '1.2rem', flexShrink: 0 }} />
+                <select>
+                  <option>Property Type</option>
+                  <option>Villa</option>
+                  <option>Apartment</option>
+                  <option>Penthouse</option>
+                  <option>Estate</option>
+                </select>
+              </div>
+              <div className="search-divider" />
+              <Link to="/projects" className="btn btn-primary" style={{ borderRadius: '12px', padding: '0.75rem 1.75rem', flexShrink: 0, width: '100%', justifyContent: 'center' }}>
+                <i className="ri-search-line" /> Search
+              </Link>
+            </div>
 
-                <button type="submit" className="btn btn-primary min-h-[56px] px-10 rounded-xl font-bold shadow-lg hover:scale-105 transition-transform w-full md:w-auto">
-                  <i className="ri-search-line mr-2"></i> Search
-                </button>
-              </form>
+            {/* Quick stats */}
+            <div style={{ display: 'flex', gap: '2.5rem', marginTop: '2.25rem', flexWrap: 'wrap' }}>
+              {[['300+', 'Properties'], ['15+', 'Years'], ['$2B+', 'Sales']].map(([num, label]) => (
+                <div key={label}>
+                  <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff' }}>{num}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.55)', fontWeight: 500 }}>{label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services Overview */}
-      <section className="py-16 md:py-20" style={{ backgroundColor: 'var(--color-bg-alt)' }}>
+      {/* ─── SERVICES ─── */}
+      <section style={{ padding: '6rem 0', background: '#f8fafc' }} id="services">
         <div className="container">
-          <div className="text-center mb-8" style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 3rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <span className="section-badge">Our Expertise</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-main">Comprehensive Real Estate Services</h2>
-            <p className="text-base md:text-lg mt-4 text-muted">We provide end-to-end advisory for high-net-worth individuals seeking premium real
-              estate investments.</p>
+            <h2 className="text-h2 text-main" style={{ marginTop: '0.5rem' }}>Comprehensive Real Estate Services</h2>
+            <p className="text-body" style={{ marginTop: '1rem', maxWidth: '540px', marginInline: 'auto' }}>
+              End-to-end advisory for high-net-worth individuals seeking premium investments.
+            </p>
           </div>
 
-          <div className="flex flex-col md:grid md:grid-cols-3 gap-4 md:gap-6">
-            <div className="card service-card p-6 md:p-8">
-              <div className="service-icon"><i className="ri-home-smile-2-line"></i></div>
-              <h3 className="text-h4 mb-4 text-main">Property Acquisition</h3>
-              <p className="text-body">Exclusive access to off-market luxury properties and expert negotiation to secure the
-                best investments.</p>
-            </div>
-            <div className="card service-card p-6 md:p-8">
-              <div className="service-icon"><i className="ri-bar-chart-box-line"></i></div>
-              <h3 className="text-h4 mb-4 text-main">Investment Advisory</h3>
-              <p className="text-body">Data-driven market analysis and portfolio strategies tailored to your wealth generation
-                goals.</p>
-            </div>
-            <div className="card service-card">
-              <div className="service-icon"><i className="ri-key-2-line"></i></div>
-              <h3 className="text-h4 mb-4 text-main">Property Management</h3>
-              <p className="text-body">Complete asset management services ensuring your premium properties maintain their value
-                and prestige.</p>
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px,1fr))', gap: '1.5rem' }}>
+            {[
+              { icon: 'ri-home-smile-2-line', title: 'Property Acquisition', desc: 'Exclusive access to off-market luxury listings with expert negotiation.' },
+              { icon: 'ri-bar-chart-box-line', title: 'Investment Advisory', desc: 'Data-driven market analysis tailored to your wealth goals.' },
+              { icon: 'ri-key-2-line', title: 'Property Management', desc: 'End-to-end asset management protecting your portfolio value.' },
+            ].map((s) => (
+              <div key={s.title} className="card service-card">
+                <div className="service-icon"><i className={s.icon} /></div>
+                <h3 className="text-h4 text-main" style={{ marginBottom: '0.75rem' }}>{s.title}</h3>
+                <p className="text-body">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+            <Link to="/services" className="btn btn-outline">View All Services</Link>
           </div>
         </div>
       </section>
 
-      {/* Featured Projects */}
-      <section className="py-16 md:py-20">
+      {/* ─── FEATURED PROPERTIES ─── */}
+      <section style={{ padding: '6rem 0', background: '#fff' }}>
         <div className="container">
-          <div className="flex items-center justify-between mb-6 md:mb-8">
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '2.5rem', gap: '1rem', flexWrap: 'wrap' }}>
             <div>
               <span className="section-badge">Featured Portfolio</span>
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-main">Exclusive Properties</h2>
+              <h2 className="text-h2 text-main" style={{ marginTop: '0.5rem' }}>Exclusive Properties</h2>
             </div>
+            <Link to="/projects" className="btn btn-outline">View All →</Link>
           </div>
 
-          <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6">
-            {/* Card 1 */}
-            <Link to="/property/1" className="card">
-              <div className="property-image-container">
-                <span className="property-badge">For Sale</span>
-                <div className="property-price">$4,500,000</div>
-                <img src="/images/property_listing_villa_1773059556545.png" alt="Villa" className="property-image" />
-              </div>
-              <div className="property-content">
-                <h3 className="text-h4 text-main" style={{ marginBottom: '0.25rem' }}>Beverly Hills Estate</h3>
-                <p className="text-small"><i className="ri-map-pin-line"></i> 1002 Sunset Blvd, Los Angeles</p>
-
-                <div className="property-meta">
-                  <div className="meta-item"><i className="ri-layout-masonry-line"></i> 5 Beds</div>
-                  <div className="meta-item"><i className="ri-drop-line"></i> 6 Baths</div>
-                  <div className="meta-item"><i className="ri-ruler-line"></i> 6,200 sqft</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px,1fr))', gap: '1.5rem' }}>
+            {[
+              { img: '/images/property_listing_villa_1773059556545.png', badge: 'For Sale', price: '$4,500,000', title: 'Beverly Hills Estate', loc: 'Los Angeles, CA', beds: 5, baths: 6, sqft: '6,200' },
+              { img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800', badge: 'New Development', price: '$2,100,000', title: 'Skyline Penthouse', loc: 'Manhattan, New York', beds: 3, baths: 3, sqft: '3,100' },
+              { img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800', badge: 'For Sale', price: '$8,950,000', title: 'Coastal Modern Villa', loc: 'Miami, FL', beds: 6, baths: 8, sqft: '10,500' },
+              { img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=800', badge: 'Off-Market', price: '$12,000,000', title: 'Highland Park Mansion', loc: 'Dallas, TX', beds: 7, baths: 9, sqft: '14,000' },
+            ].map((p, i) => (
+              <Link key={i} to={`/property/${i + 1}`} className="card" style={{ display: 'block' }}>
+                <div className="property-image-container">
+                  <span className="property-badge" style={{ background: p.badge === 'New Development' ? '#2563eb' : p.badge === 'Off-Market' ? '#7c3aed' : undefined }}>{p.badge}</span>
+                  <span className="property-price">{p.price}</span>
+                  <img src={p.img} alt={p.title} className="property-image" />
                 </div>
-              </div>
-            </Link>
-
-            {/* Card 2 */}
-            <Link to="/property/2" className="card">
-              <div className="property-image-container">
-                <span className="property-badge" style={{ background: 'var(--color-accent)' }}>New Development</span>
-                <div className="property-price">$2,100,000</div>
-                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800"
-                  alt="Apartment" className="property-image" />
-              </div>
-              <div className="property-content">
-                <h3 className="text-h4 text-main" style={{ marginBottom: '0.25rem' }}>Skyline Penthouse</h3>
-                <p className="text-small"><i className="ri-map-pin-line"></i> 450 Manhattan Ave, New York</p>
-
-                <div className="property-meta">
-                  <div className="meta-item"><i className="ri-layout-masonry-line"></i> 3 Beds</div>
-                  <div className="meta-item"><i className="ri-drop-line"></i> 3.5 Baths</div>
-                  <div className="meta-item"><i className="ri-ruler-line"></i> 3,100 sqft</div>
+                <div className="property-content">
+                  <h3 className="text-h4 text-main">{p.title}</h3>
+                  <p className="text-small" style={{ marginTop: '0.25rem' }}><i className="ri-map-pin-line" /> {p.loc}</p>
+                  <div className="property-meta">
+                    <span className="meta-item"><i className="ri-door-line" /> {p.beds} Beds</span>
+                    <span className="meta-item"><i className="ri-drop-line" /> {p.baths} Baths</span>
+                    <span className="meta-item"><i className="ri-ruler-line" /> {p.sqft} ft²</span>
+                  </div>
                 </div>
-              </div>
-            </Link>
-
-            {/* Card 3 */}
-            <Link to="/property/3" className="card">
-              <div className="property-image-container">
-                <span className="property-badge">For Sale</span>
-                <div className="property-price">$8,950,000</div>
-                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800"
-                  alt="Mansion" className="property-image" />
-              </div>
-              <div className="property-content">
-                <h3 className="text-h4 text-main" style={{ marginBottom: '0.25rem' }}>Coastal Modern Villa</h3>
-                <p className="text-small"><i className="ri-map-pin-line"></i> 78 Ocean Drive, Miami</p>
-
-                <div className="property-meta">
-                  <div className="meta-item"><i className="ri-layout-masonry-line"></i> 6 Beds</div>
-                  <div className="meta-item"><i className="ri-drop-line"></i> 8 Baths</div>
-                  <div className="meta-item"><i className="ri-ruler-line"></i> 10,500 sqft</div>
-                </div>
-              </div>
-            </Link>
-          </div>
-
-          <div className="flex justify-center mt-8">
-            <Link to="/projects" className="btn btn-outline">View All Properties</Link>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Trust / Stats Section */}
-      <section className="py-16 md:py-20" style={{ backgroundColor: 'var(--color-primary)', color: 'white' }}>
+      {/* ─── STATS ─── */}
+      <section style={{ padding: '5rem 0', background: '#0f172a', color: '#fff' }}>
         <div className="container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6" style={{ textAlign: 'center' }}>
-            <div>
-              <div className="text-h2" style={{ color: 'var(--color-accent)', marginBottom: '0.5rem' }}>$2B+</div>
-              <div className="text-body" style={{ color: 'rgba(255,255,255,0.7)' }}>Property Sales</div>
-            </div>
-            <div>
-              <div className="text-h2" style={{ color: 'var(--color-accent)', marginBottom: '0.5rem' }}>15+</div>
-              <div className="text-body" style={{ color: 'rgba(255,255,255,0.7)' }}>Years Experience</div>
-            </div>
-            <div>
-              <div className="text-h2" style={{ color: 'var(--color-accent)', marginBottom: '0.5rem' }}>300+</div>
-              <div className="text-body" style={{ color: 'rgba(255,255,255,0.7)' }}>Happy Clients</div>
-            </div>
-            <div>
-              <div className="text-h2" style={{ color: 'var(--color-accent)', marginBottom: '0.5rem' }}>24/7</div>
-              <div className="text-body" style={{ color: 'rgba(255,255,255,0.7)' }}>Advisory Support</div>
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px,1fr))', gap: '2rem', textAlign: 'center' }}>
+            {[
+              ['$2B+', 'Property Sales'],
+              ['15+', 'Years Experience'],
+              ['300+', 'Happy Clients'],
+              ['24/7', 'Advisory Support'],
+            ].map(([n, l]) => (
+              <div key={l}>
+                <div style={{ fontSize: 'clamp(1.75rem,4vw,2.5rem)', fontWeight: 800, color: '#60a5fa' }}>{n}</div>
+                <div style={{ color: 'rgba(255,255,255,0.55)', marginTop: '0.4rem', fontSize: '0.875rem', fontWeight: 500 }}>{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CTA ─── */}
+      <section style={{ padding: '6rem 0', background: '#eff6ff' }}>
+        <div className="container" style={{ textAlign: 'center', maxWidth: '700px', marginInline: 'auto' }}>
+          <span className="section-badge">Ready to Invest?</span>
+          <h2 className="text-h2 text-main" style={{ marginTop: '0.5rem' }}>
+            Find Your Next<br />Premium Property
+          </h2>
+          <p className="text-body" style={{ marginTop: '1rem', marginBottom: '2rem' }}>
+            Our advisors are available 24/7 to guide your real estate journey from search to handover.
+          </p>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link to="/contact" className="btn btn-primary" style={{ padding: '0.875rem 2rem' }}>Book a Consultation</Link>
+            <Link to="/projects" className="btn btn-outline" style={{ padding: '0.875rem 2rem' }}>Browse Properties</Link>
           </div>
         </div>
       </section>

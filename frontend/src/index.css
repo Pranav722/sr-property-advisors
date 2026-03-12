@@ -1,27 +1,50 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap');
 
 @theme {
-  --color-primary: #0f172a;
-  --color-secondary: #f8fafc;
-  --color-accent: #2563eb;
+  --color-primary:      #0f172a;
+  --color-secondary:    #f8fafc;
+  --color-accent:       #2563eb;
   --color-accent-hover: #1d4ed8;
-  --color-dark: #0f172a;
-  --color-muted: #64748b;
-  --color-border: #e2e8f0;
-  --font-sans: "Inter", sans-serif;
-  
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  --color-dark:         #0f172a;
+  --color-muted:        #64748b;
+  --color-border:       #e2e8f0;
+  --font-sans:          "Inter", sans-serif;
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.08);
+  --shadow-md:  0 4px 16px rgba(0,0,0,.08);
+  --shadow-lg:  0 10px 40px rgba(0,0,0,.12);
+  --shadow-glass: 0 8px 32px rgba(31,38,135,.12);
+
+  --radius-sm:  8px;
+  --radius-md:  16px;
+  --radius-lg:  24px;
+  --radius-xl:  32px;
+
+  --transition: 0.2s ease;
 }
 
 @layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    /* CRITICAL: Never lock scrolling */
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply text-dark bg-secondary font-sans antialiased;
-    line-height: 1.5;
+    line-height: 1.6;
+    /* NEVER add overflow:hidden here — it breaks scrolling */
+    min-height: 100vh;
   }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold;
-  }
+
+  a { text-decoration: none; color: inherit; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  img { max-width: 100%; display: block; }
+
+  h1,h2,h3,h4,h5,h6 { font-weight: 700; line-height: 1.2; }
 }

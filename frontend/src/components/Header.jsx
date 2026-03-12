@@ -7,8 +7,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  const isAdmin = userInfo?.user?.role === 'admin';
-  const isLoggedIn = !!userInfo;
+  const isAdmin = userInfo?.role === 'admin';
+  const isLoggedIn = !!(userInfo?.token);
 
   const handleLogout = () => {
     localStorage.removeItem('token');

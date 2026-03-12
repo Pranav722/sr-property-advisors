@@ -20,7 +20,7 @@ const App = () => {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <>
-        <div className="min-h-screen bg-slate-50 pb-[80px] md:pb-0">
+        <div>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
