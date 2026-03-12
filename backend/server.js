@@ -15,6 +15,8 @@ import projectRoutes from './routes/projectRoutes.js';
 import plotRoutes from './routes/plotRoutes.js';
 import locationRoutes from './routes/locationRoutes.js';
 import inquiryRoutes from './routes/inquiryRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js';
 
 // Load env vars
 dotenv.config();
@@ -57,6 +59,8 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/plots', plotRoutes);
 app.use('/api/locations', locationRoutes);
 app.use('/api/inquiries', inquiryRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/uploads', uploadRoutes);
 
 // Custom Error Handler
 app.use(notFound);

@@ -82,11 +82,11 @@
 .price-range { display: flex; gap: 0.5rem; align-items: center; }
 .price-input {
   flex: 1;
-  padding: 0.5rem 0.75rem;
+  min-width: 0;
+  padding: 0.5rem 0.5rem;
   border: 1.5px solid #e2e8f0;
   border-radius: 8px;
   font-size: 0.875rem;
-  text-align: center;
   outline: none;
   transition: border-color 0.15s;
 }

@@ -9,8 +9,9 @@ import Services from './pages/Services';
 import Contact from './pages/Contact';
 import Dashboard from './pages/Dashboard';
 import ProjectsAdmin from './pages/ProjectsAdmin';
-import Inventory from './pages/Inventory';
 import LocationsAdmin from './pages/LocationsAdmin';
+import UsersAdmin from './pages/UsersAdmin';
+import Inventory from './pages/Inventory';
 import Leads from './pages/Leads';
 import FileManager from './pages/FileManager';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -30,9 +31,10 @@ const App = () => {
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/dashboard" element={<ProtectedRoute adminOnly={true}><Dashboard /></ProtectedRoute>} />
-            <Route path="/projects-admin" element={<ProtectedRoute adminOnly={true}><ProjectsAdmin /></ProtectedRoute>} />
-            <Route path="/inventory" element={<ProtectedRoute adminOnly={true}><Inventory /></ProtectedRoute>} />
-            <Route path="/locations" element={<ProtectedRoute adminOnly={true}><LocationsAdmin /></ProtectedRoute>} />
+            <Route path="/projects-admin" element={<ProtectedRoute adminOnly><ProjectsAdmin /></ProtectedRoute>} />
+            <Route path="/locations" element={<ProtectedRoute adminOnly><LocationsAdmin /></ProtectedRoute>} />
+            <Route path="/users-admin" element={<ProtectedRoute adminOnly><UsersAdmin /></ProtectedRoute>} />
+            <Route path="/inventory" element={<ProtectedRoute adminOnly><Inventory /></ProtectedRoute>} />
             <Route path="/leads" element={<ProtectedRoute adminOnly={true}><Leads /></ProtectedRoute>} />
             <Route path="/file-manager" element={<ProtectedRoute adminOnly={true}><FileManager /></ProtectedRoute>} />
             {/* We will route all the legacy HTML pages into explicit paths here soon */}

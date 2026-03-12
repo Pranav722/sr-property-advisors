@@ -44,8 +44,6 @@ body {
     background-color: var(--dash-bg);
     color: var(--dash-text-main);
     font-size: 14px;
-    display: flex;
-    min-height: 100vh;
 }
 
 /* Typography */

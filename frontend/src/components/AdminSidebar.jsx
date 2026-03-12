@@ -42,6 +42,9 @@ const AdminSidebar = ({ open }) => {
 
                 <div className="nav-section">
                     <div className="nav-title">System</div>
+                    <Link to="/users-admin" className={isActive('/users-admin')}>
+                        <i className="ri-team-line"></i> Staff & Admins
+                    </Link>
                     <Link to="/file-manager" className={isActive('/file-manager')}>
                         <i className="ri-folder-open-line"></i> File Manager
                     </Link>

@@ -83,7 +83,7 @@ const Home = () => {
 
               {/* Quick stats */}
               <div style={{ display: 'flex', gap: '2.5rem', marginTop: '2.5rem', flexWrap: 'wrap' }}>
-                {[['500+', 'Properties Listed'], ['15+', 'Years of Trust'], ['₹500 Cr+', 'Transactions'], ['RERA', 'Compliant']].map(([num, label]) => (
+                {[['500+', 'Properties Listed'], ['15+', 'Years of Trust'], ['₹500 Cr+', 'Transactions'], ['50+', 'Cities Covered']].map(([num, label]) => (
                   <div key={label}>
                     <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0f172a' }}>{num}</div>
                     <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, marginTop: '0.2rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
@@ -120,7 +120,7 @@ const Home = () => {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px,1fr))', gap: '1.5rem' }}>
             {[
-              { icon: 'ri-shield-check-line', color: '#2563eb', title: 'RERA Registered', desc: 'All our projects are 100% RERA compliant for your protection.' },
+              { icon: 'ri-shield-check-line', color: '#2563eb', title: 'Verified Listings', desc: 'All our projects are strictly verified and legally compliant for your protection.' },
               { icon: 'ri-hand-coin-line', color: '#059669', title: 'Best Price Guarantee', desc: 'We negotiate directly with developers to secure the best price.' },
               { icon: 'ri-customer-service-2-line', color: '#7c3aed', title: '24/7 Expert Support', desc: 'Dedicated relationship managers available round the clock.' },
               { icon: 'ri-bank-line', color: '#d97706', title: 'Home Loan Assistance', desc: 'Tie-ups with all major banks for fast loan approvals.' },

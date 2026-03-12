@@ -26,10 +26,10 @@ const services = [
     color: '#059669',
   },
   {
-    icon: 'ri-shield-check-line',
-    title: 'Legal & Compliance',
-    desc: 'Comprehensive legal services covering documentation, title verification, RERA compliance, and smooth transfer of ownership with zero hassle.',
-    features: ['Title verification', 'RERA compliance', 'Sale deed drafting', 'Registration support'],
+    icon: 'ri-file-text-line',
+    title: 'Legal & Documentation',
+    desc: 'Comprehensive legal services covering documentation, title verification, legal compliance, and smooth transfer of ownership with zero hassle.',
+    features: ['Title verification', 'Legal compliance', 'Sale deed drafting', 'Registration support'],
     color: '#dc2626',
   },
   {
