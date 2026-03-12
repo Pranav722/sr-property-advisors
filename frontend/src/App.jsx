@@ -5,6 +5,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Projects from './pages/Projects';
 import Property from './pages/Property';
+import Services from './pages/Services';
+import Contact from './pages/Contact';
 import Dashboard from './pages/Dashboard';
 import ProjectsAdmin from './pages/ProjectsAdmin';
 import Inventory from './pages/Inventory';
@@ -25,6 +27,8 @@ const App = () => {
             <Route path="/signup" element={<Signup />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/property/:id" element={<Property />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/dashboard" element={<ProtectedRoute adminOnly={true}><Dashboard /></ProtectedRoute>} />
             <Route path="/projects-admin" element={<ProtectedRoute adminOnly={true}><ProjectsAdmin /></ProtectedRoute>} />
             <Route path="/inventory" element={<ProtectedRoute adminOnly={true}><Inventory /></ProtectedRoute>} />

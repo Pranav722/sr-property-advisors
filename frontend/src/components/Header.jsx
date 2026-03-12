@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -36,21 +36,23 @@ const Header = () => {
         
         {/* Center Side: Links */}
         <div className={`nav-links hidden md:flex items-center gap-6 lg:gap-8 ${menuOpen ? 'active' : ''}`}>
-          <Link to="/" className="nav-link">Home</Link>
-          <Link to="/projects" className="nav-link">Projects</Link>
-          <a href="#services" className="nav-link">Services</a>
+          <NavLink to="/" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Home</NavLink>
+          <NavLink to="/projects" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Projects</NavLink>
+          <NavLink to="/services" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Services</NavLink>
+          <NavLink to="/contact" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Contact</NavLink>
           {isAdmin && (
             <Link to="/dashboard" className="nav-link"><i className="ri-dashboard-line"></i> Dashboard</Link>
           )}
 
           {/* Mobile visible right-side elements */}
-          <div className="md:hidden flex flex-col gap-4 mt-4 pt-4 border-t border-gray-100/20 mobile-only-block" style={{borderTopColor: 'rgba(255,255,255,0.1)'}}>
+          <div className="md:hidden flex flex-col gap-4 mt-4 pt-4 mobile-only-block" style={{borderTop: '1px solid rgba(255,255,255,0.1)'}}>
+            <NavLink to="/services" className="nav-link">Services</NavLink>
+            <NavLink to="/contact" className="nav-link">Contact</NavLink>
             {!isLoggedIn ? (
               <Link to="/login" className="nav-link text-center">Login</Link>
             ) : (
               <button onClick={handleLogout} className="nav-link text-center">Logout</button>
             )}
-            <a href="#contact" className="btn btn-primary text-center">Contact Us</a>
           </div>
         </div>
 
@@ -59,9 +61,9 @@ const Header = () => {
             {!isLoggedIn ? (
               <Link to="/login" className="nav-link font-medium">Login / Account</Link>
             ) : (
-              <button onClick={handleLogout} className="nav-link font-medium text-sm">Logout / Profile</button>
+              <button onClick={handleLogout} className="nav-link font-medium text-sm">Logout</button>
             )}
-            <a href="#contact" className="btn btn-primary" style={{ padding: '0.5rem 1.25rem' }}>Contact Us</a>
+            <Link to="/contact" className="btn btn-primary" style={{ padding: '0.5rem 1.25rem' }}>Contact Us</Link>
         </div>
 
         {/* Hamburger Menu Icon (Hidden in App format) */}
