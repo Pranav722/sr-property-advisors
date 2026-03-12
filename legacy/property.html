@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beverly Hills Estate | SR Property Advisors</title>
+    <script type="module" src="/src/main.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        .navbar {
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 0;
+        }
+
+        .navbar .nav-link {
+            color: var(--color-text-main);
+        }
+
+        .navbar .logo {
+            color: var(--color-primary);
+        }
+
+        /* Hero Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 250px 250px;
+            gap: 1rem;
+            padding-top: 6rem;
+            /* Account for navbar */
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: 300px 200px 200px;
+            }
+        }
+
+        .gallery-main {
+            grid-row: span 2;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+        }
+
+        .gallery-side {
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Layout & Content */
+        .property-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        @media (min-width: 1024px) {
+            .property-layout {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        .detail-section {
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-section:last-child {
+            border-bottom: none;
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .spec-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .spec-item {
+            background: var(--color-bg-alt);
+            padding: 1rem;
+            border-radius: var(--border-radius-md);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .spec-icon {
+            font-size: 1.5rem;
+            color: var(--color-accent);
+        }
+
+        /* Table */
+        .plots-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .plots-table th,
+        .plots-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .plots-table th {
+            font-weight: 600;
+            color: var(--color-primary);
+            background: var(--color-bg-alt);
+        }
+
+        .plots-table tbody tr:hover {
+            background: var(--color-bg-alt);
+        }
+
+        /* Sticky Sidebar */
+        .contact-sidebar {
+            position: sticky;
+            top: 6rem;
+        }
+
+        .advisor-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .advisor-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            object-fit: cover;
+            border: 4px solid var(--color-bg-alt);
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+            transform: translateY(-2px);
+        }
+
+        .brochure-card {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--color-bg-alt);
+            border-radius: var(--border-radius-lg);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container flex items-center justify-between">
+            <a href="index.html" class="logo">
+                <i class="ri-building-4-fill"></i>
+                SR Property
+            </a>
+            <div class="nav-links" style="display:flex; gap: 2rem;">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link"
+                    style="color: var(--color-accent); font-weight: 600;">Projects</a>
+                <a href="#" class="nav-link">Services</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Gallery -->
+        <div class="gallery-grid">
+            <div class="gallery-main">
+                <img src="/images/property_listing_villa_1773059556545.png" alt="Exterior" class="gallery-img" />
+            </div>
+            <div class="gallery-side">
+                <img src="/images/property_interior_living_1773059573182.png" alt="Interior" class="gallery-img" />
+            </div>
+            <div class="gallery-side">
+                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="Kitchen" class="gallery-img" />
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="property-layout">
+            <!-- Main Details -->
+            <main>
+                <div class="detail-section">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="badge badge-blue">For Sale</span>
+                        <span class="text-h3 text-main">$4,500,000</span>
+                    </div>
+                    <h1 class="text-h2 text-main mb-2">Beverly Hills Estate</h1>
+                    <p class="text-body-large"><i class="ri-map-pin-line text-accent"></i> 1002 Sunset Blvd, Los
+                        Angeles, CA 90210</p>
+                </div>
+
+                <div class="detail-section">
+                    <h2 class="text-h3 text-main mb-6">Property Specifications</h2>
+                    <div class="spec-grid">
+                        <div class="spec-item">
+                            <i class="ri-layout-masonry-line spec-icon"></i>
+                            <div>
+                                <div class="text-small">Bedrooms</div>
+                                <div class="text-h4 text-main">5</div>
+                            </div>
+                        </div>
+                        <div class="spec-item">
+                            <i class="ri-drop-line spec-icon"></i>
+                            <div>
+                                <div class="text-small">Bathrooms</div>
+                                <div class="text-h4 text-main">6</div>
+                            </div>
+                        </div>
+                        <div class="spec-item">
+                            <i class="ri-ruler-line spec-icon"></i>
+                            <div>
+                                <div class="text-small">Area</div>
+                                <div class="text-h4 text-main">6,200 sqft</div>
+                            </div>
+                        </div>
+                        <div class="spec-item">
+                            <i class="ri-car-line spec-icon"></i>
+                            <div>
+                                <div class="text-small">Garage</div>
+                                <div class="text-h4 text-main">3 Cars</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h2 class="text-h3 text-main mb-4">Description</h2>
+                    <p class="text-body mb-4">
+                        An architectural masterpiece situated in the prestigious Beverly Hills area. This modern estate
+                        offers unparalleled luxury and privacy, featuring panoramic views of the city skyline and the
+                        ocean beyond.
+                    </p>
+                    <p class="text-body">
+                        The property boasts a seamless indoor-outdoor flow, perfect for entertaining. The gourmet
+                        kitchen is equipped with top-of-the-line appliances, and the master suite is a private sanctuary
+                        with a spa-like bathroom and an expansive walk-in closet. The outdoor area includes a zero-edge
+                        infinity pool, a built-in BBQ, and lush landscaping.
+                    </p>
+                </div>
+
+                <div class="detail-section">
+                    <h2 class="text-h3 text-main mb-4">Available Plots / Units</h2>
+                    <p class="text-body">This development features several phases. See availability below.</p>
+                    <div style="overflow-x: auto;">
+                        <table class="plots-table">
+                            <thead>
+                                <tr>
+                                    <th>Unit Ref</th>
+                                    <th>Type</th>
+                                    <th>Size (sqft)</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Villa 1A</td>
+                                    <td>5 Bed / 6 Bath</td>
+                                    <td>6,200</td>
+                                    <td>$4,500,000</td>
+                                    <td><span class="badge"
+                                            style="background:var(--color-primary); color:white;">Available</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Villa 1B</td>
+                                    <td>4 Bed / 5 Bath</td>
+                                    <td>5,500</td>
+                                    <td>$3,950,000</td>
+                                    <td><span class="badge badge-gray">Reserved</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Villa 2A</td>
+                                    <td>6 Bed / 7 Bath</td>
+                                    <td>7,100</td>
+                                    <td>$5,200,000</td>
+                                    <td><span class="badge"
+                                            style="background:var(--color-primary); color:white;">Available</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h2 class="text-h3 text-main mb-4">Location Map</h2>
+                    <div
+                        style="width: 100%; height: 400px; background: #e2e8f0; border-radius: var(--border-radius-lg); display:flex; align-items:center; justify-content:center;">
+                        <!-- Placeholder for Interactive Map -->
+                        <div class="text-center" style="color:var(--color-text-muted);">
+                            <i class="ri-map-pin-2-fill" style="font-size: 3rem; color: var(--color-accent);"></i><br>
+                            Interactive Map Loading...
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Sidebar -->
+            <aside>
+                <div class="contact-sidebar">
+                    <div class="card advisor-card">
+                        <img src="/images/advisor_profile_1773059592043.png" alt="Advisor" class="advisor-img" />
+                        <h3 class="text-h4 text-main">Michael Sterling</h3>
+                        <p class="text-small mb-6">Senior Wealth & Property Advisor</p>
+
+                        <button class="btn btn-primary" style="width: 100%;"><i class="ri-mail-send-line"
+                                style="margin-right: 0.5rem;"></i> Request Details</button>
+
+                        <button class="btn btn-whatsapp">
+                            <i class="ri-whatsapp-line" style="font-size: 1.25rem;"></i> Contact on WhatsApp
+                        </button>
+
+                        <div class="mt-6 pt-6 border-t" style="border-top: 1px solid var(--border-color);">
+                            <div class="flex items-center justify-center gap-2 text-small">
+                                <i class="ri-phone-line text-accent"></i> +1 (555) 019-8273
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#" class="brochure-card">
+                        <div
+                            style="width: 48px; height: 48px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">
+                            <i class="ri-file-download-line"
+                                style="color: var(--color-accent); font-size: 1.25rem;"></i>
+                        </div>
+                        <div>
+                            <div class="text-h4 text-main" style="font-size: 1rem;">Download Brochure</div>
+                            <div class="text-small">PDF, 4.2 MB</div>
+                        </div>
+                    </a>
+                </div>
+            </aside>
+        </div>
+    </div>
+</body>
+
+</html>

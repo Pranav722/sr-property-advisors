@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Properties | SR Property Advisors</title>
+    <script type="module" src="/src/main.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        .navbar {
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 0;
+        }
+
+        .navbar .nav-link {
+            color: var(--color-text-main);
+        }
+
+        .navbar .logo {
+            color: var(--color-primary);
+        }
+
+        .page-header {
+            background-color: var(--color-bg-alt);
+            padding: 8rem 0 4rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .layout-sidebar {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+
+        @media (min-width: 1024px) {
+            .layout-sidebar {
+                grid-template-columns: 300px 1fr;
+                gap: 3rem;
+            }
+        }
+
+        .filter-sidebar {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            height: min-content;
+            position: sticky;
+            top: 6rem;
+        }
+
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: block;
+            color: var(--color-primary);
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            color: var(--color-text-muted);
+        }
+
+        .checkbox-item input {
+            accent-color: var(--color-accent);
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        .price-range {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .price-input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            text-align: center;
+        }
+
+        .map-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--color-bg-alt);
+            border-radius: var(--border-radius-md);
+            margin-bottom: 2rem;
+        }
+
+        /* Property Cards (Reused from index.html mostly, just adding class) */
+        .property-image-container {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+
+        .property-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .property-image {
+            transform: scale(1.05);
+        }
+
+        .property-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(15, 23, 42, 0.8);
+            color: white;
+            backdrop-filter: blur(4px);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .property-price {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .property-content {
+            padding: 1.5rem;
+        }
+
+        .property-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            background: white;
+            transition: all var(--transition-fast);
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container flex items-center justify-between">
+            <a href="index.html" class="logo">
+                <i class="ri-building-4-fill"></i>
+                SR Property
+            </a>
+            <div class="nav-links" style="display:flex; gap: 2rem;">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link"
+                    style="color: var(--color-accent); font-weight: 600;">Projects</a>
+                <a href="#" class="nav-link">Services</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="text-h2 text-main mb-4">Exclusive Properties</h1>
+            <p class="text-body-large">Curated selection of premium real estate investments worldwide.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="layout-sidebar">
+            <!-- Sidebar Filters -->
+            <aside class="filter-sidebar">
+                <div class="flex items-center justify-between mb-6 border-b pb-4">
+                    <h3 class="text-h4 text-main">Filters</h3>
+                    <button class="text-small" style="color: var(--color-accent); font-weight: 500;">Reset All</button>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Search</label>
+                    <div style="position: relative;">
+                        <i class="ri-search-line"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--color-text-muted);"></i>
+                        <input type="text" placeholder="Location or ID" class="input-base"
+                            style="padding-left: 2.5rem;" />
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Status</label>
+                    <label class="checkbox-item"><input type="checkbox" checked /> For Sale</label>
+                    <label class="checkbox-item"><input type="checkbox" /> New Development</label>
+                    <label class="checkbox-item"><input type="checkbox" /> Off-Market</label>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Property Type</label>
+                    <label class="checkbox-item"><input type="checkbox" checked /> Villa</label>
+                    <label class="checkbox-item"><input type="checkbox" checked /> Penthouse</label>
+                    <label class="checkbox-item"><input type="checkbox" /> Apartment</label>
+                    <label class="checkbox-item"><input type="checkbox" /> Estate</label>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Price Range</label>
+                    <div class="price-range">
+                        <input type="text" value="$1M" class="price-input" />
+                        <span style="color: var(--color-text-muted);">-</span>
+                        <input type="text" value="$50M+" class="price-input" />
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" style="width: 100%;">Apply Filters</button>
+            </aside>
+
+            <!-- Property Grid -->
+            <main>
+                <div class="map-toggle">
+                    <div class="text-body">Showing <strong>24</strong> premium properties</div>
+                    <div class="flex gap-2">
+                        <button class="btn btn-primary" style="padding: 0.5rem 1rem;"><i class="ri-grid-fill"></i>
+                            Grid</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;"><i class="ri-map-2-line"></i>
+                            Map</button>
+                    </div>
+                </div>
+
+                <div class="grid-cols-2">
+                    <!-- Card 1 -->
+                    <a href="property.html" class="card">
+                        <div class="property-image-container">
+                            <span class="property-badge">For Sale</span>
+                            <div class="property-price">$4,500,000</div>
+                            <img src="/images/property_listing_villa_1773059556545.png" alt="Villa"
+                                class="property-image" />
+                        </div>
+                        <div class="property-content">
+                            <h3 class="text-h4 text-main" style="margin-bottom: 0.25rem;">Beverly Hills Estate</h3>
+                            <p class="text-small"><i class="ri-map-pin-line"></i> 1002 Sunset Blvd, Los Angeles</p>
+                            <div class="property-meta">
+                                <div class="meta-item"><i class="ri-layout-masonry-line"></i> 5 Beds</div>
+                                <div class="meta-item"><i class="ri-drop-line"></i> 6 Baths</div>
+                                <div class="meta-item"><i class="ri-ruler-line"></i> 6,200 sqft</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 2 -->
+                    <a href="property.html" class="card">
+                        <div class="property-image-container">
+                            <span class="property-badge" style="background: var(--color-accent);">New Development</span>
+                            <div class="property-price">$2,100,000</div>
+                            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800"
+                                alt="Apartment" class="property-image" />
+                        </div>
+                        <div class="property-content">
+                            <h3 class="text-h4 text-main" style="margin-bottom: 0.25rem;">Skyline Penthouse</h3>
+                            <p class="text-small"><i class="ri-map-pin-line"></i> 450 Manhattan Ave, New York</p>
+                            <div class="property-meta">
+                                <div class="meta-item"><i class="ri-layout-masonry-line"></i> 3 Beds</div>
+                                <div class="meta-item"><i class="ri-drop-line"></i> 3.5 Baths</div>
+                                <div class="meta-item"><i class="ri-ruler-line"></i> 3,100 sqft</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 3 -->
+                    <a href="property.html" class="card">
+                        <div class="property-image-container">
+                            <span class="property-badge">For Sale</span>
+                            <div class="property-price">$8,950,000</div>
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800"
+                                alt="Mansion" class="property-image" />
+                        </div>
+                        <div class="property-content">
+                            <h3 class="text-h4 text-main" style="margin-bottom: 0.25rem;">Coastal Modern Villa</h3>
+                            <p class="text-small"><i class="ri-map-pin-line"></i> 78 Ocean Drive, Miami</p>
+                            <div class="property-meta">
+                                <div class="meta-item"><i class="ri-layout-masonry-line"></i> 6 Beds</div>
+                                <div class="meta-item"><i class="ri-drop-line"></i> 8 Baths</div>
+                                <div class="meta-item"><i class="ri-ruler-line"></i> 10,500 sqft</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 4 -->
+                    <a href="property.html" class="card">
+                        <div class="property-image-container">
+                            <span class="property-badge">Off-Market</span>
+                            <div class="property-price">$12,000,000</div>
+                            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Mansion" class="property-image" />
+                        </div>
+                        <div class="property-content">
+                            <h3 class="text-h4 text-main" style="margin-bottom: 0.25rem;">Highland Park Mansion</h3>
+                            <p class="text-small"><i class="ri-map-pin-line"></i> 45 Preston Road, Dallas</p>
+                            <div class="property-meta">
+                                <div class="meta-item"><i class="ri-layout-masonry-line"></i> 7 Beds</div>
+                                <div class="meta-item"><i class="ri-drop-line"></i> 9 Baths</div>
+                                <div class="meta-item"><i class="ri-ruler-line"></i> 14,000 sqft</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button class="page-btn"><i class="ri-arrow-left-s-line"></i></button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <span style="display: flex; align-items: end;">...</span>
+                    <button class="page-btn">8</button>
+                    <button class="page-btn"><i class="ri-arrow-right-s-line"></i></button>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

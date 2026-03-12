@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leads CRM | SR Property Advisors</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/src/crm.css">
+</head>
+
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon"><i class="ri-building-4-fill" style="font-size: 14px;"></i></div>
+                SR Advisory Admin
+            </div>
+        </div>
+
+        <div class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-title">Menu</div>
+                <a href="dashboard.html" class="nav-item"><i class="ri-dashboard-line"></i> Dashboard</a>
+                <a href="projects-admin.html" class="nav-item"><i class="ri-building-line"></i> Projects</a>
+                <a href="inventory.html" class="nav-item"><i class="ri-map-pin-line"></i> Plot Inventory</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Sales & CRM</div>
+                <a href="leads.html" class="nav-item active">
+                    <i class="ri-inbox-archive-line"></i> Inquiries
+                    <span class="nav-badge">12</span>
+                </a>
+                <a href="leads.html" class="nav-item"><i class="ri-user-star-line"></i> Leads</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">System</div>
+                <a href="file-manager.html" class="nav-item"><i class="ri-folder-open-line"></i> File Manager</a>
+                <a href="index.html" class="nav-item"><i class="ri-global-line"></i> Main Website</a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrappper -->
+    <main class="main-content" id="mainContent">
+
+        <!-- Top Header -->
+        <header class="top-header">
+            <div style="display: flex; align-items: center;">
+                <button class="mobile-nav-toggle" id="mobileMenuBtn"><i class="ri-menu-2-line"></i></button>
+                <div style="font-size: 16px; font-weight: 600;">CRM Inquiries</div>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn"><i class="ri-notification-3-line"></i></button>
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=Alex+C&background=0D8ABC&color=fff" alt="User"
+                        class="avatar">
+                </div>
+            </div>
+        </header>
+
+        <div class="app-content">
+
+            <!-- Page UI Header -->
+            <div class="page-header">
+                <div>
+                    <h1 class="text-xl">Website Inquiries</h1>
+                    <p class="text-sm mt-1" style="margin-top: 4px;">Track and manage incoming leads from property
+                        pages.</p>
+                </div>
+
+                <div class="view-filters">
+                    <div class="filter-group">
+                        <i class="ri-search-line filter-icon"></i>
+                        <input type="text" class="filter-input" placeholder="Search by name, email, or phone...">
+                    </div>
+                    <div class="filter-group">
+                        <select class="filter-select">
+                            <option>All Statuses</option>
+                            <option>New Lead</option>
+                            <option>Contacted</option>
+                            <option>Archived</option>
+                        </select>
+                        <div class="filter-divider"></div>
+                        <select class="filter-select">
+                            <option>All Dates</option>
+                            <option>Today</option>
+                            <option>Last 7 Days</option>
+                            <option>This Month</option>
+                        </select>
+                        <div class="filter-divider"></div>
+                        <select class="filter-select" style="min-width: 160px;">
+                            <option>Assignee: Any</option>
+                            <option>Alex C.</option>
+                            <option>Sarah J.</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tracking Table -->
+            <div class="data-card">
+                <div class="table-wrapper">
+                    <table class="crm-table">
+                        <thead>
+                            <tr>
+                                <th>Lead Contact</th>
+                                <th>Interested Property</th>
+                                <th>Message Preview</th>
+                                <th>Date Received</th>
+                                <th>Status</th>
+                                <th>Assignee</th>
+                                <th style="text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leadsTableBody">
+                            <!-- Lead 1: Unassigned/New -->
+                            <tr data-lead-id="1">
+                                <td>
+                                    <div class="lead-contact">
+                                        <span class="lead-name">Michael Chang</span>
+                                        <span class="text-muted text-xs">michael.ch@example.com</span>
+                                        <span class="text-muted text-xs">+1 (415) 555-0198</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lead-property">
+                                        <i class="ri-building-line"></i> Skyline Penthouse
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lead-msg">"Hi, I'm interested in viewing the floor plans for the
+                                        penthouse. Are there any units..."</div>
+                                </td>
+                                <td>
+                                    <div class="lead-date">2 hours ago</div>
+                                </td>
+                                <td>
+                                    <span class="status-badge new">
+                                        <select onchange="updateRowColor(this)">
+                                            <option selected>New Lead</option>
+                                            <option>Contacted</option>
+                                            <option>Closed - Won</option>
+                                            <option>Closed - Lost</option>
+                                        </select>
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-outline"
+                                        style="font-size: 11px; padding: 4px 10px; border-radius: 4px;">Assign</button>
+                                </td>
+                                <td style="text-align: right;">
+                                    <button class="icon-btn" onclick="openPanel()"><i
+                                            class="ri-arrow-right-line"></i></button>
+                                </td>
+                            </tr>
+
+                            <!-- Lead 2 -->
+                            <tr data-lead-id="2">
+                                <td>
+                                    <div class="lead-contact">
+                                        <span class="lead-name">Eleanor Vance</span>
+                                        <span class="text-muted text-xs">eleanor.v@company.com</span>
+                                        <span class="text-muted text-xs">+1 (555) 302-1244</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lead-property">
+                                        <i class="ri-map-pin-line"></i> Beverly Hills Estate (Plot #102)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lead-msg">"Looking to purchase a plot for custom construction. Would
+                                        like to discuss financing..."</div>
+                                </td>
+                                <td>
+                                    <div class="lead-date">Yesterday, 4:30 PM</div>
+                                </td>
+                                <td>
+                                    <span class="status-badge contacted">
+                                        <select onchange="updateRowColor(this)">
+                                            <option>New Lead</option>
+                                            <option selected>Contacted</option>
+                                            <option>Closed - Won</option>
+                                            <option>Closed - Lost</option>
+                                        </select>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="lead-assignee">
+                                        <img src="https://ui-avatars.com/api/?name=Alex+C&background=0D8ABC&color=fff"
+                                            class="assignee-avatar">
+                                        <span class="text-xs font-medium">Alex C.</span>
+                                    </div>
+                                </td>
+                                <td style="text-align: right;">
+                                    <button class="icon-btn" onclick="openPanel()"><i
+                                            class="ri-arrow-right-line"></i></button>
+                                </td>
+                            </tr>
+
+                            <!-- Lead 3 -->
+                            <tr data-lead-id="3">
+                                <td>
+                                    <div class="lead-contact">
+                                        <span class="lead-name">Robert King</span>
+                                        <span class="text-muted text-xs">r.king@gmail.com</span>
+                                        <span class="text-muted text-xs">+1 (310) 555-0982</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lead-property">
+                                        <i class="ri-map-pin-line"></i> Coastal Retreat (General)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lead-msg">"Do you provide advisory services for foreign investors?"
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lead-date">Oct 12, 2025</div>
+                                </td>
+                                <td>
+                                    <span class="status-badge closed">
+                                        <select onchange="updateRowColor(this)">
+                                            <option>New Lead</option>
+                                            <option>Contacted</option>
+                                            <option selected>Closed - Won</option>
+                                            <option>Closed - Lost</option>
+                                        </select>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="lead-assignee">
+                                        <img src="https://ui-avatars.com/api/?name=Sarah+J&background=ef4444&color=fff"
+                                            class="assignee-avatar">
+                                        <span class="text-xs font-medium">Sarah J.</span>
+                                    </div>
+                                </td>
+                                <td style="text-align: right;">
+                                    <button class="icon-btn" onclick="openPanel()"><i
+                                            class="ri-arrow-right-line"></i></button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Slide-Out Detail Panel -->
+    <div class="detail-panel" id="detailPanel">
+        <div class="panel-header">
+            <div class="panel-title">
+                <i class="ri-profile-line text-muted"></i> Lead Details
+            </div>
+            <i class="ri-close-line panel-close" id="closePanelBtn"></i>
+        </div>
+
+        <div class="panel-body">
+
+            <!-- Lead Top Data -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+                <div>
+                    <h2 class="text-xl" style="margin-bottom: 4px;">Michael Chang</h2>
+                    <div class="status-badge new">New Lead</div>
+                </div>
+                <img src="https://ui-avatars.com/api/?name=Michael+Chang&background=f1f5f9"
+                    style="width: 48px; border-radius: 50%;">
+            </div>
+
+            <!-- Contact Card -->
+            <div class="contact-card">
+                <div class="contact-row">
+                    <i class="ri-mail-line"></i>
+                    <a href="mailto:michael.ch@example.com" class="font-medium"
+                        style="color: var(--dash-primary);">michael.ch@example.com</a>
+                </div>
+                <div class="contact-row">
+                    <i class="ri-phone-line"></i>
+                    <span>+1 (415) 555-0198</span>
+                </div>
+                <div class="contact-row"
+                    style="margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--dash-border);">
+                    <i class="ri-building-line"></i>
+                    <div>
+                        <div class="text-xs text-muted font-medium">Interested In</div>
+                        <div class="font-medium">Skyline Penthouse Collection</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message Source -->
+            <div class="info-block">
+                <div class="info-label">Inquiry Message</div>
+                <div class="info-value"
+                    style="background: var(--dash-bg); padding: 16px; border-radius: var(--dash-radius-sm); border: 1px solid var(--dash-border); font-style: italic;">
+                    "Hi, I'm interested in viewing the floor plans for the penthouse. Are there any units available on
+                    the 54th floor facing the ocean?"
+                </div>
+            </div>
+
+            <!-- Action Panel -->
+            <div class="add-note-box">
+                <div class="info-label">Conversation & Notes</div>
+
+                <div class="notes-timeline">
+                    <div class="note-item primary">
+                        <div class="note-meta"><span>System</span> <span>2 hrs ago</span></div>
+                        <div class="note-text" style="background: #eff6ff; border-color: #bfdbfe;">Lead captured via
+                            Website Project Page. Assigned to Pool.</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <textarea class="note-textarea" placeholder="Type internal notes regarding this lead..."></textarea>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <select class="filter-select"
+                            style="background: var(--dash-surface); border: 1px solid var(--dash-border);">
+                            <option>Log Call</option>
+                            <option>Log Meeting</option>
+                            <option>General Note</option>
+                        </select>
+                        <button class="btn btn-primary">Add Note</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Quick Action Footer -->
+        <div class="panel-footer">
+            <button class="btn btn-outline" style="flex: 1; justify-content: center;"><i class="ri-mail-send-line"></i>
+                Email</button>
+            <button class="btn btn-whatsapp" style="flex: 1; justify-content: center;"><i class="ri-whatsapp-line"></i>
+                WhatsApp</button>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Sidebar Toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Color updater for manual dropdown selections
+        function updateRowColor(selectObj) {
+            const badge = selectObj.parentElement;
+            const val = selectObj.value;
+            badge.className = 'status-badge'; // reset
+
+            if (val.includes('New')) badge.classList.add('new');
+            else if (val.includes('Contacted')) badge.classList.add('contacted');
+            else badge.classList.add('closed');
+        }
+
+        // Detail Panel Logic
+        const panel = document.getElementById('detailPanel');
+        const mainContent = document.getElementById('mainContent');
+        const tableRows = document.querySelectorAll('#leadsTableBody tr');
+
+        function openPanel(row) {
+            // Clear selections
+            tableRows.forEach(r => r.classList.remove('selected'));
+            // Mark selected row
+            if (row) row.classList.add('selected');
+
+            panel.classList.add('open');
+            if (window.innerWidth > 1024) {
+                mainContent.classList.add('panel-open');
+            }
+        }
+
+        function closePanel() {
+            panel.classList.remove('open');
+            mainContent.classList.remove('panel-open');
+            tableRows.forEach(r => r.classList.remove('selected'));
+        }
+
+        document.getElementById('closePanelBtn').addEventListener('click', closePanel);
+
+        // Make table rows click to open panel
+        tableRows.forEach(row => {
+            // Don't trigger if user clicks the select dropdown or buttons
+            row.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'SELECT' && e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+                    openPanel(row);
+                }
+            });
+        });
+
+        // Close panel on resize if going mobile/desktop edge case
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 1024) {
+                mainContent.classList.remove('panel-open');
+            } else if (panel.classList.contains('open')) {
+                mainContent.classList.add('panel-open');
+            }
+        });
+
+        // Sync dynamically generated Locations into Local Dashboard Filters on load
+        function syncAdminFilters() {
+            let locsStr = localStorage.getItem('sr_locations');
+            if (!locsStr) return;
+            let locations = JSON.parse(locsStr);
+            const locSelect = document.getElementById('propertyFilter');
+
+            if (locSelect && locations.length > 0) {
+                // Keep the default "All Properties"
+                locSelect.innerHTML = '<option value="">All Properties</option>';
+                locations.forEach(loc => {
+                    const opt = document.createElement('option');
+                    opt.value = loc;
+                    opt.textContent = `Property in ${loc}`;
+                    locSelect.appendChild(opt);
+                });
+            }
+        }
+        syncAdminFilters();
+
+        // Handle dummy links
+        document.querySelectorAll('a[href="#"]').forEach(el => {
+            if (!el.id && !el.classList.contains('mobile-nav-toggle')) {
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (el.tagName === 'A' || el.textContent.trim()) {
+                        alert('Prototype: This action is disabled.');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

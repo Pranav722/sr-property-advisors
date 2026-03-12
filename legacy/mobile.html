@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>SR App | Mobile First UI</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/src/mobile.css">
+</head>
+
+<body>
+
+    <!-- Top Fixed Header -->
+    <header class="app-header">
+        <div class="brand">
+            <i class="ri-building-4-fill"></i> SR App
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn"><i class="ri-search-line"></i></button>
+            <button class="icon-btn">
+                <i class="ri-notification-3-line"></i>
+                <div class="notification-dot"></div>
+            </button>
+        </div>
+    </header>
+
+    <div class="container" style="padding-top: 24px;">
+
+        <!-- Quick Location Filters -->
+        <div class="filters-scroll">
+            <div class="filter-chip active"><i class="ri-fire-fill"></i> For You</div>
+            <div class="filter-chip"><i class="ri-map-pin-line"></i> Los Angeles</div>
+            <div class="filter-chip"><i class="ri-map-pin-line"></i> New York</div>
+            <div class="filter-chip"><i class="ri-map-pin-line"></i> Miami</div>
+            <div class="filter-chip"><i class="ri-water-flash-line"></i> Waterfront</div>
+        </div>
+
+        <!-- Section: Featured Projects (Swipeable Cards) -->
+        <div class="section-header">
+            <div class="section-title">Featured Projects</div>
+            <a href="#" class="section-link">View All</a>
+        </div>
+
+        <div class="property-scroller">
+            <!-- Card 1 -->
+            <div class="property-card">
+                <div class="prop-badge">Launch Phase</div>
+                <div class="prop-fav active"><i class="ri-heart-3-fill"></i></div>
+                <img src="/images/property_listing_villa_1773059556545.png" alt="Villa" class="prop-image">
+
+                <div class="prop-content">
+                    <div class="prop-price">$2,450,000</div>
+                    <div class="prop-title">Beverly Hills Modern Estate</div>
+                    <div class="prop-loc"><i class="ri-map-pin-line"></i> Beverly Hills, CA</div>
+
+                    <div class="prop-specs">
+                        <div class="spec-item"><i class="ri-layout-grid-fill"></i> 4,200 sqft</div>
+                        <div class="spec-item"><i class="ri-hotel-bed-line"></i> 5 Beds</div>
+                        <div class="spec-item"><i class="ri-showers-line"></i> 4 Baths</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="property-card">
+                <div class="prop-badge">Under Construction</div>
+                <div class="prop-fav"><i class="ri-heart-3-line"></i></div>
+                <img src="/images/hero_bg_exterior_1773059538662.png" alt="Estate" class="prop-image">
+
+                <div class="prop-content">
+                    <div class="prop-price">$1,890,000</div>
+                    <div class="prop-title">Coastal Retreat Phase 2</div>
+                    <div class="prop-loc"><i class="ri-map-pin-line"></i> Miami, FL</div>
+
+                    <div class="prop-specs">
+                        <div class="spec-item"><i class="ri-layout-grid-fill"></i> Plot Available</div>
+                        <div class="spec-item"><i class="ri-ruler-line"></i> 15,000 sqft</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Preview -->
+        <div class="section-header" style="margin-top: 12px;">
+            <div class="section-title">Explore by Map</div>
+        </div>
+
+        <div class="map-preview-card">
+            <!-- Used generic maps from unsplash but real world uses G-Maps style -->
+            <img src="https://images.unsplash.com/photo-1526778548025-fa2fbf8b1bb3?auto=format&fit=crop&q=80&w=800"
+                class="map-img" alt="Map Preview" style="filter: contrast(1.1) brightness(0.9);">
+            <button class="map-btn"><i class="ri-map-pin-2-fill"></i> View Interactive Map</button>
+        </div>
+
+        <!-- Mobile Dashboard View -->
+        <div class="section-header" style="margin-top: 16px;">
+            <div class="section-title">My Dashboard</div>
+        </div>
+
+        <div class="dashboard-metrics">
+            <div class="metric-card">
+                <div class="metric-val">12</div>
+                <div class="metric-label">Active Projects</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-val">4</div>
+                <div class="metric-label">Saved Plots</div>
+            </div>
+        </div>
+
+        <!-- Collapsible Sections -->
+        <div class="collapsible-group">
+            <div class="collapse-header" onclick="this.parentElement.classList.toggle('open')">
+                Recent Inquiries
+                <i class="ri-arrow-down-s-line"></i>
+            </div>
+            <div class="collapse-content">
+                <div class="mobile-table-list">
+                    <div class="table-list-item">
+                        <div>
+                            <div class="t-main">Skyline Penthouse Info</div>
+                            <div class="t-sub">Sent Today, 2:30 PM</div>
+                        </div>
+                        <div class="t-status">Responded</div>
+                    </div>
+                    <div class="table-list-item">
+                        <div>
+                            <div class="t-main">Beverly Plot 102</div>
+                            <div class="t-sub">Oct 12, 2025</div>
+                        </div>
+                        <div class="t-status" style="background:var(--app-border); color:var(--app-text-main);">Pending
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-block primary dummy-link" style="margin-top: 16px;">View All Inquiries</button>
+            </div>
+        </div>
+
+        <div class="collapsible-group">
+            <div class="collapse-header" onclick="this.parentElement.classList.toggle('open')">
+                My Documents
+                <i class="ri-arrow-down-s-line"></i>
+            </div>
+            <div class="collapse-content">
+                <div class="mobile-table-list">
+                    <div class="table-list-item">
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <i class="ri-file-pdf-fill" style="color: #ef4444; font-size: 20px;"></i>
+                            <div>
+                                <div class="t-main">Booking_Agreement_102.pdf</div>
+                                <div class="t-sub">1.2 MB</div>
+                            </div>
+                        </div>
+                        <i class="ri-download-2-line" style="font-size: 20px; color: var(--app-text-muted);"></i>
+                    </div>
+                    <div class="table-list-item">
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <i class="ri-image-2-fill" style="color: #3b82f6; font-size: 20px;"></i>
+                            <div>
+                                <div class="t-main">receipt_transfer.png</div>
+                                <div class="t-sub">800 KB</div>
+                            </div>
+                        </div>
+                        <i class="ri-download-2-line" style="font-size: 20px; color: var(--app-text-muted);"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- End Container -->
+
+    <!-- Bottom App Tab Bar -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-tab active">
+            <i class="ri-home-5-fill"></i>
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="#" class="nav-tab">
+            <i class="ri-building-2-line"></i>
+            <span class="nav-text">Projects</span>
+        </a>
+        <a href="#" class="nav-tab" style="position: relative;">
+            <!-- Highlighted Search Action -->
+            <div
+                style="position: absolute; top: -20px; background: var(--app-text-main); color: white; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-float);">
+                <i class="ri-search-line" style="margin:0; font-size: 20px; color: white;"></i>
+            </div>
+            <span class="nav-text" style="margin-top: 28px;">Search</span>
+        </a>
+        <a href="#" class="nav-tab">
+            <i class="ri-message-3-line"></i>
+            <span class="nav-text">Contact</span>
+        </a>
+        <a href="#" class="nav-tab">
+            <i class="ri-user-line"></i>
+            <span class="nav-text">Account</span>
+        </a>
+    </nav>
+
+    <script>
+        // JS for favorite toggle click feedback
+        document.querySelectorAll('.prop-fav').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const icon = btn.querySelector('i');
+                if (btn.classList.contains('active')) {
+                    btn.classList.remove('active');
+                    icon.className = 'ri-heart-3-line';
+                } else {
+                    btn.classList.add('active');
+                    icon.className = 'ri-heart-3-fill';
+                }
+            });
+        });
+
+        // Horizontal Filter Scroll Interaction
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+            });
+        });
+
+        // Bottom Navigation switching simulation
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+
+                // Don't mark search as active textually as it's a floating FAB
+                if (tab.querySelector('.nav-text').innerText !== 'Search') {
+                    tab.classList.add('active');
+                    const icon = tab.querySelector('i');
+                    // Swap icon to filled version
+                    if (icon.className.includes('-line')) {
+                        icon.className = icon.className.replace('-line', '-fill');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

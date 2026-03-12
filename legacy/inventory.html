@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plot Inventory | SR Property Advisors</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/src/inventory.css">
+</head>
+
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon">
+                    <i class="ri-building-4-fill" style="font-size: 14px;"></i>
+                </div>
+                SR Advisory Admin
+            </div>
+        </div>
+
+        <div class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-title">Menu</div>
+                <a href="dashboard.html" class="nav-item">
+                    <i class="ri-dashboard-line"></i> Dashboard
+                </a>
+                <a href="projects-admin.html" class="nav-item">
+                    <i class="ri-building-line"></i> Projects
+                </a>
+                <a href="inventory.html" class="nav-item active">
+                    <i class="ri-map-pin-line"></i> Plot Inventory
+                </a>
+                <a href="locations.html" class="nav-item">
+                    <i class="ri-compass-3-line"></i> Locations
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Sales & CRM</div>
+                <a href="leads.html" class="nav-item">
+                    <i class="ri-inbox-archive-line"></i> Inquiries
+                </a>
+                <a href="leads.html" class="nav-item">
+                    <i class="ri-user-star-line"></i> Leads
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">System</div>
+                <a href="file-manager.html" class="nav-item">
+                    <i class="ri-folder-open-line"></i> File Manager
+                </a>
+                <a href="index.html" class="nav-item">
+                    <i class="ri-global-line"></i> Main Website
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Top Header -->
+        <header class="top-header">
+            <div style="display: flex; align-items: center;">
+                <button class="mobile-nav-toggle" id="mobileMenuBtn">
+                    <i class="ri-menu-2-line"></i>
+                </button>
+                <div class="search-box">
+                    <i class="ri-search-line"></i>
+                    <input type="text" placeholder="Global search...">
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="icon-btn">
+                    <i class="ri-notification-3-line"></i>
+                </button>
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=Alex+C&background=0D8ABC&color=fff" alt="User"
+                        class="avatar">
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content Area -->
+        <div class="dashboard-content">
+
+            <div class="page-header" style="flex-wrap: wrap; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <h1 class="text-xl">Inventory:</h1>
+                    <select class="filter-select"
+                        style="font-size: 16px; font-weight: 600; padding: 10px 40px 10px 16px; background-color: var(--dash-surface);">
+                        <option>Beverly Hills Estate</option>
+                        <option>Coastal Retreat Phase 2</option>
+                        <option>Skyline Penthouse</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <div class="view-tabs">
+                        <button class="view-tab active" id="tabList"><i class="ri-list-check"></i> List View</button>
+                        <button class="view-tab" id="tabGrid"><i class="ri-layout-grid-line"></i> Layout Visual</button>
+                    </div>
+                    <button class="btn btn-primary"><i class="ri-add-line"></i> Bulk Create</button>
+                </div>
+            </div>
+
+            <!-- LIST VIEW -->
+            <div id="listView">
+                <div class="table-card">
+                    <div class="table-header">
+                        <div class="search-box">
+                            <i class="ri-search-line"></i>
+                            <input type="text" placeholder="Search plot number or buyer...">
+                        </div>
+
+                        <div style="display: flex; gap: 12px;">
+                            <select class="filter-select">
+                                <option>All Statuses</option>
+                                <option>Available</option>
+                                <option>Reserved</option>
+                                <option>Sold</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Plot No.</th>
+                                    <th>Size</th>
+                                    <th>Area (sqft)</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Buyer Name</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-medium text-main">#101</td>
+                                    <td>100x150</td>
+                                    <td>15,000</td>
+                                    <td>$1,200,000</td>
+                                    <td>
+                                        <span class="status status-available">
+                                            <select class="status-dropdown status-available" style="color: inherit;">
+                                                <option selected>Available</option>
+                                                <option>Booked</option>
+                                                <option>Sold</option>
+                                            </select>
+                                        </span>
+                                    </td>
+                                    <td class="text-muted">-</td>
+                                    <td style="text-align: right;">
+                                        <button class="icon-btn edit-plot-btn"><i class="ri-pencil-line"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-main">#102</td>
+                                    <td>100x150</td>
+                                    <td>15,000</td>
+                                    <td>$1,200,000</td>
+                                    <td>
+                                        <span class="status status-booked">
+                                            <select class="status-dropdown" style="color: inherit;">
+                                                <option>Available</option>
+                                                <option selected>Booked</option>
+                                                <option>Sold</option>
+                                            </select>
+                                        </span>
+                                    </td>
+                                    <td>Sarah Jenkins</td>
+                                    <td style="text-align: right;">
+                                        <button class="icon-btn edit-plot-btn"><i class="ri-pencil-line"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-main">#103</td>
+                                    <td>120x150</td>
+                                    <td>18,000</td>
+                                    <td>$1,450,000</td>
+                                    <td>
+                                        <span class="status status-sold">
+                                            <select class="status-dropdown" style="color: inherit;" disabled>
+                                                <option>Available</option>
+                                                <option>Booked</option>
+                                                <option selected>Sold</option>
+                                            </select>
+                                        </span>
+                                    </td>
+                                    <td>Michael Sterling</td>
+                                    <td style="text-align: right;">
+                                        <button class="icon-btn edit-plot-btn"><i class="ri-pencil-line"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-main">#104</td>
+                                    <td>100x150</td>
+                                    <td>15,000</td>
+                                    <td>$1,200,000</td>
+                                    <td>
+                                        <span class="status status-available">
+                                            <select class="status-dropdown" style="color: inherit;">
+                                                <option selected>Available</option>
+                                                <option>Booked</option>
+                                                <option>Sold</option>
+                                            </select>
+                                        </span>
+                                    </td>
+                                    <td class="text-muted">-</td>
+                                    <td style="text-align: right;">
+                                        <button class="icon-btn edit-plot-btn"><i class="ri-pencil-line"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-main">#105</td>
+                                    <td>80x150</td>
+                                    <td>12,000</td>
+                                    <td>$950,000</td>
+                                    <td>
+                                        <span class="status status-available">
+                                            <select class="status-dropdown" style="color: inherit;">
+                                                <option selected>Available</option>
+                                                <option>Booked</option>
+                                                <option>Sold</option>
+                                            </select>
+                                        </span>
+                                    </td>
+                                    <td class="text-muted">-</td>
+                                    <td style="text-align: right;">
+                                        <button class="icon-btn edit-plot-btn"><i class="ri-pencil-line"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRID VISUALIZATION VIEW -->
+            <div id="gridView" style="display: none;">
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color plot-available"></div> Available
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color plot-booked"></div> Booked
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color plot-sold"></div> Sold Out
+                    </div>
+                </div>
+
+                <div class="plot-grid-container" id="visualGrid">
+                    <!-- Populated via JS to simulate plots -->
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Plot Detail Modal -->
+    <div class="modal-overlay" id="plotModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Plot Details - #102</h2>
+                <button class="modal-close" id="closeModalBtn"><i class="ri-close-line"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label class="form-label">Dimensions</label>
+                        <div class="form-value">100 x 150 (ft)</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Total Area</label>
+                        <div class="form-value">15,000 sqft</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Listed Price</label>
+                        <div class="form-value" style="font-size: 18px; color: var(--dash-primary);">$1,200,000</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-select"
+                            style="background: #fefce8; border-color: #eab308; color: #854d0e; font-weight: 500;">
+                            <option value="available">Available</option>
+                            <option value="booked" selected>Booked (Hold)</option>
+                            <option value="sold">Sold</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-span-2">
+                        <label class="form-label"
+                            style="border-bottom: 1px solid var(--dash-border); padding-bottom: 8px; margin-top: 8px;">Owner
+                            / Buyer Details</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-input" value="Sarah Jenkins">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contact</label>
+                        <input type="text" class="form-input" value="+1 (555) 983-2012">
+                    </div>
+
+                    <div class="form-group col-span-2">
+                        <label class="form-label"
+                            style="border-bottom: 1px solid var(--dash-border); padding-bottom: 8px; margin-top: 8px;">Documents</label>
+
+                        <div class="doc-item">
+                            <div class="doc-info">
+                                <i class="ri-file-pdf-line" style="color: #ef4444; font-size: 20px;"></i>
+                                Booking_Agreement_102.pdf
+                            </div>
+                            <button class="icon-btn"><i class="ri-download-2-line"></i></button>
+                        </div>
+
+                        <button class="btn btn-outline"
+                            style="width: 100%; justify-content: center; border-style: dashed; margin-top: 8px;">
+                            <i class="ri-upload-cloud-2-line"></i> Upload Document
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelModalBtn">Cancel</button>
+                <button class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Mobile specific toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // 2. View Toggle (List vs Grid)
+        const btnList = document.getElementById('tabList');
+        const btnGrid = document.getElementById('tabGrid');
+        const listView = document.getElementById('listView');
+        const gridView = document.getElementById('gridView');
+
+        btnList.addEventListener('click', () => {
+            btnList.classList.add('active');
+            btnGrid.classList.remove('active');
+            listView.style.display = 'block';
+            gridView.style.display = 'none';
+        });
+
+        btnGrid.addEventListener('click', () => {
+            btnGrid.classList.add('active');
+            btnList.classList.remove('active');
+            listView.style.display = 'none';
+            gridView.style.display = 'block';
+            renderGrid(); // Render random plots
+        });
+
+        // 3. Grid Visualization Logic
+        let rendered = false;
+        function renderGrid() {
+            if (rendered) return;
+            const container = document.getElementById('visualGrid');
+
+            // Simulate 120 plots
+            for (let i = 1; i <= 120; i++) {
+                const item = document.createElement('div');
+                item.className = 'plot-item';
+                item.textContent = i;
+
+                // Randomly assign statuses for visual variety
+                const rand = Math.random();
+                if (rand < 0.6) item.classList.add('plot-available');
+                else if (rand < 0.8) item.classList.add('plot-booked');
+                else item.classList.add('plot-sold');
+
+                // Connect click event to Modal
+                item.addEventListener('click', openModal);
+
+                container.appendChild(item);
+            }
+            rendered = true;
+        }
+
+        // 4. Modal Interactions
+        const modalOverlay = document.getElementById('plotModal');
+
+        function openModal() {
+            modalOverlay.classList.add('open');
+        }
+
+        const closeModals = () => modalOverlay.classList.remove('open');
+        document.getElementById('closeModalBtn').addEventListener('click', closeModals);
+        document.getElementById('cancelModalBtn').addEventListener('click', closeModals);
+
+        // Close on click outside
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModals();
+        });
+
+        // Hook up list view edit buttons to the modal too
+        document.querySelectorAll('.edit-plot-btn').forEach(btn => {
+            btn.addEventListener('click', openModal);
+        });
+
+        // Add feedback for Bulk Create button
+        const bulkBtn = document.querySelector('.page-header .btn-primary');
+        if (bulkBtn) {
+            bulkBtn.addEventListener('click', () => {
+                alert('Opening Bulk Create Wizard (Prototype)');
+            });
+        }
+
+        // Add feedback for Save Changes in Modal
+        const saveModalBtn = document.querySelector('.modal-footer .btn-primary');
+        if (saveModalBtn) {
+            saveModalBtn.addEventListener('click', () => {
+                alert('Plot details updated successfully!');
+                closeModals();
+            });
+        }
+
+        // Sync dynamically generated Locations into Local Dashboard Filters on load
+        function syncAdminFilters() {
+            let locsStr = localStorage.getItem('sr_locations');
+            if (!locsStr) return;
+            let locations = JSON.parse(locsStr);
+            const locSelect = document.getElementById('projectFilter'); // ID in Inventory
+
+            if (locSelect && locations.length > 0) {
+                // Keep the default "Beverly Hills Estate" 
+                locSelect.innerHTML = '<option value="">Beverly Hills Estate</option>';
+                locations.forEach(loc => {
+                    const opt = document.createElement('option');
+                    opt.value = loc;
+                    opt.textContent = `Project in ${loc}`; // Match naming convention visually 
+                    locSelect.appendChild(opt);
+                });
+            }
+        }
+        syncAdminFilters();
+
+        // Handle dummy links
+        document.querySelectorAll('a[href="#"]').forEach(el => {
+            if (!el.id && !el.classList.contains('mobile-nav-toggle')) {
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (el.tagName === 'A' || el.textContent.trim()) {
+                        alert('Prototype: This action is disabled.');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

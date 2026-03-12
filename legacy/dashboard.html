@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | SR Property Advisors</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/src/dashboard.css">
+</head>
+
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon">
+                    <i class="ri-building-4-fill" style="font-size: 14px;"></i>
+                </div>
+                SR Advisory Admin
+            </div>
+        </div>
+
+        <div class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-title">Menu</div>
+                <a href="dashboard.html" class="nav-item active">
+                    <i class="ri-dashboard-line"></i> Dashboard
+                </a>
+                <a href="projects-admin.html" class="nav-item">
+                    <i class="ri-building-line"></i> Projects
+                </a>
+                <a href="inventory.html" class="nav-item">
+                    <i class="ri-map-pin-line"></i> Plot Inventory
+                </a>
+                <a href="locations.html" class="nav-item">
+                    <i class="ri-compass-3-line"></i> Locations
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Sales & CRM</div>
+                <a href="leads.html" class="nav-item">
+                    <i class="ri-inbox-archive-line"></i> Inquiries
+                </a>
+                <a href="leads.html" class="nav-item">
+                    <i class="ri-user-star-line"></i> Leads
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">System</div>
+                <a href="file-manager.html" class="nav-item">
+                    <i class="ri-folder-open-line"></i> File Manager
+                </a>
+                <a href="index.html" class="nav-item">
+                    <i class="ri-global-line"></i> Main Website
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Top Header -->
+        <header class="top-header">
+            <div style="display: flex; align-items: center;">
+                <button class="mobile-nav-toggle" id="mobileMenuBtn">
+                    <i class="ri-menu-2-line"></i>
+                </button>
+                <div class="search-container">
+                    <i class="ri-search-line"></i>
+                    <input type="text" class="search-input" placeholder="Search projects, plots, or leads...">
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="icon-btn">
+                    <i class="ri-notification-3-line"></i>
+                    <span class="notification-badge"></span>
+                </button>
+                <div class="user-profile">
+                    <div style="text-align: right; display: none; @media(min-width: 640px) { display: block; }">
+                        <div class="text-sm font-semibold">Alex Consultants</div>
+                        <div class="text-xs text-muted">Admin</div>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Alex+Consultants&background=0D8ABC&color=fff"
+                        alt="User Avatar" class="avatar">
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content Area -->
+        <div class="dashboard-content">
+
+            <div class="page-header">
+                <div>
+                    <h1 class="text-xl">Overview</h1>
+                    <p class="text-sm mt-1">Here's what's happening with your properties today.</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-outline"><i class="ri-download-line"></i> Export</button>
+                    <button class="btn btn-primary"><i class="ri-add-line"></i> Add Project</button>
+                </div>
+            </div>
+
+            <!-- Widgets -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">Total Projects</span>
+                        <div class="metric-icon blue"><i class="ri-building-2-line"></i></div>
+                    </div>
+                    <div class="metric-value">24</div>
+                    <div class="metric-trend trend-up">
+                        <i class="ri-arrow-right-up-line"></i> 12% from last month
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">Total Plots</span>
+                        <div class="metric-icon purple"><i class="ri-map-pin-range-line"></i></div>
+                    </div>
+                    <div class="metric-value">1,492</div>
+                    <div class="metric-trend trend-up">
+                        <i class="ri-arrow-right-up-line"></i> 4% from last month
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">Available Plots</span>
+                        <div class="metric-icon green"><i class="ri-check-double-line"></i></div>
+                    </div>
+                    <div class="metric-value">342</div>
+                    <div class="metric-trend text-muted">
+                        <span>22% of total inventory</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">New Inquiries</span>
+                        <div class="metric-icon orange"><i class="ri-mail-star-line"></i></div>
+                    </div>
+                    <div class="metric-value">89</div>
+                    <div class="metric-trend trend-down">
+                        <i class="ri-arrow-right-down-line"></i> 2% from last week
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="text-base">Plot Sales (Last 6 Months)</h3>
+                        <select class="filter-select" style="background-color: transparent; border: none;">
+                            <option>Monthly</option>
+                            <option>Weekly</option>
+                        </select>
+                    </div>
+                    <!-- Mock Bar Chart -->
+                    <div class="mock-bar-chart">
+                        <div class="bar" style="height: 40%;" title="Jan: 40"></div>
+                        <div class="bar" style="height: 60%;" title="Feb: 60"></div>
+                        <div class="bar" style="height: 30%;" title="Mar: 30"></div>
+                        <div class="bar" style="height: 80%;" title="Apr: 80"></div>
+                        <div class="bar" style="height: 50%;" title="May: 50"></div>
+                        <div class="bar" style="height: 90%;" title="Jun: 90"></div>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; margin-top: 12px; color: var(--dash-text-muted); font-size: 12px; font-weight: 500;">
+                        <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="text-base">Inquiries Trend</h3>
+                    </div>
+                    <!-- Mock Line Chart area -->
+                    <div class="mock-line-chart"></div>
+                    <div style="margin-top: 16px;">
+                        <div class="text-sm font-semibold">Overall Traffic</div>
+                        <div class="text-xs text-muted mt-1">+14.5% compared to prior month. Increase driven by new
+                            Beverly Hills listing.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="table-card">
+                <div class="table-header">
+                    <h3 class="text-base">Recent Inventory Updates</h3>
+                    <div class="table-filters">
+                        <select class="filter-select">
+                            <option>All Projects</option>
+                            <option>Beverly Hills Estate</option>
+                            <option>Skyline Penthouse</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>Status</option>
+                            <option>Available</option>
+                            <option>Sold</option>
+                            <option>Pending</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable">Plot / Unit <i class="ri-expand-up-down-line"></i></th>
+                                <th class="sortable">Project <i class="ri-expand-up-down-line"></i></th>
+                                <th class="sortable">Price <i class="ri-expand-up-down-line"></i></th>
+                                <th>Status</th>
+                                <th>Assigned Agent</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="font-medium text-main">Villa 1A</div>
+                                    <div class="text-xs text-muted mt-1">6,200 sqft • 5 beds</div>
+                                </td>
+                                <td>Beverly Hills Estate</td>
+                                <td class="font-medium">$4,500,000</td>
+                                <td><span class="status status-active">Available</span></td>
+                                <td>
+                                    <div style="display:flex; align-items:center; gap:8px;"><img
+                                            src="https://ui-avatars.com/api/?name=Michael+S&background=random&size=24"
+                                            style="border-radius:50%"> Michael S.</div>
+                                </td>
+                                <td style="text-align: right;">
+                                    <button class="icon-btn"><i class="ri-edit-line"></i></button>
+                                    <button class="icon-btn" style="margin-left:8px;"><i
+                                            class="ri-more-2-fill"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="font-medium text-main">Unit 402</div>
+                                    <div class="text-xs text-muted mt-1">3,100 sqft • 3 beds</div>
+                                </td>
+                                <td>Skyline Penthouse</td>
+                                <td class="font-medium">$2,100,000</td>
+                                <td><span class="status status-pending">Pending</span></td>
+                                <td>
+                                    <div style="display:flex; align-items:center; gap:8px;"><img
+                                            src="https://ui-avatars.com/api/?name=Sarah+J&background=random&size=24"
+                                            style="border-radius:50%"> Sarah J.</div>
+                                </td>
+                                <td style="text-align: right;">
+                                    <button class="icon-btn"><i class="ri-edit-line"></i></button>
+                                    <button class="icon-btn" style="margin-left:8px;"><i
+                                            class="ri-more-2-fill"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="font-medium text-main">Villa 1B</div>
+                                    <div class="text-xs text-muted mt-1">5,500 sqft • 4 beds</div>
+                                </td>
+                                <td>Beverly Hills Estate</td>
+                                <td class="font-medium">$3,950,000</td>
+                                <td><span class="status status-sold">Sold</span></td>
+                                <td>
+                                    <div style="display:flex; align-items:center; gap:8px;"><img
+                                            src="https://ui-avatars.com/api/?name=Michael+S&background=random&size=24"
+                                            style="border-radius:50%"> Michael S.</div>
+                                </td>
+                                <td style="text-align: right;">
+                                    <button class="icon-btn"><i class="ri-edit-line"></i></button>
+                                    <button class="icon-btn" style="margin-left:8px;"><i
+                                            class="ri-more-2-fill"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="font-medium text-main">Phase 2 Plot A</div>
+                                    <div class="text-xs text-muted mt-1">12,000 sqft • Land</div>
+                                </td>
+                                <td>Coastal Retreat</td>
+                                <td class="font-medium">$1,200,000</td>
+                                <td><span class="status status-active">Available</span></td>
+                                <td><span class="text-muted text-xs">Unassigned</span></td>
+                                <td style="text-align: right;">
+                                    <button class="icon-btn"><i class="ri-edit-line"></i></button>
+                                    <button class="icon-btn" style="margin-left:8px;"><i
+                                            class="ri-more-2-fill"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <div class="pagination-info">Showing 1 to 4 of 342 entries</div>
+                    <div class="pagination-controls">
+                        <button class="page-btn" disabled><i class="ri-arrow-left-s-line"></i></button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <span
+                            style="padding: 0 4px; display: flex; align-items: center; color: var(--dash-text-muted);">...</span>
+                        <button class="page-btn">86</button>
+                        <button class="page-btn"><i class="ri-arrow-right-s-line"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Sync dynamically generated Locations into Local Dashboard Filters on load
+        function syncAdminFilters() {
+            let locsStr = localStorage.getItem('sr_locations');
+            if (!locsStr) return;
+            let locations = JSON.parse(locsStr);
+            const locSelect = document.getElementById('locationFilter');
+
+            // Re-render select options holding the custom ones 
+            if (locSelect && locations.length > 0) {
+                // Keep the default "All Locations"
+                locSelect.innerHTML = '<option value="">All Locations</option>';
+                locations.forEach(loc => {
+                    const opt = document.createElement('option');
+                    opt.value = loc;
+                    opt.textContent = loc;
+                    locSelect.appendChild(opt);
+                });
+            }
+        }
+        syncAdminFilters();
+
+        // Simple toggle for mobile sidebar
+        document.getElementById('mobileMenuBtn').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Handle dummy links
+        document.querySelectorAll('a[href="#"]').forEach(el => {
+            if (!el.id && !el.classList.contains('mobile-nav-toggle')) {
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (el.tagName === 'A' || el.textContent.trim()) {
+                        alert('Prototype: This action is disabled.');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
