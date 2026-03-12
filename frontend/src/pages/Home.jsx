@@ -17,15 +17,15 @@ const Home = () => {
         <div className="container">
           <div className="hero-content animate-fade-in">
             <span className="badge badge-blue mb-4 glass-dark" style={{ border: 'none' }}>Premium Advisory</span>
-            <h1 className="text-h1 mb-4">Discover Extraordinary<br/>Properties Worldwide.</h1>
-            <p className="text-body-large" style={{ color: 'rgba(255,255,255,0.8)', maxWidth: '600px' }}>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 font-sans tracking-tight">Discover Extraordinary<br/>Properties Worldwide.</h1>
+            <p className="text-lg md:text-xl lg:text-2xl mt-6 mb-8" style={{ color: 'rgba(255,255,255,0.8)', maxWidth: '700px' }}>
               Expert guidance in curating and acquiring luxury real estate. Find your next premium investment with SR
               Property Advisors.
             </p>
 
-            <div className="search-bar glass-dark">
+            <div className="search-bar glass-dark w-full md:w-[85%] lg:w-full max-w-[900px]">
               <form className="search-form" action="/projects">
-                <input type="text" placeholder="Location, City, or ZIP" className="input-base" style={{ flex: 1 }} />
+                <input type="text" placeholder="Location, City, or ZIP" className="input-base text-sm md:text-base" style={{ flex: 1 }} />
                 <div className="search-divider"></div>
                 <select className="input-base" style={{ width: 'auto', background: 'transparent', color: 'white', border: 'none' }}>
                   <option value="" style={{ color: 'black' }}>Property Type</option>
@@ -44,12 +44,12 @@ const Home = () => {
       </section>
 
       {/* Services Overview */}
-      <section className="py-20" style={{ backgroundColor: 'var(--color-bg-alt)' }}>
+      <section className="py-16 md:py-20" style={{ backgroundColor: 'var(--color-bg-alt)' }}>
         <div className="container">
           <div className="text-center mb-8" style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 3rem' }}>
             <span className="section-badge">Our Expertise</span>
-            <h2 className="text-h2 text-main">Comprehensive Real Estate Services</h2>
-            <p className="text-body mt-4">We provide end-to-end advisory for high-net-worth individuals seeking premium real
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-main">Comprehensive Real Estate Services</h2>
+            <p className="text-base md:text-lg mt-4 text-muted">We provide end-to-end advisory for high-net-worth individuals seeking premium real
               estate investments.</p>
           </div>
 
@@ -77,16 +77,16 @@ const Home = () => {
       </section>
 
       {/* Featured Projects */}
-      <section className="py-20">
+      <section className="py-16 md:py-20">
         <div className="container">
           <div className="flex items-center justify-between mb-8">
             <div>
               <span className="section-badge">Featured Portfolio</span>
-              <h2 className="text-h2 text-main">Exclusive Properties</h2>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-main">Exclusive Properties</h2>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
             {/* Card 1 */}
             <Link to="/property/1" className="card">
               <div className="property-image-container">
@@ -154,7 +154,7 @@ const Home = () => {
       </section>
 
       {/* Trust / Stats Section */}
-      <section className="py-16" style={{ backgroundColor: 'var(--color-primary)', color: 'white' }}>
+      <section className="py-16 md:py-20" style={{ backgroundColor: 'var(--color-primary)', color: 'white' }}>
         <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6" style={{ textAlign: 'center' }}>
             <div>

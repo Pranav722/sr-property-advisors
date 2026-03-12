@@ -306,8 +306,8 @@ button {
 
 /* Dashboard Content Area */
 .dashboard-content {
-    padding: 32px;
-    max-width: 1440px;
+    padding: 24px;
+    max-width: 1400px;
     width: 100%;
     margin: 0 auto;
 }

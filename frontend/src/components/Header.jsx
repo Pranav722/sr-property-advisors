@@ -55,7 +55,7 @@ const Header = () => {
         </div>
 
         {/* Right Side: Auth / CTA (Desktop only) */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-4 lg:gap-6 2xl:gap-8">
             {!isLoggedIn ? (
               <Link to="/login" className="nav-link font-medium">Login / Account</Link>
             ) : (

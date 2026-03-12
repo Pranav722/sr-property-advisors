@@ -13,8 +13,8 @@ const Projects = () => {
             {/* Page Header */}
             <header className="page-header">
                 <div className="container">
-                    <h1 className="text-h2 text-main mb-4">Exclusive Properties</h1>
-                    <p className="text-body-large">Curated selection of premium real estate investments worldwide.</p>
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-main mb-4">Exclusive Properties</h1>
+                    <p className="text-lg md:text-xl text-muted">Curated selection of premium real estate investments worldwide.</p>
                 </div>
             </header>
 
@@ -73,7 +73,7 @@ const Projects = () => {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
                             {/* Card 1 */}
                             <Link to="/property/1" className="card">
                                 <div className="property-image-container">

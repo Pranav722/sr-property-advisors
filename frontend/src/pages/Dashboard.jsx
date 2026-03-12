@@ -28,7 +28,7 @@ const Dashboard = () => {
                     </div>
 
                     {/* Widgets */}
-                    <div className="metrics-grid">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-8">
                         <div className="metric-card">
                             <div className="metric-header">
                                 <span className="metric-title">Total Projects</span>
@@ -130,7 +130,7 @@ const Dashboard = () => {
                             </div>
                         </div>
 
-                        <div className="table-responsive">
+                        <div className="table-responsive overflow-x-auto">
                             <table className="admin-table">
                                 <thead>
                                     <tr>
