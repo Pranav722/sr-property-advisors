@@ -87,34 +87,38 @@ const Leads = () => {
             <main className={`main-content ${selectedLead && window.innerWidth > 1024 ? 'panel-open' : ''}`}>
                 <AdminHeader onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
 
-                <div className="app-content" style={{ padding: '30px' }}>
-                    <div className="page-header" style={{ flexWrap: 'wrap', gap: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
-                        <div>
-                            <h1 className="text-xl font-bold" style={{ fontSize: '24px', letterSpacing: '-0.5px' }}>Website Inquiries</h1>
-                            <p className="text-sm mt-1" style={{ marginTop: '4px', color: 'var(--dash-text-muted)' }}>Track and manage incoming leads from property pages.</p>
+                {/* Dark Hero Header */}
+                <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', padding: '2rem 2rem 1.5rem' }}>
+                    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
+                            <div>
+                                <h1 style={{ color: '#fff', fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.03em', margin: 0 }}>Website Inquiries</h1>
+                                <p style={{ color: '#94a3b8', marginTop: '0.35rem', fontSize: '0.9rem', margin: '0.35rem 0 0' }}>Track and manage incoming leads from property pages.</p>
+                            </div>
                         </div>
 
-                        <div className="view-filters" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-                            <div className="filter-group" style={{ display: 'flex', alignItems: 'center', background: 'white', border: '1px solid var(--dash-border)', borderRadius: 'var(--dash-radius)', padding: '6px 12px' }}>
-                                <i className="ri-search-line filter-icon" style={{ color: 'var(--dash-text-muted)', marginRight: '8px' }}></i>
-                                <input type="text" className="filter-input" placeholder="Search by name, email, or phone..." style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '13px', width: '220px' }} />
+                        {/* Filters row inside hero */}
+                        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '10px', padding: '0.5rem 1rem' }}>
+                                <i className="ri-search-line" style={{ color: '#94a3b8', marginRight: '8px' }} />
+                                <input type="text" className="filter-input" placeholder="Search by name, email, or phone..." style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '13px', width: '220px', color: '#fff' }} />
                             </div>
-                            <div className="filter-group" style={{ display: 'flex', gap: '12px', background: 'white', border: '1px solid var(--dash-border)', borderRadius: 'var(--dash-radius)', padding: '4px 8px' }}>
-                                <select className="filter-select" style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '13px' }}>
+                            <div style={{ display: 'flex', gap: '8px', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '10px', padding: '0.4rem 0.75rem' }}>
+                                <select style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '13px', color: '#e2e8f0' }}>
                                     <option>All Statuses</option>
                                     <option>New Lead</option>
                                     <option>Contacted</option>
                                     <option>Archived</option>
                                 </select>
-                                <div className="filter-divider" style={{ width: '1px', backgroundColor: 'var(--dash-border)', margin: '4px 0' }}></div>
-                                <select className="filter-select" style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '13px' }}>
+                                <div style={{ width: '1px', background: 'rgba(255,255,255,0.15)', margin: '4px 4px' }} />
+                                <select style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '13px', color: '#e2e8f0' }}>
                                     <option>All Dates</option>
                                     <option>Today</option>
                                     <option>Last 7 Days</option>
                                     <option>This Month</option>
                                 </select>
-                                <div className="filter-divider" style={{ width: '1px', backgroundColor: 'var(--dash-border)', margin: '4px 0' }}></div>
-                                <select className="filter-select" style={{ minWidth: '160px', border: 'none', background: 'transparent', outline: 'none', fontSize: '13px' }}>
+                                <div style={{ width: '1px', background: 'rgba(255,255,255,0.15)', margin: '4px 4px' }} />
+                                <select style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '13px', color: '#e2e8f0', minWidth: '140px' }}>
                                     <option>Assignee: Any</option>
                                     <option>Alex C.</option>
                                     <option>Sarah J.</option>
@@ -122,6 +126,9 @@ const Leads = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div className="app-content" style={{ padding: '30px' }}>
 
                     <div className="data-card" style={{ background: 'white', borderRadius: 'var(--dash-radius)', border: '1px solid var(--dash-border)', boxShadow: 'var(--dash-shadow-sm)', overflow: 'hidden' }}>
                         <div className="table-wrapper" style={{ overflowX: 'auto' }}>

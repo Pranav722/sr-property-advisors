@@ -57,13 +57,17 @@ const UsersAdmin = () => {
             <main className="main-content" style={{ flex: 1, minWidth: 0 }}>
                 <AdminHeader onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
 
-                <div className="dashboard-content" style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1.5rem' }}>
-                    <div className="page-header" style={{ marginBottom: '2rem' }}>
+                {/* Dark Hero Header */}
+                <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', padding: '2rem 2rem 1.5rem' }}>
+                    <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
                         <div>
-                            <h1 style={{ fontSize: '1.5rem', fontWeight: 700 }}>Admin Management</h1>
-                            <p style={{ marginTop: '0.25rem', color: '#64748b' }}>Manage website administrators and staff roles.</p>
+                            <h1 style={{ color: '#fff', fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.03em', margin: 0 }}>Staff & Admins</h1>
+                            <p style={{ color: '#94a3b8', marginTop: '0.35rem', fontSize: '0.9rem', margin: '0.35rem 0 0' }}>Manage website administrators and staff roles.</p>
                         </div>
                     </div>
+                </div>
+
+                <div className="dashboard-content" style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1.5rem' }}>
 
                     <div className="table-card" style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
                         <div className="table-responsive">
