@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import AdminSidebar from '../components/AdminSidebar';
+import AdminHeader from '../components/AdminHeader';
 import api from '../services/api';
 import '../dashboard.css';
 
@@ -55,6 +57,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [toasts, setToasts] = useState([]);
   const [modal, setModal] = useState(null); // { type: 'inquiry' | 'project' | 'viewInquiry', data?: {} }
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Form states
   const [projectForm, setProjectForm] = useState({ name: '', location: '', type: 'Apartment', price: '', status: 'For Sale', description: '' });
@@ -166,30 +169,17 @@ const Dashboard = () => {
   const s = { width: '100%', ...inputStyle };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ backgroundColor: 'var(--dash-bg)', minHeight: '100vh', display: 'flex', fontFamily: "'Inter', sans-serif", color: 'var(--dash-text-main)' }}>
       <Toast messages={toasts} onDismiss={dismissToast} />
 
-      {/* ─── Admin TopBar ─── */}
-      <header style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: 0, zIndex: 50, padding: '0 1.5rem' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, fontSize: '1.2rem', color: '#0f172a', textDecoration: 'none' }}>
-              <i className="ri-building-4-fill" style={{ color: '#2563eb' }} /> SR Property
-            </Link>
-            <span style={{ padding: '0.2rem 0.6rem', background: '#eff6ff', color: '#2563eb', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.05em' }}>ADMIN</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <span style={{ fontSize: '0.875rem', color: '#64748b' }}>👋 {userInfo?.name || 'Admin'}</span>
-            <button onClick={handleLogout} style={{ padding: '0.5rem 1rem', background: '#fee2e2', color: '#dc2626', border: 'none', borderRadius: '8px', fontWeight: 600, cursor: 'pointer', fontSize: '0.875rem' }}>
-              <i className="ri-logout-circle-r-line" /> Logout
-            </button>
-          </div>
-        </div>
-      </header>
+      <AdminSidebar open={sidebarOpen} />
 
-      <main style={{ maxWidth: '1400px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+      <main className="main-content" style={{ flex: 1, minWidth: 0 }}>
+        <AdminHeader onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
 
-        {/* ─── Page Title ─── */}
+        <div className="dashboard-content" style={{ maxWidth: '1400px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+
+          {/* ─── Page Title ─── */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
           <div>
             <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a' }}>Dashboard</h1>
@@ -327,6 +317,7 @@ const Dashboard = () => {
               </table>
             </div>
           )}
+          </div>
         </div>
       </main>
 
