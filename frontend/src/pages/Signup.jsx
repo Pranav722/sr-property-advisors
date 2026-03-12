@@ -3,10 +3,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { authService } from '../services/api';
 
-const Login = () => {
+const Signup = () => {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -35,19 +36,19 @@ const Login = () => {
         setError('Google Login was unsuccessful. Please try again.');
     };
 
-    const handleEmailLogin = async (e) => {
+    const handleEmailSignup = async (e) => {
         e.preventDefault();
         try {
             setError(null);
             setIsLoading(true);
-            const { data } = await authService.login({ email, password });
+            const { data } = await authService.register({ name, email, password });
             
             localStorage.setItem('token', data.token);
             localStorage.setItem('userInfo', JSON.stringify(data));
             
             navigate('/dashboard');
         } catch (err) {
-            setError(err.response?.data?.message || 'Invalid email or password');
+            setError(err.response?.data?.message || 'Failed to create account. Email may already be registered.');
         } finally {
             setIsLoading(false);
         }
@@ -64,7 +65,7 @@ const Login = () => {
                 </p>
             </div>
 
-            {/* Right Box - Login Form */}
+            {/* Right Box - Signup Form */}
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
                 <div style={{ width: '100%', maxWidth: '420px', backgroundColor: 'white', padding: '40px', borderRadius: '16px', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' }}>
                     
@@ -73,8 +74,8 @@ const Login = () => {
                         <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginTop: '8px', color: 'var(--color-dark)' }}>SR Property Advisors</h1>
                     </div>
 
-                    <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '8px', color: 'var(--color-dark)' }}>Welcome back</h2>
-                    <p style={{ color: 'var(--color-muted)', marginBottom: '32px' }}>Please enter your details to sign in.</p>
+                    <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '8px', color: 'var(--color-dark)' }}>Create an account</h2>
+                    <p style={{ color: 'var(--color-muted)', marginBottom: '32px' }}>Please enter your details to sign up.</p>
 
                     {error && (
                         <div style={{ backgroundColor: '#fee2e2', color: '#b91c1c', padding: '12px', borderRadius: '8px', marginBottom: '24px', fontSize: '14px' }}>
@@ -82,7 +83,18 @@ const Login = () => {
                         </div>
                     )}
 
-                    <form onSubmit={handleEmailLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <form onSubmit={handleEmailSignup} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <div>
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'var(--color-dark)', marginBottom: '8px' }}>Name</label>
+                            <input 
+                                type="text" 
+                                required
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', border: '1px solid var(--color-border)', outline: 'none', transition: 'border-color 0.2s', minHeight: '48px', fontSize: '16px' }} 
+                                placeholder="John Doe" 
+                            />
+                        </div>
                         <div>
                             <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'var(--color-dark)', marginBottom: '8px' }}>Email</label>
                             <input 
@@ -103,15 +115,8 @@ const Login = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', border: '1px solid var(--color-border)', outline: 'none', transition: 'border-color 0.2s', minHeight: '48px', fontSize: '16px' }} 
                                 placeholder="••••••••" 
+                                minLength="6"
                             />
-                        </div>
-
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '14px' }}>
-                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-muted)', cursor: 'pointer' }}>
-                                <input type="checkbox" style={{ accentColor: 'var(--color-primary)' }} />
-                                Remember for 30 days
-                            </label>
-                            <a href="#" style={{ color: 'var(--color-primary)', fontWeight: '500', textDecoration: 'none' }}>Forgot password?</a>
                         </div>
 
                         <button 
@@ -129,10 +134,11 @@ const Login = () => {
                                 opacity: isLoading ? 0.7 : 1,
                                 transition: 'background-color 0.2s',
                                 minHeight: '48px',
-                                fontSize: '16px'
+                                fontSize: '16px',
+                                marginTop: '12px'
                             }}
                         >
-                            {isLoading ? 'Signing in...' : 'Sign In'}
+                            {isLoading ? 'Signing up...' : 'Create Account'}
                         </button>
                     </form>
 
@@ -149,14 +155,14 @@ const Login = () => {
                             useOneTap
                             theme="outline"
                             size="large"
-                            text="continue_with"
+                            text="signup_with"
                             shape="rectangular"
                             width="100%"
                         />
                     </div>
 
                     <div style={{ textAlign: 'center', marginTop: '32px', fontSize: '14px', color: 'var(--color-muted)' }}>
-                        Don't have an account? <Link to="/signup" style={{ color: 'var(--color-primary)', fontWeight: '600', textDecoration: 'none' }}>Create an account</Link>
+                        Already have an account? <Link to="/login" style={{ color: 'var(--color-primary)', fontWeight: '600', textDecoration: 'none' }}>Sign In</Link>
                     </div>
                 </div>
             </div>
@@ -164,4 +170,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signup;
