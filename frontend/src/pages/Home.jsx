@@ -44,7 +44,7 @@ const Home = () => {
       </section>
 
       {/* Services Overview */}
-      <section className="py-24" style={{ backgroundColor: 'var(--color-bg-alt)' }}>
+      <section className="py-20" style={{ backgroundColor: 'var(--color-bg-alt)' }}>
         <div className="container">
           <div className="text-center mb-8" style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 3rem' }}>
             <span className="section-badge">Our Expertise</span>
@@ -53,7 +53,7 @@ const Home = () => {
               estate investments.</p>
           </div>
 
-          <div className="grid-cols-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="card service-card">
               <div className="service-icon"><i className="ri-home-smile-2-line"></i></div>
               <h3 className="text-h4 mb-4 text-main">Property Acquisition</h3>
@@ -77,7 +77,7 @@ const Home = () => {
       </section>
 
       {/* Featured Projects */}
-      <section className="py-24">
+      <section className="py-20">
         <div className="container">
           <div className="flex items-center justify-between mb-8">
             <div>
@@ -86,7 +86,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="grid-cols-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {/* Card 1 */}
             <Link to="/property/1" className="card">
               <div className="property-image-container">
@@ -156,7 +156,7 @@ const Home = () => {
       {/* Trust / Stats Section */}
       <section className="py-16" style={{ backgroundColor: 'var(--color-primary)', color: 'white' }}>
         <div className="container">
-          <div className="grid-cols-4" style={{ textAlign: 'center' }}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6" style={{ textAlign: 'center' }}>
             <div>
               <div className="text-h2" style={{ color: 'var(--color-accent)', marginBottom: '0.5rem' }}>$2B+</div>
               <div className="text-body" style={{ color: 'rgba(255,255,255,0.7)' }}>Property Sales</div>

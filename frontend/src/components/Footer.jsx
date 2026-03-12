@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="container">
-        <div className="grid-cols-4" style={{ gap: '3rem', paddingBottom: '3rem', borderBottom: '1px solid rgba(255,255,255,0.1)', marginBottom: '2rem' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12" style={{ paddingBottom: '3rem', borderBottom: '1px solid rgba(255,255,255,0.1)', marginBottom: '2rem' }}>
           <div style={{ gridColumn: 'span 1' }}>
             <Link to="/" className="logo mb-4">
               <i className="ri-building-4-fill"></i> SR Property
