@@ -27,8 +27,51 @@ export const createInquiry = async (req, res, next) => {
 // @access  Private
 export const getInquiries = async (req, res, next) => {
   try {
-    const inquiries = await Inquiry.find({}).populate('assignedTo', 'name');
+    const inquiries = await Inquiry.find({}).sort({ createdAt: -1 }).populate('assignedTo', 'name');
     res.json(inquiries);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Update inquiry (status / add note)
+// @route   PUT /api/inquiries/:id
+// @access  Private
+export const updateInquiry = async (req, res, next) => {
+  try {
+    const inquiry = await Inquiry.findById(req.params.id);
+    if (!inquiry) {
+      res.status(404);
+      throw new Error('Inquiry not found');
+    }
+
+    if (req.body.status) inquiry.status = req.body.status;
+    if (req.body.assignedTo !== undefined) inquiry.assignedTo = req.body.assignedTo || null;
+
+    // Append a note if provided
+    if (req.body.note) {
+      inquiry.notes.push({ text: req.body.note });
+    }
+
+    const updated = await inquiry.save();
+    res.json(updated);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Delete an inquiry
+// @route   DELETE /api/inquiries/:id
+// @access  Private
+export const deleteInquiry = async (req, res, next) => {
+  try {
+    const inquiry = await Inquiry.findById(req.params.id);
+    if (!inquiry) {
+      res.status(404);
+      throw new Error('Inquiry not found');
+    }
+    await inquiry.deleteOne();
+    res.json({ success: true, message: 'Inquiry deleted' });
   } catch (error) {
     next(error);
   }

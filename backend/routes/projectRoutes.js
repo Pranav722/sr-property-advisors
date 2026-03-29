@@ -22,7 +22,17 @@ router.route('/')
   );
 
 router.route('/:id')
-  .put(protect, admin, projectValidationRules(), validateRequest, updateProject)
+  .put(
+    protect,
+    admin,
+    upload.fields([
+      { name: 'coverImage', maxCount: 1 },
+      { name: 'gallery', maxCount: 10 },
+    ]),
+    projectValidationRules(),
+    validateRequest,
+    updateProject
+  )
   .delete(protect, admin, deleteProject);
 
 export default router;

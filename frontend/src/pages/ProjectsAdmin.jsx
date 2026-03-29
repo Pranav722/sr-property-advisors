@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
 import Toast from '../components/Toast';
 import api from '../services/api';
 import '../dashboard.css';
 
-const PAGE_HERO_STYLE = {
-    background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-    padding: '2rem 2rem 1.5rem',
-    marginBottom: '0',
-};
+const BASE_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000';
 
 const ProjectsAdmin = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -21,12 +17,15 @@ const ProjectsAdmin = () => {
     const [saving, setSaving] = useState(false);
     const [toasts, setToasts] = useState([]);
     const [search, setSearch] = useState('');
+    const [coverFile, setCoverFile] = useState(null);
+    const [coverPreview, setCoverPreview] = useState(null);
+    const fileRef = useRef(null);
 
     const addToast = (msg, type = 'success') => setToasts(p => [...p, { id: Date.now(), message: msg, type }]);
     const dismissToast = (id) => setToasts(p => p.filter(t => t.id !== id));
 
     const [form, setForm] = useState({
-        title: '', location: '', type: 'Apartment', status: 'Available', description: '', mapEmbedLink: ''
+        title: '', location: '', type: 'Apartment', status: 'Available', description: '', mapEmbedLink: '', price: ''
     });
 
     useEffect(() => {
@@ -50,13 +49,13 @@ const ProjectsAdmin = () => {
         try {
             const { data } = await api.get('/locations');
             setLocations(Array.isArray(data) ? data : (data?.data || []));
-        } catch {
-            // silently ignore — locations filter won't work but page is still usable
-        }
+        } catch { /* silently ignore */ }
     };
 
     const openNew = () => {
-        setForm({ title: '', location: '', type: 'Apartment', status: 'Available', description: '', mapEmbedLink: '' });
+        setForm({ title: '', location: '', type: 'Apartment', status: 'Available', description: '', mapEmbedLink: '', price: '' });
+        setCoverFile(null);
+        setCoverPreview(null);
         setEditingProject(null);
         setModalOpen(true);
     };
@@ -69,9 +68,19 @@ const ProjectsAdmin = () => {
             status: p.status || 'Available',
             description: p.description || '',
             mapEmbedLink: p.mapEmbedLink || '',
+            price: p.price || '',
         });
+        setCoverFile(null);
+        setCoverPreview(p.coverImage ? `${BASE_URL}${p.coverImage}` : null);
         setEditingProject(p);
         setModalOpen(true);
+    };
+
+    const handleCoverChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        setCoverFile(file);
+        setCoverPreview(URL.createObjectURL(file));
     };
 
     const handleSave = async (e) => {
@@ -80,17 +89,21 @@ const ProjectsAdmin = () => {
         if (!form.location) return addToast('Please select a location', 'error');
         setSaving(true);
         try {
+            const fd = new FormData();
+            Object.entries(form).forEach(([k, v]) => fd.append(k, v));
+            if (coverFile) fd.append('coverImage', coverFile);
+
             if (editingProject) {
-                await api.put(`/projects/${editingProject._id}`, form);
+                await api.put(`/projects/${editingProject._id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
                 addToast('Project updated!', 'success');
             } else {
-                await api.post('/projects', form);
-                addToast('Project created!', 'success');
+                await api.post('/projects', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+                addToast('Project created! Folder auto-created in File Manager.', 'success');
             }
             setModalOpen(false);
             fetchProjects();
         } catch (err) {
-            addToast(err?.response?.data?.message || 'Failed to save project', 'error');
+            addToast(err?.response?.data?.message || err?.response?.data?.errors?.[0]?.msg || 'Failed to save project', 'error');
         } finally {
             setSaving(false);
         }
@@ -109,8 +122,8 @@ const ProjectsAdmin = () => {
 
     const STATUS_COLORS = {
         Available: { bg: '#ecfdf5', color: '#059669' },
-        Upcoming: { bg: '#eff6ff', color: '#2563eb' },
-        'Sold Out': { bg: '#fef2f2', color: '#dc2626' },
+        Upcoming:  { bg: '#eff6ff', color: '#2563eb' },
+        'Sold Out':{ bg: '#fef2f2', color: '#dc2626' },
     };
 
     const filtered = projects.filter(p =>
@@ -133,73 +146,84 @@ const ProjectsAdmin = () => {
                 <AdminHeader onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
 
                 {/* ─── Dark Hero Header ─── */}
-                <div style={PAGE_HERO_STYLE}>
+                <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', padding: '2rem 2rem 1.5rem' }}>
                     <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
                         <div>
                             <h1 style={{ color: '#fff', fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.03em', margin: 0 }}>Projects</h1>
                             <p style={{ color: '#94a3b8', marginTop: '0.35rem', fontSize: '0.9rem', margin: '0.35rem 0 0' }}>Manage property developments, layouts, and listings.</p>
                         </div>
-                        <div style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
-                            <button onClick={openNew} style={{ padding: '0.6rem 1.25rem', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.875rem' }}>
+                        <div style={{ display: 'flex', gap: '10px', flexShrink: 0, alignItems: 'center' }}>
+                            <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: '10px', padding: '0.5rem 1rem', textAlign: 'center', minWidth: '70px' }}>
+                                <div style={{ color: '#fff', fontSize: '1.4rem', fontWeight: 800, lineHeight: 1 }}>{projects.length}</div>
+                                <div style={{ color: '#94a3b8', fontSize: '0.7rem', marginTop: '2px' }}>Projects</div>
+                            </div>
+                            <button onClick={openNew} style={{ padding: '0.65rem 1.25rem', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.875rem' }}>
                                 <i className="ri-add-line" /> New Project
                             </button>
                         </div>
                     </div>
 
-                    {/* Search Bar inside Hero */}
+                    {/* Search Bar */}
                     <div style={{ maxWidth: '1200px', margin: '1.25rem auto 0' }}>
                         <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '10px', padding: '0.5rem 1rem', maxWidth: '360px' }}>
                             <i className="ri-search-line" style={{ color: '#94a3b8', marginRight: '8px' }} />
-                            <input
-                                type="text"
-                                value={search}
-                                onChange={e => setSearch(e.target.value)}
-                                placeholder="Search projects..."
-                                style={{ background: 'transparent', border: 'none', outline: 'none', color: '#fff', fontSize: '0.875rem', width: '100%' }}
-                            />
+                            <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search projects..."
+                                style={{ background: 'transparent', border: 'none', outline: 'none', color: '#fff', fontSize: '0.875rem', width: '100%' }} />
                         </div>
                     </div>
                 </div>
 
                 {/* ─── Table ─── */}
                 <div style={{ maxWidth: '1200px', margin: '1.5rem auto', padding: '0 1.5rem' }}>
-                    <div style={{ background: '#fff', borderRadius: '14px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+                    <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
                         <div style={{ overflowX: 'auto' }}>
                             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
                                 <thead>
                                     <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-                                        {['Title', 'Location', 'Type', 'Status', 'Actions'].map(h => (
-                                            <th key={h} style={{ padding: '1rem 1.25rem', textAlign: h === 'Actions' ? 'right' : 'left', fontWeight: 600, color: '#64748b', fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>{h}</th>
+                                        {['Project', 'Location', 'Type', 'Price', 'Status', 'Actions'].map(h => (
+                                            <th key={h} style={{ padding: '1rem 1.25rem', textAlign: h === 'Actions' ? 'right' : 'left', fontWeight: 600, color: '#64748b', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>{h}</th>
                                         ))}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {loading ? (
-                                        <tr><td colSpan={5} style={{ textAlign: 'center', padding: '3rem', color: '#94a3b8' }}><i className="ri-loader-4-line" style={{ fontSize: '1.5rem' }} /></td></tr>
+                                        <tr><td colSpan={6} style={{ textAlign: 'center', padding: '3rem', color: '#94a3b8' }}><i className="ri-loader-4-line" style={{ fontSize: '1.5rem' }} /></td></tr>
                                     ) : filtered.length === 0 ? (
-                                        <tr><td colSpan={5} style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>
+                                        <tr><td colSpan={6} style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>
                                             <i className="ri-building-line" style={{ fontSize: '2.5rem', opacity: 0.3, display: 'block', marginBottom: '0.5rem' }} />
                                             {search ? 'No matching projects.' : <span>No projects yet. <button onClick={openNew} style={{ color: '#2563eb', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Add your first →</button></span>}
                                         </td></tr>
                                     ) : filtered.map((p, i) => {
                                         const sc = STATUS_COLORS[p.status] || { bg: '#f1f5f9', color: '#64748b' };
                                         return (
-                                            <tr key={p._id} style={{ borderTop: i === 0 ? 'none' : '1px solid #f1f5f9', background: i % 2 === 0 ? '#fff' : '#fafafa' }}>
-                                                <td style={{ padding: '1rem 1.25rem', fontWeight: 600, color: '#0f172a' }}>{p.title}</td>
+                                            <tr key={p._id} style={{ borderTop: i === 0 ? 'none' : '1px solid #f1f5f9', background: i % 2 === 0 ? '#fff' : '#fafafa', verticalAlign: 'middle' }}>
+                                                <td style={{ padding: '1rem 1.25rem', fontWeight: 600, color: '#0f172a' }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                        {p.coverImage ? (
+                                                            <img src={`${BASE_URL}${p.coverImage}`} alt="" style={{ width: '40px', height: '32px', borderRadius: '6px', objectFit: 'cover', flexShrink: 0, border: '1px solid #e2e8f0' }} />
+                                                        ) : (
+                                                            <div style={{ width: '40px', height: '32px', borderRadius: '6px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                                                <i className="ri-building-line" style={{ color: '#94a3b8' }} />
+                                                            </div>
+                                                        )}
+                                                        {p.title}
+                                                    </div>
+                                                </td>
                                                 <td style={{ padding: '1rem 1.25rem', color: '#64748b' }}>
                                                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                                                         <i className="ri-map-pin-line" /> {p.location?.name || '—'}
                                                     </span>
                                                 </td>
                                                 <td style={{ padding: '1rem 1.25rem', color: '#374151' }}>{p.type || '—'}</td>
+                                                <td style={{ padding: '1rem 1.25rem', color: '#0f172a', fontWeight: 600 }}>{p.price || '—'}</td>
                                                 <td style={{ padding: '1rem 1.25rem' }}>
-                                                    <span style={{ padding: '0.25rem 0.75rem', borderRadius: '999px', fontSize: '0.75rem', fontWeight: 600, background: sc.bg, color: sc.color }}>{p.status}</span>
+                                                    <span style={{ padding: '0.3rem 0.75rem', borderRadius: '999px', fontSize: '0.73rem', fontWeight: 700, background: sc.bg, color: sc.color, whiteSpace: 'nowrap' }}>{p.status}</span>
                                                 </td>
-                                                <td style={{ padding: '1rem 1.25rem', textAlign: 'right' }}>
-                                                    <button onClick={() => openEdit(p)} style={{ background: '#eff6ff', color: '#2563eb', border: 'none', borderRadius: '7px', padding: '0.4rem 0.875rem', cursor: 'pointer', marginRight: '0.5rem', fontSize: '0.8rem', fontWeight: 600 }}>
+                                                <td style={{ padding: '1rem 1.25rem', textAlign: 'right', whiteSpace: 'nowrap' }}>
+                                                    <button onClick={() => openEdit(p)} style={{ background: '#eff6ff', color: '#2563eb', border: 'none', borderRadius: '8px', padding: '0.4rem 0.875rem', cursor: 'pointer', marginRight: '0.5rem', fontSize: '0.8rem', fontWeight: 600 }}>
                                                         <i className="ri-edit-line" /> Edit
                                                     </button>
-                                                    <button onClick={() => handleDelete(p)} style={{ background: '#fef2f2', color: '#dc2626', border: 'none', borderRadius: '7px', padding: '0.4rem 0.875rem', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}>
+                                                    <button onClick={() => handleDelete(p)} style={{ background: '#fef2f2', color: '#dc2626', border: 'none', borderRadius: '8px', padding: '0.4rem 0.875rem', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}>
                                                         <i className="ri-delete-bin-line" /> Delete
                                                     </button>
                                                 </td>
@@ -217,12 +241,35 @@ const ProjectsAdmin = () => {
             {modalOpen && (
                 <div onClick={e => { if (e.target === e.currentTarget) setModalOpen(false); }}
                     style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
-                    <div style={{ background: '#fff', borderRadius: '20px', padding: '2rem', maxWidth: '520px', width: '100%', boxShadow: '0 24px 64px rgba(0,0,0,0.2)', maxHeight: '85vh', overflowY: 'auto' }}>
+                    <div style={{ background: '#fff', borderRadius: '20px', padding: '2rem', maxWidth: '540px', width: '100%', boxShadow: '0 24px 64px rgba(0,0,0,0.2)', maxHeight: '90vh', overflowY: 'auto' }}>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
                             <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a' }}>{editingProject ? 'Edit Project' : 'New Project'}</h3>
                             <button onClick={() => setModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#94a3b8' }}><i className="ri-close-line" /></button>
                         </div>
                         <form onSubmit={handleSave}>
+                            {/* Cover Image */}
+                            <div style={{ marginBottom: '1.25rem' }}>
+                                <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '0.5rem' }}>Cover Image</label>
+                                <div
+                                    onClick={() => fileRef.current?.click()}
+                                    style={{ border: '2px dashed #e2e8f0', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', position: 'relative', height: '140px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    {coverPreview ? (
+                                        <img src={coverPreview} alt="Cover preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    ) : (
+                                        <div style={{ textAlign: 'center', color: '#94a3b8' }}>
+                                            <i className="ri-image-add-line" style={{ fontSize: '2rem', display: 'block', marginBottom: '6px' }} />
+                                            <span style={{ fontSize: '13px' }}>Click to upload cover image</span>
+                                        </div>
+                                    )}
+                                </div>
+                                <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleCoverChange} />
+                                {coverPreview && (
+                                    <button type="button" onClick={() => { setCoverFile(null); setCoverPreview(null); }} style={{ fontSize: '12px', color: '#64748b', background: 'none', border: 'none', cursor: 'pointer', marginTop: '4px' }}>
+                                        Remove image
+                                    </button>
+                                )}
+                            </div>
+
                             <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '0.35rem' }}>Project Title *</label>
                             <input style={inp} placeholder="e.g. Green Valley Residency" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} required />
 
@@ -247,7 +294,10 @@ const ProjectsAdmin = () => {
                                 </div>
                             </div>
 
-                            <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#374151', display: 'block', margin: '1rem 0 0.35rem' }}>Description</label>
+                            <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#374151', display: 'block', margin: '1rem 0 0.35rem' }}>Price (e.g. ₹4.5 Cr)</label>
+                            <input style={inp} placeholder="₹" value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} />
+
+                            <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '0.35rem' }}>Description</label>
                             <textarea style={{ ...inp, minHeight: '80px', resize: 'vertical' }} placeholder="Brief description of the project..." value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} />
 
                             <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '0.35rem' }}>Google Maps Embed Link</label>
