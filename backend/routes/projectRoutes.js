@@ -1,5 +1,5 @@
 import express from 'express';
-import { getProjects, createProject, updateProject, deleteProject } from '../controllers/projectController.js';
+import { getProjects, getProjectById, createProject, updateProject, deleteProject } from '../controllers/projectController.js';
 import { protect, admin } from '../middleware/auth.js';
 import { upload } from '../middleware/upload.js';
 import { projectValidationRules, validateRequest } from '../middleware/validation.js';
@@ -22,6 +22,7 @@ router.route('/')
   );
 
 router.route('/:id')
+  .get(getProjectById)
   .put(
     protect,
     admin,

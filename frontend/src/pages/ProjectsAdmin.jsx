@@ -19,7 +19,10 @@ const ProjectsAdmin = () => {
     const [search, setSearch] = useState('');
     const [coverFile, setCoverFile] = useState(null);
     const [coverPreview, setCoverPreview] = useState(null);
+    const [galleryFiles, setGalleryFiles] = useState([]);      // new uploads
+    const [galleryPreviews, setGalleryPreviews] = useState([]);// {url, existing?}
     const fileRef = useRef(null);
+    const galleryRef = useRef(null);
 
     const addToast = (msg, type = 'success') => setToasts(p => [...p, { id: Date.now(), message: msg, type }]);
     const dismissToast = (id) => setToasts(p => p.filter(t => t.id !== id));
@@ -56,6 +59,8 @@ const ProjectsAdmin = () => {
         setForm({ title: '', location: '', type: 'Apartment', status: 'Available', description: '', mapEmbedLink: '', price: '' });
         setCoverFile(null);
         setCoverPreview(null);
+        setGalleryFiles([]);
+        setGalleryPreviews([]);
         setEditingProject(null);
         setModalOpen(true);
     };
@@ -72,6 +77,10 @@ const ProjectsAdmin = () => {
         });
         setCoverFile(null);
         setCoverPreview(p.coverImage ? `${BASE_URL}${p.coverImage}` : null);
+        // Existing gallery
+        const existingGallery = (p.gallery || []).map(g => ({ url: `${BASE_URL}${g}`, existing: true, path: g }));
+        setGalleryFiles([]);
+        setGalleryPreviews(existingGallery);
         setEditingProject(p);
         setModalOpen(true);
     };
@@ -83,6 +92,29 @@ const ProjectsAdmin = () => {
         setCoverPreview(URL.createObjectURL(file));
     };
 
+    const handleGalleryChange = (e) => {
+        const files = Array.from(e.target.files);
+        if (!files.length) return;
+        const newPreviews = files.map(f => ({ url: URL.createObjectURL(f), existing: false }));
+        setGalleryFiles(prev => [...prev, ...files]);
+        setGalleryPreviews(prev => [...prev, ...newPreviews]);
+        e.target.value = '';
+    };
+
+    const removeGalleryItem = (idx) => {
+        const item = galleryPreviews[idx];
+        // If existing server image, mark for removal
+        if (item.existing) {
+            setGalleryPreviews(prev => prev.filter((_, i) => i !== idx));
+            // We'll track removed on save
+        } else {
+            // New file — count index among non-existing
+            const newIdx = galleryPreviews.slice(0, idx).filter(p => !p.existing).length;
+            setGalleryFiles(prev => prev.filter((_, i) => i !== newIdx));
+            setGalleryPreviews(prev => prev.filter((_, i) => i !== idx));
+        }
+    };
+
     const handleSave = async (e) => {
         e.preventDefault();
         if (!form.title.trim()) return addToast('Project title is required', 'error');
@@ -92,6 +124,15 @@ const ProjectsAdmin = () => {
             const fd = new FormData();
             Object.entries(form).forEach(([k, v]) => fd.append(k, v));
             if (coverFile) fd.append('coverImage', coverFile);
+            // Append new gallery files
+            galleryFiles.forEach(f => fd.append('gallery', f));
+            // Append removed existing gallery paths for server to remove
+            if (editingProject) {
+                const originalGallery = (editingProject.gallery || []);
+                const remainingExisting = galleryPreviews.filter(p => p.existing).map(p => p.path);
+                const removedPaths = originalGallery.filter(g => !remainingExisting.includes(g));
+                removedPaths.forEach(p => fd.append('galleryRemove', p));
+            }
 
             if (editingProject) {
                 await api.put(`/projects/${editingProject._id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
@@ -268,6 +309,42 @@ const ProjectsAdmin = () => {
                                         Remove image
                                     </button>
                                 )}
+                            </div>
+                            <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '0.35rem' }}>Gallery Images <span style={{ fontWeight: 400, color: '#94a3b8' }}>(optional, up to 10)</span></label>
+                            <div style={{ marginBottom: '1rem' }}>
+                                {/* Thumbnail grid */}
+                                {galleryPreviews.length > 0 && (
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                                        {galleryPreviews.map((item, idx) => (
+                                            <div key={idx} style={{ position: 'relative', height: '72px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #e2e8f0' }}>
+                                                <img src={item.url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeGalleryItem(idx)}
+                                                    style={{ position: 'absolute', top: '2px', right: '2px', width: '18px', height: '18px', background: 'rgba(220,38,38,0.85)', border: 'none', borderRadius: '50%', color: '#fff', fontSize: '11px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
+                                                >×</button>
+                                            </div>
+                                        ))}
+                                        {/* Add more button */}
+                                        <div
+                                            onClick={() => galleryRef.current?.click()}
+                                            style={{ height: '72px', borderRadius: '8px', border: '2px dashed #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#94a3b8', flexDirection: 'column', gap: '2px' }}
+                                        >
+                                            <i className="ri-add-line" style={{ fontSize: '1.25rem' }} />
+                                            <span style={{ fontSize: '10px' }}>Add</span>
+                                        </div>
+                                    </div>
+                                )}
+                                {galleryPreviews.length === 0 && (
+                                    <div
+                                        onClick={() => galleryRef.current?.click()}
+                                        style={{ border: '2px dashed #e2e8f0', borderRadius: '12px', padding: '1rem', cursor: 'pointer', textAlign: 'center', color: '#94a3b8', background: '#f8fafc' }}
+                                    >
+                                        <i className="ri-images-line" style={{ fontSize: '1.5rem', display: 'block', marginBottom: '4px' }} />
+                                        <span style={{ fontSize: '12px' }}>Click to add gallery images</span>
+                                    </div>
+                                )}
+                                <input ref={galleryRef} type="file" accept="image/*" multiple style={{ display: 'none' }} onChange={handleGalleryChange} />
                             </div>
 
                             <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '0.35rem' }}>Project Title *</label>

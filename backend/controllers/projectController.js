@@ -22,6 +22,22 @@ export const getProjects = async (req, res, next) => {
   }
 };
 
+// @desc    Fetch single project by ID
+// @route   GET /api/projects/:id
+// @access  Public
+export const getProjectById = async (req, res, next) => {
+  try {
+    const project = await Project.findById(req.params.id).populate('location', 'name');
+    if (!project) {
+      res.status(404);
+      throw new Error('Project not found');
+    }
+    res.json({ success: true, data: project });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // @desc    Create a project
 // @route   POST /api/projects
 // @access  Private/Admin
@@ -89,6 +105,19 @@ export const updateProject = async (req, res, next) => {
       // Handle new cover image upload
       if (req.files?.coverImage) {
         project.coverImage = '/uploads/' + req.files.coverImage[0].filename;
+      }
+
+      // Handle gallery: append new uploads, remove specified ones
+      if (req.files?.gallery) {
+        const newGallery = req.files.gallery.map(f => '/uploads/' + f.filename);
+        project.gallery = [...(project.gallery || []), ...newGallery];
+      }
+      // Support removing specific gallery images
+      if (req.body.galleryRemove) {
+        const toRemove = Array.isArray(req.body.galleryRemove)
+          ? req.body.galleryRemove
+          : [req.body.galleryRemove];
+        project.gallery = (project.gallery || []).filter(g => !toRemove.includes(g));
       }
 
       const updatedProject = await project.save();

@@ -6,9 +6,11 @@ const plotSchema = new mongoose.Schema({
   sizeSqFt: { type: Number, required: true },
   price: { type: Number, required: true },
   status: { type: String, enum: ['Available', 'Hold', 'Sold'], default: 'Available' },
+  buyerName: { type: String, default: '' },
+  buyerContact: { type: String, default: '' },
   documents: [{
     title: String,
-    url: String // Cloudinary URL
+    url: String
   }]
 }, { timestamps: true });
 

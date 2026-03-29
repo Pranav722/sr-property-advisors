@@ -1,177 +1,321 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import api from '../services/api';
 import '../property.css';
 import '../style.css';
 
+const BASE_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000';
+
+const FALLBACK_IMG = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200';
+
+const STATUS_BADGE = {
+    Available: { label: 'For Sale', color: '#059669', bg: '#ecfdf5' },
+    Upcoming:  { label: 'New Launch', color: '#2563eb', bg: '#eff6ff' },
+    'Sold Out':{ label: 'Sold Out', color: '#dc2626', bg: '#fef2f2' },
+};
+
+const PLOT_STATUS_STYLE = {
+    Available: { background: '#059669', color: '#fff' },
+    Hold:      { background: '#d97706', color: '#fff' },
+    Sold:      { background: '#dc2626', color: '#fff' },
+};
+
 const Property = () => {
+    const { id } = useParams();
+    const [project, setProject] = useState(null);
+    const [plots, setPlots] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [lightboxImg, setLightboxImg] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                setError('');
+                const [projRes, plotsRes] = await Promise.allSettled([
+                    api.get(`/projects/${id}`),
+                    api.get(`/plots?projectId=${id}`),
+                ]);
+
+                if (projRes.status === 'fulfilled') {
+                    const d = projRes.value.data;
+                    setProject(d?.data || d);
+                } else {
+                    setError('Project not found.');
+                }
+
+                if (plotsRes.status === 'fulfilled') {
+                    const d = plotsRes.value.data;
+                    setPlots(Array.isArray(d) ? d : (d?.data || []));
+                }
+            } catch {
+                setError('Failed to load project.');
+            } finally {
+                setLoading(false);
+            }
+        };
+        if (id) fetchData();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <>
+                <Header />
+                <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '1rem', color: '#94a3b8', paddingTop: '6rem' }}>
+                    <i className="ri-loader-4-line" style={{ fontSize: '3rem', animation: 'spin 1s linear infinite' }} />
+                    <p>Loading property details…</p>
+                </div>
+                <Footer />
+            </>
+        );
+    }
+
+    if (error || !project) {
+        return (
+            <>
+                <Header />
+                <div style={{ minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '1rem', color: '#64748b', paddingTop: '6rem' }}>
+                    <i className="ri-building-line" style={{ fontSize: '4rem', opacity: 0.3 }} />
+                    <p style={{ fontWeight: 600 }}>{error || 'Project not found.'}</p>
+                    <Link to="/projects" className="btn btn-outline" style={{ marginTop: '0.5rem' }}>← Browse Projects</Link>
+                </div>
+                <Footer />
+            </>
+        );
+    }
+
+    const coverUrl = project.coverImage ? `${BASE_URL}${project.coverImage}` : FALLBACK_IMG;
+    const galleryImages = (project.gallery || []).map(g => `${BASE_URL}${g}`);
+    const badge = STATUS_BADGE[project.status] || { label: project.status, color: '#64748b', bg: '#f1f5f9' };
+
+    // Build gallery slots: main cover + up to 4 extras
+    const allImgs = [coverUrl, ...galleryImages];
+
     return (
         <>
             <Header />
 
+            {/* ── Lightbox ── */}
+            {lightboxImg && (
+                <div
+                    onClick={() => setLightboxImg(null)}
+                    style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.88)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', cursor: 'zoom-out' }}
+                >
+                    <button
+                        onClick={() => setLightboxImg(null)}
+                        style={{ position: 'absolute', top: '1rem', right: '1.5rem', background: 'none', border: 'none', color: '#fff', fontSize: '2rem', cursor: 'pointer', lineHeight: 1 }}
+                    >
+                        <i className="ri-close-line" />
+                    </button>
+                    <img
+                        src={lightboxImg}
+                        alt="Lightbox"
+                        onClick={e => e.stopPropagation()}
+                        style={{ maxWidth: '92vw', maxHeight: '90vh', borderRadius: '12px', objectFit: 'contain', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+                    />
+                </div>
+            )}
+
             <div className="container">
-                {/* Gallery */}
-                <div className="gallery-grid">
-                    <div className="gallery-main">
-                        <img src="/images/property_listing_villa_1773059556545.png" alt="Exterior" className="gallery-img" />
+                {/* ── Gallery Grid ── */}
+                <div className="gallery-grid" style={{ paddingTop: '5.5rem' }}>
+                    {/* Main image */}
+                    <div className="gallery-main" style={{ cursor: 'zoom-in' }} onClick={() => setLightboxImg(allImgs[0])}>
+                        <img src={allImgs[0]} alt={project.title} className="gallery-img" />
+                        {allImgs.length > 1 && (
+                            <div style={{ position: 'absolute', bottom: '1rem', right: '1rem', background: 'rgba(15,23,42,0.75)', color: '#fff', padding: '0.35rem 0.875rem', borderRadius: '999px', fontSize: '0.78rem', fontWeight: 600, backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <i className="ri-image-line" /> {allImgs.length} Photos
+                            </div>
+                        )}
                     </div>
-                    <div className="gallery-side">
-                        <img src="/images/property_interior_living_1773059573182.png" alt="Interior" className="gallery-img" />
-                    </div>
-                    <div className="gallery-side">
-                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                            alt="Kitchen" className="gallery-img" />
-                    </div>
+
+                    {/* Side images */}
+                    {[1, 2].map(i => (
+                        <div key={i} className="gallery-side" style={{ cursor: allImgs[i] ? 'zoom-in' : 'default' }} onClick={() => allImgs[i] && setLightboxImg(allImgs[i])}>
+                            {allImgs[i] ? (
+                                <img src={allImgs[i]} alt={`Gallery ${i}`} className="gallery-img" />
+                            ) : (
+                                <div style={{ width: '100%', height: '100%', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <i className="ri-image-line" style={{ fontSize: '2.5rem', color: '#cbd5e1' }} />
+                                </div>
+                            )}
+                        </div>
+                    ))}
                 </div>
 
-                {/* Content */}
+                {/* ── Content Layout ── */}
                 <div className="property-layout">
                     {/* Main Details */}
                     <main>
+                        {/* Title & Price */}
                         <div className="detail-section">
-                            <div className="flex items-center justify-between mb-2">
-                                <span className="badge badge-blue">For Sale</span>
-                                <span className="text-h3 text-main">$4,500,000</span>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                                <span style={{ padding: '0.3rem 0.875rem', borderRadius: '999px', fontSize: '0.78rem', fontWeight: 700, background: badge.bg, color: badge.color }}>
+                                    {badge.label}
+                                </span>
+                                {project.price && (
+                                    <span className="text-h3 text-main">{project.price}</span>
+                                )}
                             </div>
-                            <h1 className="text-h2 text-main mb-2">Beverly Hills Estate</h1>
-                            <p className="text-body-large"><i className="ri-map-pin-line text-accent"></i> 1002 Sunset Blvd, Los
-                                Angeles, CA 90210</p>
-                        </div>
-
-                        <div className="detail-section">
-                            <h2 className="text-h3 text-main mb-6">Property Specifications</h2>
-                            <div className="spec-grid">
-                                <div className="spec-item">
-                                    <i className="ri-layout-masonry-line spec-icon"></i>
-                                    <div>
-                                        <div className="text-small">Bedrooms</div>
-                                        <div className="text-h4 text-main">5</div>
-                                    </div>
-                                </div>
-                                <div className="spec-item">
-                                    <i className="ri-drop-line spec-icon"></i>
-                                    <div>
-                                        <div className="text-small">Bathrooms</div>
-                                        <div className="text-h4 text-main">6</div>
-                                    </div>
-                                </div>
-                                <div className="spec-item">
-                                    <i className="ri-ruler-line spec-icon"></i>
-                                    <div>
-                                        <div className="text-small">Area</div>
-                                        <div className="text-h4 text-main">6,200 sqft</div>
-                                    </div>
-                                </div>
-                                <div className="spec-item">
-                                    <i className="ri-car-line spec-icon"></i>
-                                    <div>
-                                        <div className="text-small">Garage</div>
-                                        <div className="text-h4 text-main">3 Cars</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="detail-section">
-                            <h2 className="text-h3 text-main mb-4">Description</h2>
-                            <p className="text-body mb-4">
-                                An architectural masterpiece situated in the prestigious Beverly Hills area. This modern estate
-                                offers unparalleled luxury and privacy, featuring panoramic views of the city skyline and the
-                                ocean beyond.
+                            <h1 className="text-h2 text-main mb-2">{project.title}</h1>
+                            <p className="text-body-large" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#64748b', marginTop: '0.5rem' }}>
+                                <i className="ri-map-pin-line" style={{ color: '#2563eb' }} />
+                                {project.location?.name || 'India'}
                             </p>
-                            <p className="text-body">
-                                The property boasts a seamless indoor-outdoor flow, perfect for entertaining. The gourmet
-                                kitchen is equipped with top-of-the-line appliances, and the master suite is a private sanctuary
-                                with a spa-like bathroom and an expansive walk-in closet. The outdoor area includes a zero-edge
-                                infinity pool, a built-in BBQ, and lush landscaping.
+                            <p style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#64748b', fontSize: '0.9rem' }}>
+                                <i className="ri-building-line" style={{ color: '#2563eb' }} />
+                                {project.type}
                             </p>
                         </div>
 
-                        <div className="detail-section">
-                            <h2 className="text-h3 text-main mb-4">Available Plots / Units</h2>
-                            <p className="text-body">This development features several phases. See availability below.</p>
-                            <div style={{ overflowX: 'auto' }}>
-                                <table className="plots-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Unit Ref</th>
-                                            <th>Type</th>
-                                            <th>Size (sqft)</th>
-                                            <th>Price</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Villa 1A</td>
-                                            <td>5 Bed / 6 Bath</td>
-                                            <td>6,200</td>
-                                            <td>$4,500,000</td>
-                                            <td><span className="badge" style={{ background: 'var(--color-primary)', color: 'white' }}>Available</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Villa 1B</td>
-                                            <td>4 Bed / 5 Bath</td>
-                                            <td>5,500</td>
-                                            <td>$3,950,000</td>
-                                            <td><span className="badge badge-gray">Reserved</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Villa 2A</td>
-                                            <td>6 Bed / 7 Bath</td>
-                                            <td>7,100</td>
-                                            <td>$5,200,000</td>
-                                            <td><span className="badge" style={{ background: 'var(--color-primary)', color: 'white' }}>Available</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        {/* Description */}
+                        {project.description && (
+                            <div className="detail-section">
+                                <h2 className="text-h3 text-main mb-4">About This Property</h2>
+                                <p className="text-body" style={{ whiteSpace: 'pre-line' }}>{project.description}</p>
                             </div>
-                        </div>
+                        )}
 
-                        <div className="detail-section">
-                            <div style={{ width: '100%', height: '400px', background: '#e2e8f0', borderRadius: 'var(--border-radius-lg)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <div className="text-center" style={{ color: 'var(--color-text-muted)' }}>
-                                    <i className="ri-map-pin-2-fill" style={{ fontSize: '3rem', color: 'var(--color-accent)' }}></i><br/>
-                                    Interactive Map Loading...
+                        {/* Gallery row (if >2 extra images) */}
+                        {galleryImages.length > 2 && (
+                            <div className="detail-section">
+                                <h2 className="text-h3 text-main mb-4">Gallery</h2>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '0.75rem' }}>
+                                    {galleryImages.map((img, idx) => (
+                                        <div
+                                            key={idx}
+                                            onClick={() => setLightboxImg(img)}
+                                            style={{ height: '110px', borderRadius: '10px', overflow: 'hidden', cursor: 'zoom-in', border: '1px solid #e2e8f0' }}
+                                        >
+                                            <img src={img} alt={`Gallery ${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s' }}
+                                                onMouseOver={e => e.currentTarget.style.transform = 'scale(1.06)'}
+                                                onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-                        </div>
+                        )}
+
+                        {/* Plot Inventory */}
+                        {plots.length > 0 && (
+                            <div className="detail-section">
+                                <h2 className="text-h3 text-main mb-4">Available Units / Plots</h2>
+                                <p className="text-body" style={{ marginBottom: '1rem' }}>
+                                    {plots.filter(p => p.status === 'Available').length} of {plots.length} units available.
+                                </p>
+                                <div style={{ overflowX: 'auto' }}>
+                                    <table className="plots-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Plot No.</th>
+                                                <th>Size (sqft)</th>
+                                                <th>Price (₹)</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {plots.map(plot => (
+                                                <tr key={plot._id}>
+                                                    <td style={{ fontWeight: 600 }}>{plot.plotNumber}</td>
+                                                    <td>{plot.sizeSqFt?.toLocaleString()}</td>
+                                                    <td>{plot.price ? `₹${Number(plot.price).toLocaleString()}` : '—'}</td>
+                                                    <td>
+                                                        <span style={{
+                                                            padding: '0.25rem 0.75rem', borderRadius: '999px',
+                                                            fontSize: '0.75rem', fontWeight: 700,
+                                                            ...(PLOT_STATUS_STYLE[plot.status] || { background: '#f1f5f9', color: '#64748b' })
+                                                        }}>
+                                                            {plot.status}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Map */}
+                        {project.mapEmbedLink && (
+                            <div className="detail-section">
+                                <h2 className="text-h3 text-main mb-4">Location</h2>
+                                <div style={{ width: '100%', height: '380px', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e2e8f0' }}>
+                                    <iframe
+                                        src={project.mapEmbedLink}
+                                        title="Location Map"
+                                        width="100%"
+                                        height="100%"
+                                        style={{ border: 'none' }}
+                                        allowFullScreen
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                    />
+                                </div>
+                            </div>
+                        )}
                     </main>
 
                     {/* Sidebar */}
                     <aside>
                         <div className="contact-sidebar">
-                            <div className="card advisor-card">
-                                <img src="/images/advisor_profile_1773059592043.png" alt="Advisor" className="advisor-img" />
-                                <h3 className="text-h4 text-main">Michael Sterling</h3>
-                                <p className="text-small mb-6">Senior Wealth & Property Advisor</p>
+                            <div className="card" style={{ padding: '1.75rem', textAlign: 'center', marginBottom: '1.25rem' }}>
+                                <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', fontSize: '1.75rem', color: '#2563eb' }}>
+                                    <i className="ri-home-smile-line" />
+                                </div>
+                                <h3 className="text-h4 text-main">Interested in this property?</h3>
+                                <p className="text-small" style={{ marginTop: '0.35rem', marginBottom: '1.25rem' }}>Our advisors will get back to you within 24 hours.</p>
 
-                                <button className="btn btn-primary" style={{ width: '100%' }}><i className="ri-mail-send-line" style={{ marginRight: '0.5rem' }}></i> Request Details</button>
+                                <Link to="/contact" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                                    <i className="ri-mail-send-line" /> Request Details
+                                </Link>
 
-                                <button className="btn-whatsapp" style={{ padding: '0.75rem 1.5rem', borderRadius: '0.5rem', fontWeight: 600, border: 'none', cursor: 'pointer' }}>
-                                    <i className="ri-whatsapp-line" style={{ fontSize: '1.25rem' }}></i> Contact on WhatsApp
-                                </button>
+                                <a
+                                    href={`https://wa.me/?text=Hi%2C%20I%27m%20interested%20in%20the%20property%3A%20${encodeURIComponent(project.title)}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="btn-whatsapp"
+                                    style={{ padding: '0.75rem 1.5rem', borderRadius: '0.5rem', fontWeight: 600, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', textDecoration: 'none', marginTop: '0.75rem' }}
+                                >
+                                    <i className="ri-whatsapp-line" style={{ fontSize: '1.25rem' }} /> Contact on WhatsApp
+                                </a>
 
-                                <div className="mt-6 pt-6 border-t" style={{ borderTop: '1px solid var(--border-color)' }}>
-                                    <div className="flex items-center justify-center gap-2 text-small">
-                                        <i className="ri-phone-line text-accent"></i> +1 (555) 019-8273
-                                    </div>
+                                <div style={{ marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '1px solid #f1f5f9', fontSize: '0.85rem', color: '#64748b' }}>
+                                    <i className="ri-map-pin-line" style={{ color: '#2563eb' }} /> {project.location?.name || 'India'}
+                                    &nbsp;·&nbsp;
+                                    <i className="ri-building-line" style={{ color: '#2563eb' }} /> {project.type}
                                 </div>
                             </div>
 
-                            <a href="#" className="brochure-card">
-                                <div style={{ width: '48px', height: '48px', background: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-sm)' }}>
-                                    <i className="ri-file-download-line" style={{ color: 'var(--color-accent)', fontSize: '1.25rem' }}></i>
-                                </div>
-                                <div>
-                                    <div className="text-h4 text-main" style={{ fontSize: '1rem' }}>Download Brochure</div>
-                                    <div className="text-small">PDF, 4.2 MB</div>
-                                </div>
-                            </a>
+                            {project.brochureUrl && (
+                                <a href={`${BASE_URL}${project.brochureUrl}`} download className="brochure-card" style={{ textDecoration: 'none' }}>
+                                    <div style={{ width: '48px', height: '48px', background: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', flexShrink: 0 }}>
+                                        <i className="ri-file-download-line" style={{ color: '#2563eb', fontSize: '1.25rem' }} />
+                                    </div>
+                                    <div>
+                                        <div className="text-h4 text-main" style={{ fontSize: '1rem' }}>Download Brochure</div>
+                                        <div className="text-small">PDF Document</div>
+                                    </div>
+                                </a>
+                            )}
+
+                            <Link to="/projects" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#2563eb', fontWeight: 600, fontSize: '0.9rem', marginTop: '1.25rem', textDecoration: 'none' }}>
+                                <i className="ri-arrow-left-line" /> Back to All Projects
+                            </Link>
                         </div>
                     </aside>
                 </div>
             </div>
+
+            <style>{`
+                @keyframes spin { to { transform: rotate(360deg); } }
+                .gallery-main { position: relative; }
+            `}</style>
+
             <Footer />
         </>
     );
