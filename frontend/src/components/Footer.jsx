@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../services/api';
 
 const Footer = () => {
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const { data } = await api.get('/settings');
+        if (data?.data) setSettings(data.data);
+      } catch (err) {
+        // silently fallback
+      }
+    };
+    fetchSettings();
+  }, []);
+
   return (
     <footer className="footer">
       <div className="container">
@@ -14,9 +29,9 @@ const Footer = () => {
               Premium real estate advisory firm specializing in luxury acquisitions and high-yield property portfolios.
             </p>
             <div className="social-icons">
-              <a href="#" className="social-icon"><i className="ri-linkedin-fill"></i></a>
-              <a href="#" className="social-icon"><i className="ri-twitter-x-line"></i></a>
-              <a href="#" className="social-icon"><i className="ri-instagram-line"></i></a>
+              {settings?.facebook && <a href={settings.facebook} target="_blank" rel="noreferrer" className="social-icon"><i className="ri-facebook-fill"></i></a>}
+              {settings?.twitter && <a href={settings.twitter} target="_blank" rel="noreferrer" className="social-icon"><i className="ri-twitter-x-line"></i></a>}
+              {settings?.instagram && <a href={settings.instagram} target="_blank" rel="noreferrer" className="social-icon"><i className="ri-instagram-line"></i></a>}
             </div>
           </div>
 
@@ -43,9 +58,9 @@ const Footer = () => {
           <div>
             <h4 className="footer-heading">Contact Info</h4>
             <ul className="footer-links">
-              <li style={{ display: 'flex', gap: '0.5rem', color: 'rgba(255,255,255,0.6)' }}><i className="ri-map-pin-line" style={{ color: '#60a5fa', flexShrink: 0 }} /> Mumbai, Maharashtra, India</li>
-              <li style={{ display: 'flex', gap: '0.5rem', color: 'rgba(255,255,255,0.6)' }}><i className="ri-phone-line" style={{ color: '#60a5fa', flexShrink: 0 }} /> +91 82219 10113</li>
-              <li style={{ display: 'flex', gap: '0.5rem', color: 'rgba(255,255,255,0.6)' }}><i className="ri-mail-line" style={{ color: '#60a5fa', flexShrink: 0 }} /> info@srpropertyadvisor.in</li>
+              <li style={{ display: 'flex', gap: '0.5rem', color: 'rgba(255,255,255,0.6)' }}><i className="ri-map-pin-line" style={{ color: '#60a5fa', flexShrink: 0 }} /> {settings?.address || 'Mumbai, Maharashtra, India'}</li>
+              <li style={{ display: 'flex', gap: '0.5rem', color: 'rgba(255,255,255,0.6)' }}><i className="ri-phone-line" style={{ color: '#60a5fa', flexShrink: 0 }} /> {settings?.phone || '+91 82219 10113'}</li>
+              <li style={{ display: 'flex', gap: '0.5rem', color: 'rgba(255,255,255,0.6)' }}><i className="ri-mail-line" style={{ color: '#60a5fa', flexShrink: 0 }} /> {settings?.email || 'info@srpropertyadvisor.in'}</li>
             </ul>
           </div>
         </div>

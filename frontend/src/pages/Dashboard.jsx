@@ -173,9 +173,6 @@ const Dashboard = () => {
               <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a' }}>Dashboard</h1>
               <p style={{ color: '#64748b', marginTop: '0.25rem', fontSize: '0.9rem' }}>Manage your projects, inventory and inquiries.</p>
             </div>
-            <button onClick={openNewProject} style={{ padding: '0.75rem 1.5rem', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '12px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.95rem' }}>
-              <i className="ri-add-line" /> Add New Project
-            </button>
           </div>
 
           {/* ─── Stats ─── */}
@@ -208,7 +205,7 @@ const Dashboard = () => {
             ) : projects.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>
                 <i className="ri-building-line" style={{ fontSize: '2.5rem', opacity: 0.3 }} />
-                <p style={{ marginTop: '0.75rem' }}>No projects yet. <button onClick={openNewProject} style={{ color: '#2563eb', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Add your first one →</button></p>
+                <p style={{ marginTop: '0.75rem' }}>No projects yet. Add them from the Projects menu.</p>
               </div>
             ) : (
               <div style={{ overflowX: 'auto' }}>

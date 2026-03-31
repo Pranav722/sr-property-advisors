@@ -26,6 +26,7 @@ const Property = () => {
     const { id } = useParams();
     const [project, setProject] = useState(null);
     const [plots, setPlots] = useState([]);
+    const [settings, setSettings] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [lightboxImg, setLightboxImg] = useState(null);
@@ -35,9 +36,10 @@ const Property = () => {
             try {
                 setLoading(true);
                 setError('');
-                const [projRes, plotsRes] = await Promise.allSettled([
+                const [projRes, plotsRes, setRes] = await Promise.allSettled([
                     api.get(`/projects/${id}`),
                     api.get(`/plots?projectId=${id}`),
+                    api.get('/settings'),
                 ]);
 
                 if (projRes.status === 'fulfilled') {
@@ -50,6 +52,10 @@ const Property = () => {
                 if (plotsRes.status === 'fulfilled') {
                     const d = plotsRes.value.data;
                     setPlots(Array.isArray(d) ? d : (d?.data || []));
+                }
+
+                if (setRes.status === 'fulfilled') {
+                    setSettings(setRes.value.data?.data);
                 }
             } catch {
                 setError('Failed to load project.');
@@ -243,19 +249,31 @@ const Property = () => {
                         {/* Map */}
                         {project.mapEmbedLink && (
                             <div className="detail-section">
-                                <h2 className="text-h3 text-main mb-4">Location</h2>
-                                <div style={{ width: '100%', height: '380px', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e2e8f0' }}>
-                                    <iframe
-                                        src={project.mapEmbedLink}
-                                        title="Location Map"
-                                        width="100%"
-                                        height="100%"
-                                        style={{ border: 'none' }}
-                                        allowFullScreen
-                                        loading="lazy"
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                    />
-                                </div>
+                                <h2 className="text-h3 text-main mb-4">Location Map</h2>
+                                {String(project.mapEmbedLink).includes('http') ? (
+                                    <div style={{ width: '100%', height: '380px', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e2e8f0' }}>
+                                        <iframe
+                                            src={project.mapEmbedLink}
+                                            title="Location Map"
+                                            width="100%"
+                                            height="100%"
+                                            style={{ border: 'none' }}
+                                            allowFullScreen
+                                            loading="lazy"
+                                            referrerPolicy="no-referrer-when-downgrade"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div style={{ padding: '2rem', background: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                        <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: '#eff6ff', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', flexShrink: 0 }}>
+                                            <i className="ri-map-pin-2-line" />
+                                        </div>
+                                        <div>
+                                            <div style={{ fontWeight: 600, color: '#0f172a', fontSize: '1.1rem' }}>{project.mapEmbedLink}</div>
+                                            <div style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '0.2rem' }}>Property Location Details</div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </main>
@@ -275,7 +293,7 @@ const Property = () => {
                                 </Link>
 
                                 <a
-                                    href={`https://wa.me/?text=Hi%2C%20I%27m%20interested%20in%20the%20property%3A%20${encodeURIComponent(project.title)}`}
+                                    href={`https://wa.me/${(settings?.whatsapp || '919876543210').replace(/\D/g, '')}?text=${encodeURIComponent(`Hi, I'm interested in the property: ${project.title}`)}`}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="btn-whatsapp"

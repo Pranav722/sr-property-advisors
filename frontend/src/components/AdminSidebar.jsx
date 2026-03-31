@@ -31,6 +31,9 @@ const AdminSidebar = ({ open }) => {
                     <Link to="/locations" className={isActive('/locations')}>
                         <i className="ri-compass-3-line"></i> Locations
                     </Link>
+                    <Link to="/settings" className={isActive('/settings')}>
+                        <i className="ri-settings-4-line"></i> Settings
+                    </Link>
                 </div>
 
                 <div className="nav-section">

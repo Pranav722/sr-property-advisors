@@ -25,10 +25,13 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      if (!hasDarkHero) {
+        setScrolled(true);
+      } else {
+        setScrolled(window.scrollY > 50);
+      }
     };
     window.addEventListener('scroll', handleScroll);
-    // If page doesn't have a dark hero, treat as already scrolled
     if (!hasDarkHero) setScrolled(true);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasDarkHero]);

@@ -1,25 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import api from '../services/api';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '', interest: 'general' });
   const [submitted, setSubmitted] = useState(false);
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const { data } = await api.get('/settings');
+        if (data?.data) setSettings(data.data);
+      } catch (err) {
+        // silently fallback
+      }
+    };
+    fetchSettings();
+  }, []);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const whatsappMsg = `Hello SR Property Advisors!%0A%0AName: ${formData.name}%0AEmail: ${formData.email}%0APhone: ${formData.phone}%0AInterest: ${formData.interest}%0A%0AMessage: ${formData.message}`;
-    window.open(`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER?.replace(/\s/g, '')}?text=${whatsappMsg}`, '_blank');
+    const waNumber = settings?.whatsapp?.replace(/\D/g, '') || import.meta.env.VITE_WHATSAPP_NUMBER?.replace(/\s/g, '') || '919876543210';
+    window.open(`https://wa.me/${waNumber}?text=${whatsappMsg}`, '_blank');
     setSubmitted(true);
   };
 
   const contacts = [
-    { icon: 'ri-phone-line', label: 'Phone', value: '+91 82219 10113', href: 'tel:+918221910113' },
-    { icon: 'ri-mail-line', label: 'Email', value: 'info@srpropertyadvisor.in', href: 'mailto:info@srpropertyadvisor.in' },
-    { icon: 'ri-map-pin-2-line', label: 'Office', value: 'Mumbai, Maharashtra, India', href: '#' },
-    { icon: 'ri-whatsapp-line', label: 'WhatsApp', value: '+91 82219 10113', href: `https://wa.me/918221910113` },
+    { icon: 'ri-phone-line', label: 'Phone', value: settings?.phone || '+91 82219 10113', href: `tel:${settings?.phone?.replace(/\D/g, '') || '+918221910113'}` },
+    { icon: 'ri-mail-line', label: 'Email', value: settings?.email || 'info@srpropertyadvisor.in', href: `mailto:${settings?.email || 'info@srpropertyadvisor.in'}` },
+    { icon: 'ri-map-pin-2-line', label: 'Office', value: settings?.address || 'Mumbai, Maharashtra, India', href: '#' },
+    { icon: 'ri-whatsapp-line', label: 'WhatsApp', value: settings?.whatsapp || '+91 82219 10113', href: `https://wa.me/${settings?.whatsapp?.replace(/\D/g, '') || '918221910113'}` },
   ];
 
   const inputStyle = {
@@ -69,10 +84,9 @@ const Contact = () => {
 
                 {/* Office hours */}
                 <div style={{ padding: '1.5rem', background: '#0f172a', borderRadius: '16px', color: 'white' }}>
-                  <h3 style={{ fontWeight: 600, marginBottom: '1rem' }}><i className="ri-time-line" style={{ marginRight: '0.5rem' }}></i>Office Hours</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Mon – Sat</span><span style={{ color: 'white' }}>9:00 AM – 7:00 PM</span></div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Sunday</span><span style={{ color: '#60a5fa' }}>By Appointment</span></div>
+                  <h3 style={{ fontWeight: 600, marginBottom: '1rem' }}><i className="ri-time-line" style={{ marginRight: '0.5rem' }}></i>Working Hours</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', color: 'rgba(255,255,255,0.7)', fontSize: '0.95rem' }}>
+                    <div style={{ whiteSpace: 'pre-line', lineHeight: 1.6 }}>{settings?.workingHours || 'Mon – Sat: 9:00 AM – 7:00 PM\nSunday: By Appointment'}</div>
                   </div>
                 </div>
               </div>

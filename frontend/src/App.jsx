@@ -14,6 +14,7 @@ import UsersAdmin from './pages/UsersAdmin';
 import Inventory from './pages/Inventory';
 import Leads from './pages/Leads';
 import FileManager from './pages/FileManager';
+import SettingsAdmin from './pages/SettingsAdmin';
 import ProtectedRoute from './components/ProtectedRoute';
 import BottomNav from './components/BottomNav';
 
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="/inventory" element={<ProtectedRoute adminOnly><Inventory /></ProtectedRoute>} />
             <Route path="/leads" element={<ProtectedRoute adminOnly={true}><Leads /></ProtectedRoute>} />
             <Route path="/file-manager" element={<ProtectedRoute adminOnly={true}><FileManager /></ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute adminOnly={true}><SettingsAdmin /></ProtectedRoute>} />
             {/* We will route all the legacy HTML pages into explicit paths here soon */}
           </Routes>
         </div>

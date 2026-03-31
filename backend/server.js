@@ -17,7 +17,7 @@ import locationRoutes from './routes/locationRoutes.js';
 import inquiryRoutes from './routes/inquiryRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
-
+import settingRoutes from './routes/settingRoutes.js';
 // Load env vars
 dotenv.config();
 
@@ -27,7 +27,7 @@ connectDB();
 const app = express();
 
 // Security Middlewares
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173', credentials: true }));
 
 // Rate Limiting
@@ -61,6 +61,7 @@ app.use('/api/locations', locationRoutes);
 app.use('/api/inquiries', inquiryRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/uploads', uploadRoutes);
+app.use('/api/settings', settingRoutes);
 
 // Custom Error Handler
 app.use(notFound);
