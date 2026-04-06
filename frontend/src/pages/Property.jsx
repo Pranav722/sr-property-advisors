@@ -93,8 +93,8 @@ const Property = () => {
         );
     }
 
-    const coverUrl = project.coverImage ? `${BASE_URL}${project.coverImage}` : FALLBACK_IMG;
-    const galleryImages = (project.gallery || []).map(g => `${BASE_URL}${g}`);
+    const coverUrl = project.coverImage ? `${BASE_URL}/api${project.coverImage}` : FALLBACK_IMG;
+    const galleryImages = (project.gallery || []).map(g => `${BASE_URL}/api${g}`);
     const badge = STATUS_BADGE[project.status] || { label: project.status, color: '#64748b', bg: '#f1f5f9' };
 
     // Build gallery slots: main cover + up to 4 extras
@@ -310,7 +310,7 @@ const Property = () => {
                             </div>
 
                             {project.brochureUrl && (
-                                <a href={`${BASE_URL}${project.brochureUrl}`} download className="brochure-card" style={{ textDecoration: 'none' }}>
+                                <a href={`${BASE_URL}/api${project.brochureUrl}`} download className="brochure-card" style={{ textDecoration: 'none' }}>
                                     <div style={{ width: '48px', height: '48px', background: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', flexShrink: 0 }}>
                                         <i className="ri-file-download-line" style={{ color: '#2563eb', fontSize: '1.25rem' }} />
                                     </div>

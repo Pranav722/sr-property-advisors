@@ -202,7 +202,7 @@ const Projects = () => {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(270px,1fr))', gap: '1.5rem' }}>
                 {filtered.map((p) => {
                   const imgUrl = p.coverImage
-                    ? `${BASE_URL}${p.coverImage}`
+                    ? `${BASE_URL}/api${p.coverImage}`
                     : 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=800';
                   const badgeColor = STATUS_COLOR[p.status] || '#64748b';
                   const badgeLabel = STATUS_LABEL[p.status] || p.status;

@@ -149,7 +149,7 @@ const FileManager = () => {
 
     const isImage = (filename) => /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(filename);
 
-    const getFileUrl = (f) => `${BASE_URL}${f.url}`;
+    const getFileUrl = (f) => `${BASE_URL}/api${f.url}`;
 
     const visibleFiles = searchTerm
         ? files.filter(f => f.name.toLowerCase().includes(searchTerm.toLowerCase()))

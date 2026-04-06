@@ -76,9 +76,9 @@ const ProjectsAdmin = () => {
             price: p.price || '',
         });
         setCoverFile(null);
-        setCoverPreview(p.coverImage ? `${BASE_URL}${p.coverImage}` : null);
+        setCoverPreview(p.coverImage ? `${BASE_URL}/api${p.coverImage}` : null);
         // Existing gallery
-        const existingGallery = (p.gallery || []).map(g => ({ url: `${BASE_URL}${g}`, existing: true, path: g }));
+        const existingGallery = (p.gallery || []).map(g => ({ url: `${BASE_URL}/api${g}`, existing: true, path: g }));
         setGalleryFiles([]);
         setGalleryPreviews(existingGallery);
         setEditingProject(p);
@@ -241,7 +241,7 @@ const ProjectsAdmin = () => {
                                                 <td style={{ padding: '1rem 1.25rem', fontWeight: 600, color: '#0f172a' }}>
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                                         {p.coverImage ? (
-                                                            <img src={`${BASE_URL}${p.coverImage}`} alt="" style={{ width: '40px', height: '32px', borderRadius: '6px', objectFit: 'cover', flexShrink: 0, border: '1px solid #e2e8f0' }} />
+                                                            <img src={`${BASE_URL}/api${p.coverImage}`} alt="" style={{ width: '40px', height: '32px', borderRadius: '6px', objectFit: 'cover', flexShrink: 0, border: '1px solid #e2e8f0' }} />
                                                         ) : (
                                                             <div style={{ width: '40px', height: '32px', borderRadius: '6px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                                                 <i className="ri-building-line" style={{ color: '#94a3b8' }} />

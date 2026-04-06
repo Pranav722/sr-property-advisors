@@ -45,7 +45,7 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static upload files
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
