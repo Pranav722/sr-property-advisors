@@ -1,38 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import api from '../services/api';
 import '../home.css';
 import '../style.css';
 
-const indianProperties = [
-  {
-    img: '/images/property_listing_villa_1773059556545.png',
-    badge: 'For Sale', badgeColor: undefined,
-    price: '₹4.5 Cr', title: 'Juhu Sea-View Villa', loc: 'Juhu, Mumbai',
-    beds: 5, baths: 4, sqft: '4,200',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800',
-    badge: 'New Launch', badgeColor: '#2563eb',
-    price: '₹1.8 Cr', title: 'Skyline Residences', loc: 'Powai, Mumbai',
-    beds: 3, baths: 2, sqft: '1,450',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800',
-    badge: 'For Sale', badgeColor: undefined,
-    price: '₹7.2 Cr', title: 'Golf Course Bungalow', loc: 'Koregaon Park, Pune',
-    beds: 6, baths: 5, sqft: '6,800',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=800',
-    badge: 'Off-Market', badgeColor: '#7c3aed',
-    price: '₹12 Cr', title: 'Whitefield Luxury Estate', loc: 'Whitefield, Bengaluru',
-    beds: 7, baths: 7, sqft: '10,000',
-  },
-];
+const BASE_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000';
+
+const STATUS_COLOR = {
+  'Available': '#10b981',
+  'Upcoming': '#3b82f6',
+  'Sold Out': '#ef4444'
+};
 
 const Home = () => {
+  const [featuredProjects, setFeaturedProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const { data } = await api.get('/projects?isFeatured=true');
+        if (data.success && Array.isArray(data.data)) {
+          setFeaturedProjects(data.data.slice(0, 4)); // Only show top 4 on homepage
+        }
+      } catch (err) {
+        console.error('Failed to fetch featured projects');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFeatured();
+  }, []);
+
   return (
     <>
       <Header />
@@ -148,26 +149,45 @@ const Home = () => {
             <Link to="/projects" className="btn btn-outline">View All →</Link>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px,1fr))', gap: '1.5rem' }}>
-            {indianProperties.map((p, i) => (
-              <Link key={i} to={`/property/${i + 1}`} className="card" style={{ display: 'block' }}>
-                <div className="property-image-container">
-                  <span className="property-badge" style={{ background: p.badgeColor }}>{p.badge}</span>
-                  <span className="property-price">{p.price}</span>
-                  <img src={p.img} alt={p.title} className="property-image" />
-                </div>
-                <div className="property-content">
-                  <h3 className="text-h4 text-main">{p.title}</h3>
-                  <p className="text-small" style={{ marginTop: '0.2rem' }}><i className="ri-map-pin-line" /> {p.loc}</p>
-                  <div className="property-meta">
-                    <span className="meta-item"><i className="ri-door-line" /> {p.beds} BHK</span>
-                    <span className="meta-item"><i className="ri-drop-line" /> {p.baths} Bath</span>
-                    <span className="meta-item"><i className="ri-ruler-line" /> {p.sqft} sq.ft</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '3rem', color: '#94a3b8' }}>
+              <i className="ri-loader-4-line" style={{ fontSize: '2rem', display: 'inline-block', animation: 'spin 1s linear infinite' }} />
+              <div style={{ marginTop: '0.5rem' }}>Loading featured properties...</div>
+            </div>
+          ) : featuredProjects.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '3rem', color: '#94a3b8', background: '#fff', borderRadius: '16px', border: '1px dashed #cbd5e1' }}>
+              <i className="ri-building-line" style={{ fontSize: '3rem', opacity: 0.5 }} />
+              <div style={{ marginTop: '1rem', fontSize: '1.1rem' }}>No featured properties curated yet.</div>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px,1fr))', gap: '1.5rem' }}>
+              {featuredProjects.map((p) => {
+                const imgUrl = p.coverImage ? `${BASE_URL}/api${p.coverImage}` : 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=800';
+                const badgeColor = STATUS_COLOR[p.status] || '#64748b';
+                
+                return (
+                  <Link key={p._id} to={`/property/${p._id}`} className="card" style={{ display: 'block' }}>
+                    <div className="property-image-container">
+                      <span className="property-badge" style={{ background: badgeColor }}>{p.status}</span>
+                      <span className="property-price" style={{ fontWeight: 800 }}>{p.price || 'Price on request'}</span>
+                      <img src={imgUrl} alt={p.title} className="property-image" />
+                    </div>
+                    <div className="property-content">
+                      <h3 className="text-h4 text-main" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.title}</h3>
+                      <p className="text-small" style={{ marginTop: '0.35rem', color: '#64748b', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <i className="ri-map-pin-line" style={{ color: '#3b82f6' }} /> 
+                        {p.location?.name || 'Location Not Specified'}
+                      </p>
+                      <div className="property-meta" style={{ marginTop: '1rem', borderTop: '1px solid #f1f5f9', paddingTop: '1rem' }}>
+                        <span className="meta-item"><i className="ri-building-2-line" /> {p.type}</span>
+                        {p.status === 'Available' && <span className="meta-item"><i className="ri-checkbox-circle-line" /> Ready</span>}
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 

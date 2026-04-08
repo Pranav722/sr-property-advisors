@@ -56,7 +56,7 @@ const ProjectsAdmin = () => {
     };
 
     const openNew = () => {
-        setForm({ title: '', location: '', type: 'Apartment', status: 'Available', description: '', mapEmbedLink: '', price: '' });
+        setForm({ title: '', location: '', type: 'Apartment', status: 'Available', description: '', mapEmbedLink: '', price: '', isFeatured: false });
         setCoverFile(null);
         setCoverPreview(null);
         setGalleryFiles([]);
@@ -74,6 +74,7 @@ const ProjectsAdmin = () => {
             description: p.description || '',
             mapEmbedLink: p.mapEmbedLink || '',
             price: p.price || '',
+            isFeatured: p.isFeatured || false,
         });
         setCoverFile(null);
         setCoverPreview(p.coverImage ? `${BASE_URL}/api${p.coverImage}` : null);
@@ -247,7 +248,12 @@ const ProjectsAdmin = () => {
                                                                 <i className="ri-building-line" style={{ color: '#94a3b8' }} />
                                                             </div>
                                                         )}
-                                                        {p.title}
+                                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                                {p.title}
+                                                                {p.isFeatured && <i className="ri-star-fill" style={{ color: '#f59e0b', fontSize: '1rem' }} title="Featured on Homepage" />}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </td>
                                                 <td style={{ padding: '1rem 1.25rem', color: '#64748b' }}>
@@ -369,6 +375,11 @@ const ProjectsAdmin = () => {
                                         {['Available', 'Upcoming', 'Sold Out'].map(s => <option key={s}>{s}</option>)}
                                     </select>
                                 </div>
+                            </div>
+
+                            <div style={{ padding: '0.75rem', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '10px', margin: '0.75rem 0' }}>
+                                <input type="checkbox" id="isFeatured" checked={form.isFeatured} onChange={e => setForm(f => ({ ...f, isFeatured: e.target.checked }))} style={{ width: '18px', height: '18px', accentColor: '#2563eb', cursor: 'pointer' }} />
+                                <label htmlFor="isFeatured" style={{ fontSize: '0.85rem', fontWeight: 600, color: '#374151', cursor: 'pointer', margin: 0 }}>Pin to Homepage (Handpicked Featured)</label>
                             </div>
 
                             <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#374151', display: 'block', margin: '1rem 0 0.35rem' }}>Price (e.g. ₹4.5 Cr)</label>

@@ -15,7 +15,10 @@ const slugify = (str) =>
 // @access  Public
 export const getProjects = async (req, res, next) => {
   try {
-    const projects = await Project.find({}).populate('location', 'name').sort({ createdAt: -1 });
+    const filter = {};
+    if (req.query.isFeatured) filter.isFeatured = req.query.isFeatured === 'true';
+    
+    const projects = await Project.find(filter).populate('location', 'name').sort({ createdAt: -1 });
     res.json({ success: true, count: projects.length, data: projects });
   } catch (error) {
     next(error);
@@ -43,7 +46,7 @@ export const getProjectById = async (req, res, next) => {
 // @access  Private/Admin
 export const createProject = async (req, res, next) => {
   try {
-    const { title, location, type, status, description, mapEmbedLink, price } = req.body;
+    const { title, location, type, status, description, mapEmbedLink, price, isFeatured } = req.body;
 
     // Parse uploaded files
     let coverImage = '';
@@ -66,6 +69,7 @@ export const createProject = async (req, res, next) => {
       description,
       mapEmbedLink,
       price: price || '',
+      isFeatured: isFeatured === 'true' || isFeatured === true,
       coverImage,
       gallery,
       brochureUrl,
@@ -100,6 +104,7 @@ export const updateProject = async (req, res, next) => {
       project.description = req.body.description !== undefined ? req.body.description : project.description;
       project.mapEmbedLink = req.body.mapEmbedLink !== undefined ? req.body.mapEmbedLink : project.mapEmbedLink;
       project.price = req.body.price !== undefined ? req.body.price : project.price;
+      if (req.body.isFeatured !== undefined) project.isFeatured = req.body.isFeatured === 'true' || req.body.isFeatured === true;
       if (req.body.location) project.location = req.body.location;
 
       // Handle new cover image upload

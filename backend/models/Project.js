@@ -11,6 +11,7 @@ const projectSchema = new mongoose.Schema({
   coverImage: { type: String }, // URL path e.g. /uploads/sr-property-xxx.jpg
   gallery: [{ type: String }],
   brochureUrl: { type: String },
+  isFeatured: { type: Boolean, default: false },
   folderSlug: { type: String }, // slugified folder name in uploads/
 }, { timestamps: true });
 
