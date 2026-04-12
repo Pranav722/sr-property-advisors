@@ -30,7 +30,7 @@ const buildSlug = async (title, locationName) => {
 
 const migrate = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/realestate');
+    await mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/realestate');
     console.log('MongoDB connected.');
 
     const projects = await Project.find({ $or: [{ slug: { $exists: false } }, { slug: null }, { slug: '' }] });
