@@ -16,8 +16,6 @@ Disallow: /file-manager
 Disallow: /settings
 Disallow: /login
 Disallow: /signup
-Allow: /api/projects/sitemap
-Disallow: /api/
 
 # Dynamic Sitemap
 Sitemap: https://srpropertyadvisor.in/api/projects/sitemap
