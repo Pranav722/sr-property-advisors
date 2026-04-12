@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import api from '../services/api';
@@ -45,6 +46,16 @@ const Contact = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Contact Us | SR Property Advisor</title>
+        <meta name="description" content="Get in touch with SR Property Advisor. Call, WhatsApp, or fill out our contact form for free property consultation across India." />
+        <meta name="keywords" content="contact sr property advisor, property consultation india, real estate inquiry, whatsapp property advisor" />
+        <link rel="canonical" href="https://srpropertyadvisor.in/contact" />
+        <meta property="og:title" content="Contact Us | SR Property Advisor" />
+        <meta property="og:description" content="Talk to our expert advisors today – free consultation, no obligations." />
+        <meta property="og:url" content="https://srpropertyadvisor.in/contact" />
+        <meta property="og:type" content="website" />
+      </Helmet>
       <Header />
 
       {/* Hero */}

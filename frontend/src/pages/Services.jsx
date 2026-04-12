@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
@@ -51,6 +52,16 @@ const services = [
 const Services = () => {
   return (
     <>
+      <Helmet>
+        <title>Real Estate Services | SR Property Advisor</title>
+        <meta name="description" content="Explore premium real estate services by SR Property Advisor – property acquisition, investment advisory, property management, legal documentation & wealth concierge across India." />
+        <meta name="keywords" content="real estate services india, property advisory, property management, investment advisory india, legal documentation property" />
+        <link rel="canonical" href="https://srpropertyadvisor.in/services" />
+        <meta property="og:title" content="Real Estate Services | SR Property Advisor" />
+        <meta property="og:description" content="Premium property advisory services across India – acquisition, investment, management & legal support." />
+        <meta property="og:url" content="https://srpropertyadvisor.in/services" />
+        <meta property="og:type" content="website" />
+      </Helmet>
       <Header />
 
       {/* Hero */}

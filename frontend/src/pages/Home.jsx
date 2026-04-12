@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import api from '../services/api';
@@ -36,6 +37,27 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>SR Property Advisor | Premium Real Estate in India</title>
+        <meta name="description" content="Buy, sell, or invest in verified premium properties across Mumbai, Pune, Bengaluru & beyond with India's most trusted property advisors – SR Property Advisor." />
+        <meta name="keywords" content="property in india, real estate advisor india, buy property mumbai, premium plots india, sr property advisor, investment property india" />
+        <link rel="canonical" href="https://srpropertyadvisor.in/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="SR Property Advisor | Premium Real Estate in India" />
+        <meta property="og:description" content="Buy, sell, or invest in verified premium properties across India with SR Property Advisor." />
+        <meta property="og:url" content="https://srpropertyadvisor.in/" />
+        <meta property="og:image" content="https://srpropertyadvisor.in/images/hero_bg_exterior_1773059538662.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "RealEstateAgent",
+          "name": "SR Property Advisor",
+          "url": "https://srpropertyadvisor.in",
+          "description": "Premium real estate advisory services across India – verified listings, best price guarantee, 24/7 expert support.",
+          "address": { "@type": "PostalAddress", "addressCountry": "IN" },
+          "areaServed": ["Mumbai", "Pune", "Bengaluru", "Hyderabad", "India"]
+        })}</script>
+      </Helmet>
       <Header />
 
       {/* ─── HERO ─── */}

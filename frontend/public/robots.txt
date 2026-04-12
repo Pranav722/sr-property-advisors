@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+Allow: /projects
+Allow: /property/
+Allow: /services
+Allow: /contact
+
+# Block admin routes from crawlers
+Disallow: /dashboard
+Disallow: /projects-admin
+Disallow: /locations
+Disallow: /users-admin
+Disallow: /inventory
+Disallow: /leads
+Disallow: /file-manager
+Disallow: /settings
+Disallow: /login
+Disallow: /signup
+Disallow: /api/
+
+# Dynamic Sitemap
+Sitemap: https://srpropertyadvisor.in/api/projects/sitemap

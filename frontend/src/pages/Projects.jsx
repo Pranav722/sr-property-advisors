@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import api from '../services/api';
@@ -78,6 +79,16 @@ const Projects = () => {
 
   return (
     <>
+      <Helmet>
+        <title>All Properties in India | SR Property Advisor</title>
+        <meta name="description" content="Browse verified plots, villas, apartments and commercial properties across India. Filter by location, type and status. Find your ideal property with SR Property Advisor." />
+        <meta name="keywords" content="properties for sale india, buy plot india, villa for sale, apartment for sale, commercial property india, real estate listings" />
+        <link rel="canonical" href="https://srpropertyadvisor.in/projects" />
+        <meta property="og:title" content="All Properties in India | SR Property Advisor" />
+        <meta property="og:description" content="Browse verified plots, villas, apartments and commercial properties across India." />
+        <meta property="og:url" content="https://srpropertyadvisor.in/projects" />
+        <meta property="og:type" content="website" />
+      </Helmet>
       <Header />
 
       {/* Page Header */}
@@ -207,11 +218,11 @@ const Projects = () => {
                   const badgeColor = STATUS_COLOR[p.status] || '#64748b';
                   const badgeLabel = STATUS_LABEL[p.status] || p.status;
                   return (
-                    <Link key={p._id} to={`/property/${p._id}`} className="card" style={{ display: 'block', textDecoration: 'none' }}>
+                    <Link key={p._id} to={p.slug ? `/property/slug/${p.slug}` : `/property/${p._id}`} className="card" style={{ display: 'block', textDecoration: 'none' }}>
                       <div className="property-image-container">
                         <span className="property-badge" style={{ background: badgeColor }}>{badgeLabel}</span>
                         {p.price && <span className="property-price">{p.price}</span>}
-                        <img src={imgUrl} alt={p.title} className="property-image" />
+                        <img src={imgUrl} alt={`${p.title} – ${p.type} in ${p.location?.name || 'India'}`} className="property-image" loading="lazy" />
                       </div>
                       <div className="property-content">
                         <h3 className="text-h4 text-main">{p.title}</h3>

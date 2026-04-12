@@ -6,9 +6,26 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Helper: slugify a project title into a folder-safe name
+// Helper: slugify a string to a URL-safe slug
 const slugify = (str) =>
-  str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  str
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')   // strip non-alphanumeric
+    .trim()
+    .replace(/\s+/g, '-')            // spaces → hyphens
+    .replace(/-+/g, '-')             // collapse multiple hyphens
+    .replace(/^-|-$/g, '');          // trim leading/trailing hyphens
+
+// Build a unique slug from title + location name (for SEO-friendly URLs)
+const buildSlug = async (title, locationName) => {
+  const base = slugify(`${title}${locationName ? '-' + locationName : ''}`);
+  let candidate = base;
+  let counter = 1;
+  while (await Project.exists({ slug: candidate })) {
+    candidate = `${base}-${counter++}`;
+  }
+  return candidate;
+};
 
 // @desc    Fetch all projects
 // @route   GET /api/projects
@@ -17,7 +34,7 @@ export const getProjects = async (req, res, next) => {
   try {
     const filter = {};
     if (req.query.isFeatured) filter.isFeatured = req.query.isFeatured === 'true';
-    
+
     const projects = await Project.find(filter).populate('location', 'name').sort({ createdAt: -1 });
     res.json({ success: true, count: projects.length, data: projects });
   } catch (error) {
@@ -31,6 +48,22 @@ export const getProjects = async (req, res, next) => {
 export const getProjectById = async (req, res, next) => {
   try {
     const project = await Project.findById(req.params.id).populate('location', 'name');
+    if (!project) {
+      res.status(404);
+      throw new Error('Project not found');
+    }
+    res.json({ success: true, data: project });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Fetch single project by SEO slug
+// @route   GET /api/projects/slug/:slug
+// @access  Public
+export const getProjectBySlug = async (req, res, next) => {
+  try {
+    const project = await Project.findOne({ slug: req.params.slug }).populate('location', 'name');
     if (!project) {
       res.status(404);
       throw new Error('Project not found');
@@ -61,8 +94,20 @@ export const createProject = async (req, res, next) => {
 
     const folderSlug = slugify(title);
 
+    // Build SEO slug using title + location name if available
+    // We temporarily fetch location name for richer slug
+    let locationName = '';
+    try {
+      const { default: Location } = await import('../models/Location.js');
+      const loc = await Location.findById(location);
+      if (loc?.name) locationName = loc.name;
+    } catch (_) {}
+
+    const seoSlug = await buildSlug(title, locationName);
+
     const project = new Project({
       title,
+      slug: seoSlug,
       location,
       type,
       status,
@@ -107,6 +152,17 @@ export const updateProject = async (req, res, next) => {
       if (req.body.isFeatured !== undefined) project.isFeatured = req.body.isFeatured === 'true' || req.body.isFeatured === true;
       if (req.body.location) project.location = req.body.location;
 
+      // Regenerate slug if title changed and slug is missing
+      if (!project.slug) {
+        let locationName = '';
+        try {
+          const { default: Location } = await import('../models/Location.js');
+          const loc = await Location.findById(project.location);
+          if (loc?.name) locationName = loc.name;
+        } catch (_) {}
+        project.slug = await buildSlug(project.title, locationName);
+      }
+
       // Handle new cover image upload
       if (req.files?.coverImage) {
         project.coverImage = '/uploads/' + req.files.coverImage[0].filename;
@@ -150,6 +206,52 @@ export const deleteProject = async (req, res, next) => {
       res.status(404);
       throw new Error('Project not found');
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Generate XML sitemap with all project slugs
+// @route   GET /api/sitemap
+// @access  Public
+export const getSitemap = async (req, res, next) => {
+  try {
+    const projects = await Project.find({ slug: { $exists: true, $ne: '' } }, 'slug updatedAt').lean();
+    const BASE = process.env.CLIENT_URL || 'https://srpropertyadvisor.in';
+
+    const staticPages = [
+      { url: '/', priority: '1.0', changefreq: 'weekly' },
+      { url: '/projects', priority: '0.9', changefreq: 'daily' },
+      { url: '/services', priority: '0.7', changefreq: 'monthly' },
+      { url: '/contact', priority: '0.7', changefreq: 'monthly' },
+    ];
+
+    const now = new Date().toISOString().split('T')[0];
+
+    const urls = [
+      ...staticPages.map(p => `
+  <url>
+    <loc>${BASE}${p.url}</loc>
+    <changefreq>${p.changefreq}</changefreq>
+    <priority>${p.priority}</priority>
+    <lastmod>${now}</lastmod>
+  </url>`),
+      ...projects.map(p => `
+  <url>
+    <loc>${BASE}/property/slug/${p.slug}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>${p.updatedAt ? new Date(p.updatedAt).toISOString().split('T')[0] : now}</lastmod>
+  </url>`),
+    ];
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.join('\n')}
+</urlset>`;
+
+    res.setHeader('Content-Type', 'application/xml');
+    res.send(xml);
   } catch (error) {
     next(error);
   }
